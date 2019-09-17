@@ -4,9 +4,23 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.Arrays;
+
 public class TestVariant14 {
 
     private Variant14 variant14 = new Variant14();
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @DataProvider
+    public Object[][] inputOutputProvider() {
+        return new Object[][] {{6.28, 0.9999999665910283, 3.139999895095829}};
+    }
+
+    @Test(dataProvider = "inputOutputProvider")
+    public void inputOutputTest(double l, double expectedR, double expectedS) {
+        Assert.assertEquals(variant14.inputOutputTask(l), new Pair<Double, Double>(expectedR, expectedS));
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -18,6 +32,11 @@ public class TestVariant14 {
     @Test(dataProvider = "integerTaskProvider")
     public void integerTaskTest(int number, int expected) {
         Assert.assertEquals(variant14.integerTask(number), expected);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void integerTaskExceptionTest() {
+        variant14.integerTask(99);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,4 +102,36 @@ public class TestVariant14 {
         Assert.assertEquals(variant14.whileTask(A), new Pair<Integer, Double>(expectedK, expectedSum));
     }
 
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void whileTaskExceptionTest() {
+        variant14.whileTask(-1);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @DataProvider
+    public Object[][] arrayTaskProvider() {
+        return new Object[][] { { new Integer[] { 4, 5, 6, 7, 8 }, new Integer[] { 4, 6, 8 }, new Integer[] { 5, 7 } } };
+    }
+
+    @Test(dataProvider = "arrayTaskProvider")
+    public void arrayTaskTest(Integer[] arr, Integer[] expected1, Integer[] expected2) {
+        Assert.assertEquals(variant14.arrayTask(arr), new Pair<Integer[], Integer[]>(expected1, expected2));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @DataProvider
+    public Object[][] twoDimensionArrayTaskProvider() {
+        return new Object[][] {
+                { new Integer[][] { { 1, 2, 3 }, { 4, 8, 6}, { 7, 8, 9} },  2},
+                { new Integer[][] { { 2, 2, 3 }, { 4, 8, 6}, { 6, 6, 40} }, 3},
+                { new Integer[][] { { 8, 7, 3 }, { 3, 1, 2}, { 6, 2, 7} }, 0},
+        };
+    }
+
+    @Test(dataProvider = "twoDimensionArrayTaskProvider")
+    public void twoDimensionArrayTaskTest(Integer[][] arr, Integer result) {
+        Assert.assertEquals(variant14.twoDimensionTask(arr), result);
+    }
 }

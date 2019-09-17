@@ -2,17 +2,25 @@ package lab0;
 
 public class Variant14 {
 
-    public Pair<Float, Float> inputOutputTask(int l) {
-        return null;
+    /**
+     *
+     * @param l length of circle
+     * @return Pair with R and S of circle
+     */
+
+    public Pair<Double, Double> inputOutputTask(double l) {
+        double r = l / 6.28f, s = r * r * 3.14f;
+        return new Pair<Double, Double>(r, s);
     }
 
     /**
      *
      * @param number 3 digit integer
      * @return number where last digit moved to start
+     * @throws IllegalArgumentException if number < 100 or number > 999
      */
 
-    public int integerTask(int number) {
+    public int integerTask(int number) throws IllegalArgumentException {
 
         if (number < 100 || number > 999)
             throw new IllegalArgumentException("Number should be 3 digit integer");
@@ -25,9 +33,9 @@ public class Variant14 {
 
     /**
      *
-     * @param a some integer
-     * @param b some integer
-     * @param c some integer
+     * @param a integer
+     * @param b integer
+     * @param c integer
      * @return true if only one number is positive
      */
 
@@ -37,9 +45,9 @@ public class Variant14 {
 
     /**
      *
-     * @param a some integer
-     * @param b some integer
-     * @param c some integer
+     * @param a integer
+     * @param b integer
+     * @param c integer
      * @return Pair of min and max Integers
      */
 
@@ -141,9 +149,10 @@ public class Variant14 {
      *
      * @param a double ( a > 1 )
      * @return min k and sum
+     * @throws IllegalArgumentException if a <= 1
      */
 
-    public Pair<Integer, Double> whileTask(double a) {
+    public Pair<Integer, Double> whileTask(double a) throws IllegalArgumentException {
 
         if (a <= 1)
             throw new IllegalArgumentException("A must be > 1");
@@ -155,5 +164,50 @@ public class Variant14 {
         }
 
         return new Pair<Integer, Double>(--k, Utils.RoundTwoSigns(sum));
+    }
+
+
+    /**
+     *
+     * @param arr array of Integer
+     * @return Pair of two arrays. First - array of even numbers. Second - not even numbers
+     */
+
+    public Pair<Integer[], Integer[]> arrayTask(Integer[] arr) {
+
+        Integer[] result1 = new Integer[arr.length / 2 + arr.length % 2];
+
+        int k = 0;
+        for (int i = 0; i < arr.length; i+=2)
+            result1[k++] = arr[i];
+
+        Integer[] result2 = new Integer[arr.length / 2];
+        k = 0;
+        for (int i = 1; i < arr.length; i+=2)
+            result2[k++] = arr[i];
+
+        return new Pair<Integer[], Integer[]>(result1, result2);
+    }
+
+    /**
+     *
+     * @param arr two dimension array of Integer
+     * @return index of last row which contains only even numbers
+     */
+
+    public Integer twoDimensionTask(Integer[][] arr) {
+        for (int i = arr.length - 1; i >= 0; i--) {
+            boolean evenNumbersOnly = true;
+            for (int j = 0; j < arr[i].length; j++) {
+                if (arr[i][j] % 2 != 0) {
+                    evenNumbersOnly = false;
+                    break;
+                }
+            }
+
+            if (evenNumbersOnly)
+                return i + 1;
+        }
+        return 0;
     }
 }

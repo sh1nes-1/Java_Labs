@@ -2,6 +2,8 @@ package lab0;
 
 public class TriangleInfo {
 
+    final float EPSILON = 0.1f;
+
     public double a;
     public double r1;
     public double r2;
@@ -27,10 +29,10 @@ public class TriangleInfo {
             return false;
 
         TriangleInfo tr = (TriangleInfo)obj;
-        return Utils.RoundTwoSigns(a) == Utils.RoundTwoSigns(tr.a)
-                && Utils.RoundTwoSigns(r1) == Utils.RoundTwoSigns(tr.r1)
-                && Utils.RoundTwoSigns(r2) == Utils.RoundTwoSigns(tr.r2)
-                && Utils.RoundTwoSigns(s) == Utils.RoundTwoSigns(tr.s);
+        return Math.abs(Utils.RoundTwoSigns(a) - Utils.RoundTwoSigns(tr.a)) < EPSILON
+                && Math.abs(Utils.RoundTwoSigns(r1) - Utils.RoundTwoSigns(tr.r1)) < EPSILON
+                && Math.abs(Utils.RoundTwoSigns(r2) - Utils.RoundTwoSigns(tr.r2)) < EPSILON
+                && Math.abs(Utils.RoundTwoSigns(s) - Utils.RoundTwoSigns(tr.s)) < EPSILON;
     }
 
     @Override
