@@ -10,7 +10,15 @@ public class Pair<T1, T2> {
         this.P2 = p2;
     }
 
-    public boolean equals(Pair<T1, T2> pair) {
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+
+        Pair pair = (Pair)obj;
         return P1.equals(pair.P1) && P2.equals(pair.P2);
     }
 

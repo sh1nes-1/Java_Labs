@@ -42,7 +42,7 @@ public class TestVariant14 {
 
     @Test(dataProvider = "conditionTaskProvider")
     public void conditionTaskTest(int A, int B, int C, int expectedMin, int expectedMax) {
-        Assert.assertTrue(variant14.conditionTask(A, B, C).equals(new Pair<Integer, Integer>(expectedMin, expectedMax)));
+        Assert.assertEquals(variant14.conditionTask(A, B, C), new Pair<Integer, Integer>(expectedMin, expectedMax));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +56,7 @@ public class TestVariant14 {
 
     @Test(dataProvider = "switchTaskProvider")
     public void switchTaskTest(int pIndex, double pValue, TriangleInfo expectedResult) {
-        Assert.assertTrue(variant14.switchTask(pIndex, pValue).equals(expectedResult));
+        Assert.assertEquals(variant14.switchTask(pIndex, pValue), expectedResult);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ public class TestVariant14 {
 
     @Test(dataProvider = "whileTaskProvider")
     public void whileTaskTest(int A, int expectedK, double expectedSum) {
-        Assert.assertTrue(variant14.whileTask(A).equals(new Pair<Integer, Double>(expectedK, expectedSum)));
+        Assert.assertEquals(variant14.whileTask(A), new Pair<Integer, Double>(expectedK, expectedSum));
     }
 
 }

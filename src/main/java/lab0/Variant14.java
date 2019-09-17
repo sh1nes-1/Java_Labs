@@ -2,6 +2,10 @@ package lab0;
 
 public class Variant14 {
 
+    public Pair<Float, Float> inputOutputTask(int l) {
+        return null;
+    }
+
     /**
      *
      * @param number 3 digit integer
@@ -21,35 +25,52 @@ public class Variant14 {
 
     /**
      *
-     * @param A some integer
-     * @param B some integer
-     * @param C some integer
+     * @param a some integer
+     * @param b some integer
+     * @param c some integer
      * @return true if only one number is positive
      */
 
-    public boolean booleanTask(int A, int B, int C) {
-        return (A > 0 && B <= 0 && C <= 0) || (A <= 0 && B > 0 && C <= 0) || (A <= 0 && B <= 0 && C > 0);
+    public boolean booleanTask(int a, int b, int c) {
+        return (a > 0 && b <= 0 && c <= 0) || (a <= 0 && b > 0 && c <= 0) || (a <= 0 && b <= 0 && c > 0);
     }
 
     /**
      *
-     * @param A some integer
-     * @param B some integer
-     * @param C some integer
+     * @param a some integer
+     * @param b some integer
+     * @param c some integer
      * @return Pair of min and max Integers
      */
 
-    public Pair<Integer, Integer> conditionTask(int A, int B, int C) {
+    public Pair<Integer, Integer> conditionTask(int a, int b, int c) {
 
-        final Integer min = Math.min(Math.min(A, B), C);
-        final Integer max = Math.max(Math.max(A, B), C);
+        int min, max;
+
+        if (a >= b) {
+            if (b >= c) {
+                min = c;
+                max = a;
+            } else {
+                min = b;
+                max = c;
+            }
+        } else {
+            if (a >= c) {
+                min = c;
+                max = b;
+            } else {
+                min = a;
+                max = c;
+            }
+        }
 
         return new Pair<Integer, Integer>(min, max);
     }
 
     /**
      *
-     * @param pIndex index of parameter
+     * @param pIndex index of parameter (1 - a, 2 - r1, 3 - r2, 4 - s)
      * @param pValue value of parameter
      * @return information about triangle
      */
@@ -64,33 +85,33 @@ public class Variant14 {
             case 1:
                 result.a = pValue;
 
-                result.R1 = Utils.RoundTwoSigns(result.a * Math.pow(3, 1 / 2.0) / 6);
-                result.R2 = Utils.RoundTwoSigns(result.R1 * 2);
-                result.S = Utils.RoundTwoSigns(Math.pow(result.a, 2) * Math.pow(3, 1 / 2.0) / 4);
+                result.r1 = Utils.RoundTwoSigns(result.a * Math.pow(3, 1 / 2.0) / 6);
+                result.r2 = Utils.RoundTwoSigns(result.r1 * 2);
+                result.s = Utils.RoundTwoSigns(Math.pow(result.a, 2) * sqrtThree / 4);
 
                 break;
             case 2:
-                result.R1 = pValue;
+                result.r1 = pValue;
 
-                result.R2 = Utils.RoundTwoSigns(result.R1 * 2);
-                result.a = Utils.RoundTwoSigns(6 * result.R1 / sqrtThree);
-                result.S = Utils.RoundTwoSigns((sqrtThree * Math.pow(result.a, 2)) / 4);
+                result.r2 = Utils.RoundTwoSigns(result.r1 * 2);
+                result.a = Utils.RoundTwoSigns(6 * result.r1 / sqrtThree);
+                result.s = Utils.RoundTwoSigns((sqrtThree * Math.pow(result.a, 2)) / 4);
 
                 break;
             case 3:
-                result.R2 = pValue;
+                result.r2 = pValue;
 
-                result.R1 = Utils.RoundTwoSigns(result.R2 / 2);
-                result.a = Utils.RoundTwoSigns(6 * result.R1 / sqrtThree);
-                result.S = Utils.RoundTwoSigns((sqrtThree * Math.pow(result.a, 2)) / 4);
+                result.r1 = Utils.RoundTwoSigns(result.r2 / 2);
+                result.a = Utils.RoundTwoSigns(6 * result.r1 / sqrtThree);
+                result.s = Utils.RoundTwoSigns((sqrtThree * Math.pow(result.a, 2)) / 4);
 
                 break;
             case 4:
-                result.S = pValue;
+                result.s = pValue;
 
-                result.a = Utils.RoundTwoSigns(Math.pow((result.S * 4) / sqrtThree, 1 / 2.0));
-                result.R1 = Utils.RoundTwoSigns(result.a * Math.pow(3, 1 / 2.0) / 6);
-                result.R2 = Utils.RoundTwoSigns(result.R1 * 2);
+                result.a = Utils.RoundTwoSigns(Math.pow((result.s * 4) / sqrtThree, 1 / 2.0));
+                result.r1 = Utils.RoundTwoSigns(result.a * sqrtThree / 6);
+                result.r2 = Utils.RoundTwoSigns(result.r1 * 2);
 
                 break;
         }
@@ -100,16 +121,16 @@ public class Variant14 {
 
     /**
      *
-     * @param N integer
-     * @return square of N
+     * @param n integer
+     * @return square of n
      */
 
-    public int forTask(int N) {
+    public int forTask(int n) {
 
         int result = 0;
 
-        int n = (N < 0) ? -N : N;
-        for (int i = 1; i <= n; i++) {
+        int absN = (n < 0) ? -n : n;
+        for (int i = 1; i <= absN; i++) {
             result += 2 * i - 1;
         }
 
@@ -118,21 +139,21 @@ public class Variant14 {
 
     /**
      *
-     * @param A double ( A > 1 )
-     * @return min K and Sum
+     * @param a double ( a > 1 )
+     * @return min k and sum
      */
 
-    public Pair<Integer, Double> whileTask(double A) {
+    public Pair<Integer, Double> whileTask(double a) {
 
-        if (A <= 1)
+        if (a <= 1)
             throw new IllegalArgumentException("A must be > 1");
 
-        int K = 1;
+        int k = 1;
         double sum = 0;
-        while (sum < A) {
-            sum += 1 / (double) K++;
+        while (sum < a) {
+            sum += 1 / (double) k++;
         }
 
-        return new Pair<Integer, Double>(--K, Utils.RoundTwoSigns(sum));
+        return new Pair<Integer, Double>(--k, Utils.RoundTwoSigns(sum));
     }
 }
