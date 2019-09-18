@@ -146,9 +146,10 @@ public class Variant14 {
     }
 
     /**
-     *
+     * The number A (> 1) is given. Derive the largest integer K for which the sum of 1 + 1/2 +… + 1 / K
+     * will be less than A, and this sum itself.
      * @param a double ( a > 1 )
-     * @return min k and sum
+     * @return Pair of k and sum
      * @throws IllegalArgumentException if a <= 1
      */
 

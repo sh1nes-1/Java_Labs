@@ -14,7 +14,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] inputOutputProvider() {
-        return new Object[][] {{6.28, 0.9999999665910283, 3.139999895095829}};
+        return new Object[][] { { 6.28, 0.9999999665910283, 3.139999895095829 } };
     }
 
     @Test(dataProvider = "inputOutputProvider")
@@ -124,9 +124,17 @@ public class TestVariant14 {
     @DataProvider
     public Object[][] twoDimensionArrayTaskProvider() {
         return new Object[][] {
-                { new Integer[][] { { 1, 2, 3 }, { 4, 8, 6 }, { 7, 8, 9 } }, 2},
-                { new Integer[][] { { 2, 2, 3 }, { 4, 8, 6 }, { 6, 6, 8 } }, 3},
-                { new Integer[][] { { 8, 7, 3 }, { 3, 1, 2 }, { 6, 2, 7 } }, 0},
+                { new Integer[][] { { 1, 2, 3 },
+                                    { 4, 8, 6 },
+                                    { 7, 8, 9 } }, 2},
+
+                { new Integer[][] { { 2, 2, 3 },
+                                    { 4, 8, 6 },
+                                    { 6, 6, 8 } }, 3},
+
+                { new Integer[][] { { 8, 7, 3 },
+                                    { 3, 1, 2 },
+                                    { 6, 2, 7 } }, 0},
         };
     }
 
