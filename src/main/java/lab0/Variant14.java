@@ -53,27 +53,17 @@ public class Variant14 {
 
     public Pair<Integer, Integer> conditionTask(int a, int b, int c) {
 
-        int min, max;
-
         if (a >= b) {
             if (b >= c) {
-                min = c;
-                max = a;
-            } else {
-                min = b;
-                max = c;
+                return new Pair<Integer, Integer>(c, a);
             }
-        } else {
-            if (a >= c) {
-                min = c;
-                max = b;
-            } else {
-                min = a;
-                max = c;
-            }
+            return new Pair<Integer, Integer>(b, c);
         }
 
-        return new Pair<Integer, Integer>(min, max);
+        if (a >= c) {
+            return new Pair<Integer, Integer>(c, b);
+        }
+        return new Pair<Integer, Integer>(a, c);
     }
 
     /**
