@@ -1,6 +1,4 @@
-package lab1;
-
-import lab1.model.Color;
+package lab1.model;
 
 /**
  * Class, that represents characteristics of SmartPhone
@@ -13,15 +11,26 @@ import lab1.model.Color;
 public class SmartPhone {
 
     // TODO: Конкретно вибрати щось зі смартфонами. (Які саме поля і методи краще в нього, чи треба наслідування)
-    // TODO: Processor, Graphic Processor, Camera, Resolution, OS, Inheritance?
+    // TODO: Processor, Graphic Processor, Camera, Resolution, OS, Battery, Inheritance?
+
     // TODO: equals(), hashCode(), toString(), some collection
 
+    // мережа магазинів, скільки старих і шукати
+    // назва , дата виробництва, color - enum, пам'ять, getDescription, ціна, діагональ, OS
+    // сортування по ціні, по даті, різних порядках, по заданому критерію виводимо список наших телефонів (колір, память від до, конкрет, модель)
+    // Map або Class
+
+    public enum Color {
+        BLACK,
+        WHITE,
+        BLUE,
+        RED,
+        GOLD
+    }
+
+    private String name;
     private Color color;
     private int ram;
-
-    {
-        //TODO: Ask if need here init color with new Color(0,0,0)
-    }
 
     private SmartPhone() {
         // Private constructor to deny creating new instance outside by constructor
@@ -39,23 +48,16 @@ public class SmartPhone {
         return ram;
     }
 
-    /**
-     * Method that creates new instance of Builder
-     * @return new instance of class Builder
-     */
-    public static Builder newBuilder() {
-        return new SmartPhone().new Builder();
-    }
+    public static class Builder {
 
+        SmartPhone smartPhone;
 
-    public class Builder {
-
-        private Builder() {
-            // Private constructor. To create instance, use SmartPhone.newBuilder();
+        public Builder() {
+            smartPhone = new SmartPhone();
         }
 
         public Builder setColor(Color color) {
-            SmartPhone.this.color = color;
+            smartPhone.color = color;
             return this;
         }
 
@@ -64,7 +66,7 @@ public class SmartPhone {
          * @param ram capacity in MegaBytes
          */
         public Builder setRam(int ram) {
-            SmartPhone.this.ram = ram;
+            smartPhone.ram = ram;
             return this;
         }
 
@@ -73,7 +75,7 @@ public class SmartPhone {
          * @return instance of SmartPhone
          */
         public SmartPhone build() {
-            return SmartPhone.this;
+            return smartPhone;
         }
 
     }

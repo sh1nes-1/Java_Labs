@@ -1,6 +1,6 @@
 package lab1;
 
-import lab1.model.Color;
+import lab1.model.SmartPhone;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -8,8 +8,8 @@ public class TestSmartPhone {
 
     @Test
     public void builderTest() {
-        SmartPhone smartPhone = SmartPhone.newBuilder()
-                .setColor(new Color(255, 0, 0))
+        SmartPhone smartPhone = new SmartPhone.Builder()
+                .setColor(SmartPhone.Color.GOLD)
                 .setRam(2048)
                 .build();
 
