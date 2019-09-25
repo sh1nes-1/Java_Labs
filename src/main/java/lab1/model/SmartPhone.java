@@ -1,5 +1,7 @@
 package lab1.model;
 
+import java.time.LocalDate;
+
 /**
  * Class, that represents characteristics of SmartPhone
  * Can be created using pattern Builder
@@ -29,11 +31,29 @@ public class SmartPhone {
     }
 
     private String name;
+    private int price;
+    private LocalDate releaseDate;
     private Color color;
     private int ram;
 
     private SmartPhone() {
         // Private constructor to deny creating new instance outside by constructor
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    /**
+     *
+     * @return price in UAH
+     */
+    public int getPrice() {
+        return price;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
     }
 
     public Color getColor() {
@@ -48,12 +68,32 @@ public class SmartPhone {
         return ram;
     }
 
+
+    /**
+     * Use this to build new SmartPhone
+     */
     public static class Builder {
 
         SmartPhone smartPhone;
 
         public Builder() {
             smartPhone = new SmartPhone();
+        }
+
+        public Builder setName(String name) {
+            smartPhone.name = name;
+            return this;
+        }
+
+        //TODO: Ask if limit for price here or in business logic
+        public Builder setPrice(int price) {
+            smartPhone.price = price;
+            return this;
+        }
+
+        public Builder setReleaseDate(LocalDate releaseDate) {
+            smartPhone.releaseDate = releaseDate;
+            return this;
         }
 
         public Builder setColor(Color color) {
