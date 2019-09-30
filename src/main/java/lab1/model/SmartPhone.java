@@ -1,26 +1,24 @@
 package lab1.model;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Class, that represents characteristics of SmartPhone
  * Can be created using pattern Builder
- * Example: SmartPhone smartPhone = SmartPhone.newBuilder()
+ * Example: SmartPhone smartPhone = new SmartPhone.Builder()
+ *                 .setName("Some Phone")
  *                 .setColor(new Color(255, 0, 0))
  *                 .setRam(2048)
  *                 .build();
  */
 public class SmartPhone {
 
-    // TODO: Конкретно вибрати щось зі смартфонами. (Які саме поля і методи краще в нього, чи треба наслідування)
-    // TODO: Processor, Graphic Processor, Camera, Resolution, OS, Battery, Inheritance?
-
-    // TODO: equals(), hashCode(), toString(), some collection
-
     // мережа магазинів, скільки старих і шукати
-    // назва , дата виробництва, color - enum, пам'ять, getDescription, ціна, діагональ, OS
-    // сортування по ціні, по даті, різних порядках, по заданому критерію виводимо список наших телефонів (колір, память від до, конкрет, модель)
-    // Map або Class
+    // TODO: Ask what to do if in builder we do not set some vars
+    // TODO: Class Shop with name and main catalog
 
     public enum Color {
         BLACK,
@@ -30,15 +28,22 @@ public class SmartPhone {
         GOLD
     }
 
+
+
     private String name;
-    private int price;
+    private Integer price;
     private LocalDate releaseDate;
     private Color color;
-    private int ram;
+    private Integer ram;
+    private Double diagonal;
+
+
 
     private SmartPhone() {
         // Private constructor to deny creating new instance outside by constructor
     }
+
+
 
     public String getName() {
         return name;
@@ -48,7 +53,7 @@ public class SmartPhone {
      *
      * @return price in UAH
      */
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
@@ -64,9 +69,59 @@ public class SmartPhone {
      *
      * @return RAM capacity in MegaBytes
      */
-    public int getRam() {
+    public Integer getRam() {
         return ram;
     }
+
+    /**
+     *
+     * @return diagonal of display in inches
+     */
+    public Double getDiagonal() { return diagonal; }
+
+
+    @Override
+    public String toString() {
+        return name +
+                " " +
+                ram / 1000 +
+                " Gb " +
+                color +
+                " " +
+                price +
+                " UAH " +
+                releaseDate.format(DateTimeFormatter.ofPattern("dd.MM.YYYY"));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        SmartPhone that = (SmartPhone) o;
+
+        if (!Objects.equals(price, that.price)) return false;
+        if (!Objects.equals(ram, that.ram)) return false;
+        if (Double.compare(that.diagonal, diagonal) != 0) return false;
+        if (!Objects.equals(name, that.name)) return false;
+        if (!Objects.equals(releaseDate, that.releaseDate)) return false;
+        return color == that.color;
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = name != null ? name.hashCode() : 0;
+        result = 31 * result + price;
+        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
+        result = 31 * result + (color != null ? color.hashCode() : 0);
+        result = 31 * result + ram;
+        temp = Double.doubleToLongBits(diagonal);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        return result;
+    }
+
 
 
     /**
@@ -86,7 +141,7 @@ public class SmartPhone {
         }
 
         //TODO: Ask if limit for price here or in business logic
-        public Builder setPrice(int price) {
+        public Builder setPrice(Integer price) {
             smartPhone.price = price;
             return this;
         }
@@ -105,8 +160,13 @@ public class SmartPhone {
          *
          * @param ram capacity in MegaBytes
          */
-        public Builder setRam(int ram) {
+        public Builder setRam(Integer ram) {
             smartPhone.ram = ram;
+            return this;
+        }
+
+        public Builder setDiagonal(Double diagonal) {
+            smartPhone.diagonal = diagonal;
             return this;
         }
 
