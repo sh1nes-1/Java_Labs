@@ -1,6 +1,4 @@
-package lab1;
-
-import lab1.model.SmartPhone;
+package lab1.model;
 
 import java.util.*;
 
@@ -28,11 +26,10 @@ public class Catalog {
 
     /**
      *
-     * @return new Map of all SmartPhones and its Count
+     * @return Map of all SmartPhones and its Count
      */
     public Map<SmartPhone, Integer> getGoods() {
-        //TODO: Ask if here need to create new or return existing
-        return new HashMap<>(availableGoods);
+        return availableGoods;
     }
 
     /**

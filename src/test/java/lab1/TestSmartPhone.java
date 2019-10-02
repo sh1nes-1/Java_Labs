@@ -1,5 +1,6 @@
 package lab1;
 
+import lab1.model.Catalog;
 import lab1.model.SmartPhone;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -9,7 +10,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import java.util.SortedMap;
 
 public class TestSmartPhone {
 

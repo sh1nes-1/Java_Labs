@@ -2,7 +2,6 @@ package lab1.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Comparator;
 import java.util.Objects;
 
 /**
@@ -16,9 +15,14 @@ import java.util.Objects;
  */
 public class SmartPhone {
 
+    // TODO: Builder Test
+    // TODO: в addGoodsItem якщо вже такий є
+    // TODO: Catalog як сутність
+    // TODO: додати і забрати певну кількість певного смартфона
+    // TODO: в catalog добавити метод що повертає ліст з смартфонів
+    // TODO: Catalog Service - вся логіка
+    // TODO: 3 таблиці
     // мережа магазинів, скільки старих і шукати
-    // TODO: Ask what to do if in builder we do not set some vars
-    // TODO: Class Shop with name and main catalog
 
     public enum Color {
         BLACK,
@@ -29,14 +33,13 @@ public class SmartPhone {
     }
 
 
-
+    // all fields cant be changed and assigned once in builder
     private String name;
     private Integer price;
     private LocalDate releaseDate;
     private Color color;
     private Integer ram;
     private Double diagonal;
-
 
 
     private SmartPhone() {
@@ -100,7 +103,6 @@ public class SmartPhone {
 
         SmartPhone that = (SmartPhone) o;
 
-        if (!Objects.equals(price, that.price)) return false;
         if (!Objects.equals(ram, that.ram)) return false;
         if (Double.compare(that.diagonal, diagonal) != 0) return false;
         if (!Objects.equals(name, that.name)) return false;
@@ -113,7 +115,6 @@ public class SmartPhone {
         int result;
         long temp;
         result = name != null ? name.hashCode() : 0;
-        result = 31 * result + price;
         result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
         result = 31 * result + (color != null ? color.hashCode() : 0);
         result = 31 * result + ram;
@@ -140,7 +141,7 @@ public class SmartPhone {
             return this;
         }
 
-        //TODO: Ask if limit for price here or in business logic
+        //TODO: add limits here
         public Builder setPrice(Integer price) {
             smartPhone.price = price;
             return this;
