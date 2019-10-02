@@ -2,6 +2,7 @@ package lab1;
 
 import lab1.model.Catalog;
 import lab1.model.SmartPhone;
+import lab1.service.CatalogService;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -72,7 +73,7 @@ public class TestSmartPhone {
 
         int prev = 0;
         boolean flag = false;
-        for (Map.Entry<SmartPhone, Integer> x : catalog.getGoodsSortedByPrice(true).entrySet()) {
+        for (Map.Entry<SmartPhone, Integer> x : CatalogService.getGoodsSortedByPrice(catalog,true).entrySet()) {
             System.out.println(x.getKey());
 
             if (!flag) {
@@ -96,7 +97,7 @@ public class TestSmartPhone {
 
         int prev = 0;
         boolean flag = false;
-        for (Map.Entry<SmartPhone, Integer> x : catalog.getGoodsSortedByPrice(false).entrySet()) {
+        for (Map.Entry<SmartPhone, Integer> x : CatalogService.getGoodsSortedByPrice(catalog,false).entrySet()) {
             System.out.println(x.getKey());
 
             if (!flag) {
@@ -120,7 +121,7 @@ public class TestSmartPhone {
 
         LocalDate prev = LocalDate.now();
         boolean flag = false;
-        for (Map.Entry<SmartPhone, Integer> x : catalog.getGoodsSortedByReleaseDate(true).entrySet()) {
+        for (Map.Entry<SmartPhone, Integer> x : CatalogService.getGoodsSortedByReleaseDate(catalog,true).entrySet()) {
             System.out.println(x.getKey());
 
             if (!flag) {
@@ -140,9 +141,8 @@ public class TestSmartPhone {
             catalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
         }
 
-        Catalog searchResult = catalog.
-                searchGoodsByName("Xiaomi", false).
-                searchGoodsWithColor(SmartPhone.Color.BLACK);
+        Catalog searchResult = CatalogService.searchGoodsByName(catalog,"Xiaomi", false);
+        searchResult = CatalogService.searchGoodsWithColor(searchResult, SmartPhone.Color.BLACK);
 
         System.out.println("Search by criteria (Xiaomi, Black) test result: ");
         System.out.println(searchResult);
