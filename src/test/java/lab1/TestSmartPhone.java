@@ -59,16 +59,16 @@ public class TestSmartPhone {
                 .build();
         smartPhones.add(samsungA30);
 
-        return new Object[][] { { smartPhones } };
-    }
-
-    @Test(dataProvider = "smartPhoneDataProvider")
-    public void sortByPriceAscendingTest(Set<SmartPhone> smartPhones) {
         Catalog catalog = new Catalog();
         for (SmartPhone x : smartPhones) {
             catalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
         }
 
+        return new Object[][] { { catalog } };
+    }
+
+    @Test(dataProvider = "smartPhoneDataProvider")
+    public void sortByPriceAscendingTest(Catalog catalog) {
         System.out.println("Sort by price ascending result: ");
 
         int prev = 0;
@@ -87,12 +87,7 @@ public class TestSmartPhone {
     }
 
     @Test(dataProvider = "smartPhoneDataProvider")
-    public void sortByPriceDescendingTest(Set<SmartPhone> smartPhones) {
-        Catalog catalog = new Catalog();
-        for (SmartPhone x : smartPhones) {
-            catalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
-        }
-
+    public void sortByPriceDescendingTest(Catalog catalog) {
         System.out.println("Sort by price descending result: ");
 
         int prev = 0;
@@ -111,12 +106,7 @@ public class TestSmartPhone {
     }
 
     @Test(dataProvider = "smartPhoneDataProvider")
-    public void sortByReleaseDateAscendingTest(Set<SmartPhone> smartPhones) {
-        Catalog catalog = new Catalog();
-        for (SmartPhone x : smartPhones) {
-            catalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
-        }
-
+    public void sortByReleaseDateAscendingTest(Catalog catalog) {
         System.out.println("Sort by release date ascending result: ");
 
         LocalDate prev = LocalDate.now();
@@ -135,12 +125,7 @@ public class TestSmartPhone {
     }
 
     @Test(dataProvider = "smartPhoneDataProvider")
-    public void searchByCriteriaTest(Set<SmartPhone> smartPhones) {
-        Catalog catalog = new Catalog();
-        for (SmartPhone x : smartPhones) {
-            catalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
-        }
-
+    public void searchByCriteriaTest(Catalog catalog) {
         Catalog searchResult = CatalogService.searchGoodsByName(catalog,"Xiaomi", false);
         searchResult = CatalogService.searchGoodsWithColor(searchResult, SmartPhone.Color.BLACK);
 
@@ -148,5 +133,13 @@ public class TestSmartPhone {
         System.out.println(searchResult);
 
         Assert.assertEquals(searchResult.getGoods().size(), 1);
+    }
+
+    @Test(dataProvider = "smartPhoneDataProvider")
+    public void increaseCountTest(Catalog catalog) {
+        SmartPhone smartPhone = (SmartPhone) catalog.getGoods().keySet().toArray()[0];
+        int count = catalog.getGoods().get(smartPhone) + 5;
+        catalog.increaseItemCount(smartPhone, 5);
+        Assert.assertEquals(catalog.getGoods().get(smartPhone).intValue(),count);
     }
 }

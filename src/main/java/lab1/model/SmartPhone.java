@@ -22,6 +22,7 @@ public class SmartPhone {
     // TODO: в catalog добавити метод що повертає ліст з смартфонів
     // TODO: Catalog Service - вся логіка
     // TODO: 3 таблиці
+    // TODO: обмеження для сеттерів
     // мережа магазинів, скільки старих і шукати
 
     public enum Color {

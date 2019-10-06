@@ -46,6 +46,23 @@ public class Catalog {
 
     /**
      *
+     * @param smartPhone SmartPhone
+     * @param count value by which count will be reduced
+     * @return true if success, false if such key not found
+     */
+    public boolean decreaseItemCount(SmartPhone smartPhone, Integer count) {
+        if (!availableGoods.containsKey(smartPhone))
+            return false;
+
+        if (availableGoods.get(smartPhone) < count)
+            return false;
+
+        availableGoods.put(smartPhone, availableGoods.get(smartPhone) - count);
+        return true;
+    }
+
+    /**
+     *
      * @return Map of all SmartPhones and its Count
      */
     public Map<SmartPhone, Integer> getGoods() {
