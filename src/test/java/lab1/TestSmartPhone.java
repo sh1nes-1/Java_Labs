@@ -67,6 +67,34 @@ public class TestSmartPhone {
         return new Object[][] { { catalog } };
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void builderTest() {
+        SmartPhone smartPhone = new SmartPhone.Builder()
+                .setName("Samsung Galaxy A30")
+                .setDiagonal(6.4)
+                .setColor(SmartPhone.Color.BLACK)
+                .setRam(3072)
+                .setReleaseDate(LocalDate.of(2019, 6, 15))
+                .setPrice(5500)
+                .build();
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void builderNegativeTest() {
+        SmartPhone samsungA30 = new SmartPhone.Builder()
+                .setName("Samsung Galaxy A30")
+                .setDiagonal(6.4)
+                .setColor(SmartPhone.Color.BLACK)
+                .setRam(3072)
+                .setReleaseDate(LocalDate.of(2019, 6, 15))
+                .setPrice(-5500)
+                .build();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Test(dataProvider = "smartPhoneDataProvider")
     public void sortByPriceAscendingTest(Catalog catalog) {
         System.out.println("Sort by price ascending result: ");
@@ -85,6 +113,8 @@ public class TestSmartPhone {
             }
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test(dataProvider = "smartPhoneDataProvider")
     public void sortByPriceDescendingTest(Catalog catalog) {
@@ -105,6 +135,8 @@ public class TestSmartPhone {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Test(dataProvider = "smartPhoneDataProvider")
     public void sortByReleaseDateAscendingTest(Catalog catalog) {
         System.out.println("Sort by release date ascending result: ");
@@ -124,6 +156,8 @@ public class TestSmartPhone {
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Test(dataProvider = "smartPhoneDataProvider")
     public void searchByCriteriaTest(Catalog catalog) {
         Catalog searchResult = CatalogService.searchGoodsByName(catalog,"Xiaomi", false);
@@ -134,6 +168,8 @@ public class TestSmartPhone {
 
         Assert.assertEquals(searchResult.getGoods().size(), 1);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test(dataProvider = "smartPhoneDataProvider")
     public void increaseCountTest(Catalog catalog) {

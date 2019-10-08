@@ -142,8 +142,14 @@ public class SmartPhone {
             return this;
         }
 
-        //TODO: add limits here
-        public Builder setPrice(Integer price) {
+        /**
+         *
+         * @param price Price > 0
+         * @return instance of this Builder
+         * @throws IllegalArgumentException when try set price lower than zero
+         */
+        public Builder setPrice(Integer price) throws IllegalArgumentException {
+            if (price < 0) throw new IllegalArgumentException("Argument price must be greater than zero");
             smartPhone.price = price;
             return this;
         }
