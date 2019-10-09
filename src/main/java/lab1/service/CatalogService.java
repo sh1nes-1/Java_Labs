@@ -18,13 +18,10 @@ public class CatalogService {
      */
     public static SortedMap<SmartPhone, Integer> getGoodsSortedByPrice(Catalog catalog, boolean ascending) {
 
-        SortedMap<SmartPhone, Integer> result = new TreeMap<>(new Comparator<SmartPhone>() {
-            @Override
-            public int compare(SmartPhone a, SmartPhone b) {
-                int result = a.getPrice().compareTo(b.getPrice());
-                if (!ascending) result *= -1;
-                return result;
-            }
+        SortedMap<SmartPhone, Integer> result = new TreeMap<>((a, b) -> {
+            int result1 = a.getPrice().compareTo(b.getPrice());
+            if (!ascending) result1 *= -1;
+            return result1;
         });
 
         result.putAll(catalog.getGoods());

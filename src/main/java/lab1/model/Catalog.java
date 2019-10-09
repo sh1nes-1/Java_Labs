@@ -9,10 +9,19 @@ public class Catalog {
         availableGoods = new HashMap<>();
     }
 
-    @Override
-    public String toString() {
-        return availableGoods.toString();
+    /**
+     *
+     * @return Map of all SmartPhones and its Count
+     */
+    public Map<SmartPhone, Integer> getGoods() {
+        return availableGoods;
     }
+
+    /**
+     *
+     * @return Set of all SmartPhones
+     */
+    public Set<SmartPhone> getSmartPhones() { return availableGoods.keySet(); }
 
     /**
      * Adds NEW item to Catalog
@@ -61,17 +70,8 @@ public class Catalog {
         return true;
     }
 
-    /**
-     *
-     * @return Map of all SmartPhones and its Count
-     */
-    public Map<SmartPhone, Integer> getGoods() {
-        return availableGoods;
+    @Override
+    public String toString() {
+        return availableGoods.toString();
     }
-
-    /**
-     *
-     * @return Set of all SmartPhones
-     */
-    public Set<SmartPhone> getSmartPhones() { return availableGoods.keySet(); }
 }

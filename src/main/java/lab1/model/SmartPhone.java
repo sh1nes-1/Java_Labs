@@ -15,16 +15,6 @@ import java.util.Objects;
  */
 public class SmartPhone {
 
-    // TODO: Builder Test
-    // TODO: в addGoodsItem якщо вже такий є
-    // TODO: Catalog як сутність
-    // TODO: додати і забрати певну кількість певного смартфона
-    // TODO: в catalog добавити метод що повертає ліст з смартфонів
-    // TODO: Catalog Service - вся логіка
-    // TODO: 3 таблиці
-    // TODO: обмеження для сеттерів
-    // мережа магазинів, скільки старих і шукати
-
     public enum Color {
         BLACK,
         WHITE,
