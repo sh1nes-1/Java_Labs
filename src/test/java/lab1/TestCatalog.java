@@ -4,6 +4,7 @@ import lab1.model.Catalog;
 import lab1.model.SmartPhone;
 import lab1.service.CatalogService;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -14,8 +15,10 @@ import java.util.Set;
 
 public class TestCatalog {
 
-    @DataProvider
-    public Object[][] catalogDataProvider() {
+    Catalog smartPhonesCatalog;
+
+    @BeforeTest()
+    public void createCatalog() {
         Set<SmartPhone> smartPhones = new HashSet<>();
 
         SmartPhone redmiNote7 = new SmartPhone.Builder()
@@ -58,23 +61,20 @@ public class TestCatalog {
                 .build();
         smartPhones.add(samsungA30);
 
-        Catalog catalog = new Catalog();
         for (SmartPhone x : smartPhones) {
-            catalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
+            smartPhonesCatalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
         }
-
-        return new Object[][] { { catalog } };
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //                                         Catalog Tests                                                          //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(dataProvider = "catalogDataProvider")
-    public void increaseCountTest(Catalog catalog) {
+    @Test
+    public void increaseCountTest() {
         SmartPhone smartPhone = (SmartPhone) catalog.getGoods().keySet().toArray()[0];
         int count = catalog.getGoods().get(smartPhone) + 5;
-        catalog.increaseItemCount(smartPhone, 5);
+        catalog.addItemCount(smartPhone, 5);
         Assert.assertEquals(catalog.getGoods().get(smartPhone).intValue(),count);
     }
 
@@ -82,12 +82,12 @@ public class TestCatalog {
     //                                      CatalogService Tests                                                      //
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(dataProvider = "catalogDataProvider")
-    public void sortByPriceAscendingTest(Catalog catalog) {
+    @Test
+    public void sortByPriceAscendingTest() {
         System.out.println("Sort by price ascending result: ");
 
         Integer prev = null;
-        for (Map.Entry<SmartPhone, Integer> x : CatalogService.getGoodsSortedByPrice(catalog,true).entrySet()) {
+        for (Map.Entry<SmartPhone, Integer> x : new CatalogService(smartPhonesCatalog).getGoodsSortedByPrice(true).entrySet()) {
             System.out.println(x.getKey());
 
             if (prev == null) {
@@ -101,12 +101,12 @@ public class TestCatalog {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(dataProvider = "catalogDataProvider")
-    public void sortByPriceDescendingTest(Catalog catalog) {
+    @Test
+    public void sortByPriceDescendingTest() {
         System.out.println("Sort by price descending result: ");
 
         Integer prev = null;
-        for (Map.Entry<SmartPhone, Integer> x : CatalogService.getGoodsSortedByPrice(catalog,false).entrySet()) {
+        for (Map.Entry<SmartPhone, Integer> x : new CatalogService(smartPhonesCatalog).getGoodsSortedByPrice(false).entrySet()) {
             System.out.println(x.getKey());
 
             if (prev == null) {
@@ -122,12 +122,12 @@ public class TestCatalog {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(dataProvider = "catalogDataProvider")
-    public void sortByReleaseDateAscendingTest(Catalog catalog) {
+    @Test
+    public void sortByReleaseDateAscendingTest() {
         System.out.println("Sort by release date ascending result: ");
 
         LocalDate prev = null;
-        for (Map.Entry<SmartPhone, Integer> x : CatalogService.getGoodsSortedByReleaseDate(catalog,true).entrySet()) {
+        for (Map.Entry<SmartPhone, Integer> x : new CatalogService(smartPhonesCatalog).getGoodsSortedByReleaseDate(true).entrySet()) {
             System.out.println(x.getKey());
 
             if (prev == null) {
@@ -141,10 +141,10 @@ public class TestCatalog {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(dataProvider = "catalogDataProvider")
-    public void searchByCriteriaTest(Catalog catalog) {
-        Catalog searchResult1 = CatalogService.searchGoodsByName(catalog,"Xiaomi", false);
-        Catalog searchResult2 = CatalogService.searchGoodsWithColor(searchResult1, SmartPhone.Color.BLACK);
+    @Test
+    public void searchByCriteriaTest() {
+        Catalog searchResult1 = new CatalogService(smartPhonesCatalog).searchGoodsByName("Xiaomi", false);
+        Catalog searchResult2 = new CatalogService(searchResult1).searchGoodsWithColor(SmartPhone.Color.BLACK);
 
         System.out.println("Search by criteria (Xiaomi, Black) test result: ");
         System.out.println(searchResult2);

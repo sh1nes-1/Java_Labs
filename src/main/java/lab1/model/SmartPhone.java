@@ -32,6 +32,7 @@ public class SmartPhone {
     private Integer ram;
     private Double diagonal;
 
+    //TODO: забрати логіку з тестів
 
     private SmartPhone() {
         // Private constructor to deny creating new instance outside by constructor

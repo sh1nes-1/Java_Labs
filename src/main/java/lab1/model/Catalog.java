@@ -30,7 +30,8 @@ public class Catalog {
      * @return true if success, false if key already exists
      */
     public boolean addGoodsItem(SmartPhone smartPhone, Integer count) {
-       assert count > 0 : "Count must be > 0";
+       if (count <= 0)
+           throw new IllegalArgumentException("Count must be > 0");
 
        if (availableGoods.containsKey(smartPhone))
            return false;
@@ -45,7 +46,7 @@ public class Catalog {
      * @param count value that will be added to count
      * @return true if success, false if such key not found
      */
-    public boolean increaseItemCount(SmartPhone smartPhone, Integer count) {
+    public boolean addItemCount(SmartPhone smartPhone, Integer count) {
         if (!availableGoods.containsKey(smartPhone))
             return false;
 
@@ -59,7 +60,7 @@ public class Catalog {
      * @param count value by which count will be reduced
      * @return true if success, false if such key not found
      */
-    public boolean decreaseItemCount(SmartPhone smartPhone, Integer count) {
+    public boolean subItemCount(SmartPhone smartPhone, Integer count) {
         if (!availableGoods.containsKey(smartPhone))
             return false;
 
