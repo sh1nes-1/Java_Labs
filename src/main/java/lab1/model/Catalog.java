@@ -41,6 +41,15 @@ public class Catalog {
     }
 
     /**
+     * Get count of some SmartPhone
+     * @param smartPhone some SmartPhone that exists in Catalog
+     * @return Integer count of such SmartPhones or null if not exists
+     */
+    public Integer getItemCount(SmartPhone smartPhone) {
+        return availableGoods.get(smartPhone);
+    }
+
+    /**
      *
      * @param smartPhone SmartPhone
      * @param count value that will be added to count

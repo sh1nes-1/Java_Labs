@@ -4,6 +4,7 @@ import lab1.model.Catalog;
 import lab1.model.SmartPhone;
 import lab1.service.CatalogService;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -12,16 +13,19 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.SortedMap;
 
 public class TestCatalog {
 
     Catalog smartPhonesCatalog;
 
-    @BeforeTest()
-    public void createCatalog() {
-        Set<SmartPhone> smartPhones = new HashSet<>();
+    private SmartPhone redmiNote7;
+    private SmartPhone iphoneX;
+    private SmartPhone redmi7;
+    private SmartPhone samsungA30;
 
-        SmartPhone redmiNote7 = new SmartPhone.Builder()
+    {
+        redmiNote7 = new SmartPhone.Builder()
                 .setName("Xiaomi Redmi Note 7")
                 .setDiagonal(6.3)
                 .setColor(SmartPhone.Color.BLUE)
@@ -29,9 +33,8 @@ public class TestCatalog {
                 .setReleaseDate(LocalDate.of(2019, 5, 1))
                 .setPrice(4500)
                 .build();
-        smartPhones.add(redmiNote7);
 
-        SmartPhone iphoneX = new SmartPhone.Builder()
+        iphoneX = new SmartPhone.Builder()
                 .setName("iPhone X")
                 .setDiagonal(5.8)
                 .setColor(SmartPhone.Color.WHITE)
@@ -39,9 +42,8 @@ public class TestCatalog {
                 .setReleaseDate(LocalDate.of(2017, 9, 12))
                 .setPrice(20000)
                 .build();
-        smartPhones.add(iphoneX);
 
-        SmartPhone redmi7 = new SmartPhone.Builder()
+        redmi7 = new SmartPhone.Builder()
                 .setName("Xiaomi Redmi 7")
                 .setDiagonal(6.26)
                 .setColor(SmartPhone.Color.BLACK)
@@ -49,9 +51,8 @@ public class TestCatalog {
                 .setReleaseDate(LocalDate.of(2018, 8, 2))
                 .setPrice(3600)
                 .build();
-        smartPhones.add(redmi7);
 
-        SmartPhone samsungA30 = new SmartPhone.Builder()
+       samsungA30 = new SmartPhone.Builder()
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
                 .setColor(SmartPhone.Color.BLACK)
@@ -59,11 +60,15 @@ public class TestCatalog {
                 .setReleaseDate(LocalDate.of(2019, 6, 15))
                 .setPrice(5500)
                 .build();
-        smartPhones.add(samsungA30);
+    }
 
-        for (SmartPhone x : smartPhones) {
-            smartPhonesCatalog.addGoodsItem(x, 1 + (int)(Math.random() * 100));
-        }
+    @BeforeMethod
+    public void createCatalog() {
+        smartPhonesCatalog = new Catalog();
+        smartPhonesCatalog.addGoodsItem(redmiNote7, 1 + (int)(Math.random() * 100));
+        smartPhonesCatalog.addGoodsItem(iphoneX, 1 + (int)(Math.random() * 100));
+        smartPhonesCatalog.addGoodsItem(redmi7, 1 + (int)(Math.random() * 100));
+        smartPhonesCatalog.addGoodsItem(samsungA30, 1 + (int)(Math.random() * 100));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,11 +76,54 @@ public class TestCatalog {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
-    public void increaseCountTest() {
-        SmartPhone smartPhone = (SmartPhone) catalog.getGoods().keySet().toArray()[0];
-        int count = catalog.getGoods().get(smartPhone) + 5;
-        catalog.addItemCount(smartPhone, 5);
-        Assert.assertEquals(catalog.getGoods().get(smartPhone).intValue(),count);
+    public void getItemCountTest() {
+        SmartPhone meizu = new SmartPhone.Builder()
+                .setName("Meizu")
+                .setColor(SmartPhone.Color.BLACK)
+                .setDiagonal(5.0)
+                .setPrice(3000)
+                .setRam(2048)
+                .setReleaseDate(LocalDate.now())
+                .build();
+
+        smartPhonesCatalog.addGoodsItem(meizu, 5);
+        Assert.assertEquals(smartPhonesCatalog.getItemCount(meizu), Integer.valueOf(5));
+    }
+
+    @Test
+    public void addItemCountTest() {
+        SmartPhone meizu = new SmartPhone.Builder()
+                .setName("Meizu")
+                .setColor(SmartPhone.Color.BLACK)
+                .setDiagonal(5.0)
+                .setPrice(3000)
+                .setRam(2048)
+                .setReleaseDate(LocalDate.now())
+                .build();
+
+        smartPhonesCatalog.addGoodsItem(meizu, 15);
+        smartPhonesCatalog.addItemCount(meizu, 5);
+
+        int newCount = smartPhonesCatalog.getItemCount(meizu);
+        Assert.assertEquals(newCount, 20);
+    }
+
+    @Test
+    public void subItemCountTest() {
+        SmartPhone meizu = new SmartPhone.Builder()
+                .setName("Meizu")
+                .setColor(SmartPhone.Color.BLACK)
+                .setDiagonal(5.0)
+                .setPrice(3000)
+                .setRam(2048)
+                .setReleaseDate(LocalDate.now())
+                .build();
+
+        smartPhonesCatalog.addGoodsItem(meizu, 15);
+        smartPhonesCatalog.subItemCount(meizu, 5);
+
+        int newCount = smartPhonesCatalog.getItemCount(meizu);
+        Assert.assertEquals(newCount, 10);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -84,72 +132,52 @@ public class TestCatalog {
 
     @Test
     public void sortByPriceAscendingTest() {
-        System.out.println("Sort by price ascending result: ");
+        CatalogService catalogService = new CatalogService(smartPhonesCatalog);
+        SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(true);
 
-        Integer prev = null;
-        for (Map.Entry<SmartPhone, Integer> x : new CatalogService(smartPhonesCatalog).getGoodsSortedByPrice(true).entrySet()) {
-            System.out.println(x.getKey());
+        Object[] sortedSmartPhones = sortedGoods.keySet().toArray();
+        Object[] expectedSortResult = { redmi7, redmiNote7, samsungA30, iphoneX };
 
-            if (prev == null) {
-                prev = x.getKey().getPrice();
-            }
-            else {
-                Assert.assertTrue(x.getKey().getPrice() >= prev);
-            }
-        }
+        Assert.assertEquals(sortedSmartPhones, expectedSortResult);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void sortByPriceDescendingTest() {
-        System.out.println("Sort by price descending result: ");
+        CatalogService catalogService = new CatalogService(smartPhonesCatalog);
+        SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(false);
 
-        Integer prev = null;
-        for (Map.Entry<SmartPhone, Integer> x : new CatalogService(smartPhonesCatalog).getGoodsSortedByPrice(false).entrySet()) {
-            System.out.println(x.getKey());
+        Object[] sortedSmartPhones = sortedGoods.keySet().toArray();
+        Object[] expectedSortResult = { iphoneX, samsungA30, redmiNote7, redmi7 };
 
-            if (prev == null) {
-                prev = x.getKey().getPrice();
-            }
-
-
-            else {
-                Assert.assertTrue(x.getKey().getPrice() <= prev);
-            }
-        }
+        Assert.assertEquals(sortedSmartPhones, expectedSortResult);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void sortByReleaseDateAscendingTest() {
-        System.out.println("Sort by release date ascending result: ");
+        CatalogService catalogService = new CatalogService(smartPhonesCatalog);
+        SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByReleaseDate(true);
 
-        LocalDate prev = null;
-        for (Map.Entry<SmartPhone, Integer> x : new CatalogService(smartPhonesCatalog).getGoodsSortedByReleaseDate(true).entrySet()) {
-            System.out.println(x.getKey());
+        Object[] sortedSmartPhones = sortedGoods.keySet().toArray();
+        Object[] expectedSortResult = { iphoneX, redmi7, redmiNote7, samsungA30 };
 
-            if (prev == null) {
-                prev = x.getKey().getReleaseDate();
-            }
-            else {
-                Assert.assertTrue(x.getKey().getReleaseDate().compareTo(prev) > 0);
-            }
-        }
+        Assert.assertEquals(sortedSmartPhones, expectedSortResult);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void searchByCriteriaTest() {
-        Catalog searchResult1 = new CatalogService(smartPhonesCatalog).searchGoodsByName("Xiaomi", false);
-        Catalog searchResult2 = new CatalogService(searchResult1).searchGoodsWithColor(SmartPhone.Color.BLACK);
+        Catalog resultCatalog1 = new CatalogService(smartPhonesCatalog).searchGoodsByName("Xiaomi", false);
+        Catalog resultCatalog2 = new CatalogService(resultCatalog1).searchGoodsWithColor(SmartPhone.Color.BLACK);
 
-        System.out.println("Search by criteria (Xiaomi, Black) test result: ");
-        System.out.println(searchResult2);
+        Object[] resultArray = resultCatalog2.getSmartPhones().toArray();
+        Object[] expectedResult = { redmi7 };
 
-        Assert.assertEquals(searchResult2.getGoods().size(), 1);
+        Assert.assertEquals(resultArray, expectedResult);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

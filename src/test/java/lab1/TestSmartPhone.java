@@ -29,7 +29,7 @@ public class TestSmartPhone {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void builderNegativeTest() {
+    public void builderNegativeTest1() {
         SmartPhone samsungA30 = new SmartPhone.Builder()
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
@@ -37,6 +37,13 @@ public class TestSmartPhone {
                 .setRam(3072)
                 .setReleaseDate(LocalDate.of(2019, 6, 15))
                 .setPrice(-5500)
+                .build();
+    }
+
+    @Test(expectedExceptions = IllegalStateException.class)
+    public void builderNegativeTest2() {
+        SmartPhone smartPhone = new SmartPhone.Builder()
+                .setColor(SmartPhone.Color.BLACK)
                 .build();
     }
 

@@ -2,6 +2,7 @@ package lab1.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Objects;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Objects;
  * Can be created using pattern Builder
  * Example: SmartPhone smartPhone = new SmartPhone.Builder()
  *                 .setName("Some Phone")
- *                 .setColor(new Color(255, 0, 0))
+ *                 .setColor(Color.BLACK)
  *                 .setRam(2048)
  *                 .build();
  */
@@ -31,8 +32,6 @@ public class SmartPhone {
     private Color color;
     private Integer ram;
     private Double diagonal;
-
-    //TODO: забрати логіку з тестів
 
     private SmartPhone() {
         // Private constructor to deny creating new instance outside by constructor
@@ -158,13 +157,23 @@ public class SmartPhone {
         /**
          *
          * @param ram capacity in MegaBytes
+         * @return instance of this Builder
+         * @throws IllegalArgumentException when try set ram lower than zero
          */
         public Builder setRam(Integer ram) {
+            if (ram <= 0) throw new IllegalArgumentException("Argument ram must be greater than zero");
             smartPhone.ram = ram;
             return this;
         }
 
+        /**
+         *
+         * @param diagonal Double
+         * @return instance of this Builder
+         * @throws IllegalArgumentException when try set diagonal lower than zero
+         */
         public Builder setDiagonal(Double diagonal) {
+            if (diagonal <= 0) throw new IllegalArgumentException("Argument diagonal must be greater than zero");
             smartPhone.diagonal = diagonal;
             return this;
         }
@@ -172,8 +181,23 @@ public class SmartPhone {
         /**
          * Use it after calling all setters
          * @return instance of SmartPhone
+         * @throws IllegalStateException if you do not set some of fields
          */
-        public SmartPhone build() {
+        public SmartPhone build() throws IllegalStateException {
+            ArrayList<String> invalidFields = new ArrayList<>();
+
+            if (smartPhone.name == null) invalidFields.add("name");
+            if (smartPhone.price == null) invalidFields.add("price");
+            if (smartPhone.releaseDate == null) invalidFields.add("releaseDate");
+            if (smartPhone.color == null) invalidFields.add("color");
+            if (smartPhone.ram == null) invalidFields.add("ram");
+            if (smartPhone.diagonal == null) invalidFields.add("diagonal");
+
+            if (invalidFields.size() > 0) {
+                String exceptionMessage = "Not initialized fields: " + invalidFields.toString();
+                throw new IllegalStateException(exceptionMessage);
+            }
+
             return smartPhone;
         }
 
