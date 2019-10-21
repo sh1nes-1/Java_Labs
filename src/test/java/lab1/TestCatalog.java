@@ -18,6 +18,7 @@ import java.util.SortedMap;
 public class TestCatalog {
 
     Catalog smartPhonesCatalog;
+    CatalogService catalogService;
 
     private SmartPhone redmiNote7;
     private SmartPhone iphoneX;
@@ -65,10 +66,11 @@ public class TestCatalog {
     @BeforeMethod
     public void createCatalog() {
         smartPhonesCatalog = new Catalog();
-        smartPhonesCatalog.addGoodsItem(redmiNote7, 1 + (int)(Math.random() * 100));
-        smartPhonesCatalog.addGoodsItem(iphoneX, 1 + (int)(Math.random() * 100));
-        smartPhonesCatalog.addGoodsItem(redmi7, 1 + (int)(Math.random() * 100));
-        smartPhonesCatalog.addGoodsItem(samsungA30, 1 + (int)(Math.random() * 100));
+        smartPhonesCatalog.addGoodsItem(redmiNote7, 15);
+        smartPhonesCatalog.addGoodsItem(iphoneX, 20);
+        smartPhonesCatalog.addGoodsItem(redmi7, 25);
+        smartPhonesCatalog.addGoodsItem(samsungA30, 30);
+        catalogService = new CatalogService(smartPhonesCatalog);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,8 +106,8 @@ public class TestCatalog {
         smartPhonesCatalog.addGoodsItem(meizu, 15);
         smartPhonesCatalog.addItemCount(meizu, 5);
 
-        int newCount = smartPhonesCatalog.getItemCount(meizu);
-        Assert.assertEquals(newCount, 20);
+        int actual = smartPhonesCatalog.getItemCount(meizu);
+        Assert.assertEquals(actual, 20);
     }
 
     @Test
@@ -122,8 +124,8 @@ public class TestCatalog {
         smartPhonesCatalog.addGoodsItem(meizu, 15);
         smartPhonesCatalog.subItemCount(meizu, 5);
 
-        int newCount = smartPhonesCatalog.getItemCount(meizu);
-        Assert.assertEquals(newCount, 10);
+        int actual = smartPhonesCatalog.getItemCount(meizu);
+        Assert.assertEquals(actual, 10);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -132,52 +134,49 @@ public class TestCatalog {
 
     @Test
     public void sortByPriceAscendingTest() {
-        CatalogService catalogService = new CatalogService(smartPhonesCatalog);
         SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(true);
 
-        Object[] sortedSmartPhones = sortedGoods.keySet().toArray();
-        Object[] expectedSortResult = { redmi7, redmiNote7, samsungA30, iphoneX };
+        Object[] actual = sortedGoods.keySet().toArray();
+        Object[] expected = { redmi7, redmiNote7, samsungA30, iphoneX };
 
-        Assert.assertEquals(sortedSmartPhones, expectedSortResult);
+        Assert.assertEquals(actual, expected);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void sortByPriceDescendingTest() {
-        CatalogService catalogService = new CatalogService(smartPhonesCatalog);
         SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(false);
 
-        Object[] sortedSmartPhones = sortedGoods.keySet().toArray();
-        Object[] expectedSortResult = { iphoneX, samsungA30, redmiNote7, redmi7 };
+        Object[] actual = sortedGoods.keySet().toArray();
+        Object[] expected = { iphoneX, samsungA30, redmiNote7, redmi7 };
 
-        Assert.assertEquals(sortedSmartPhones, expectedSortResult);
+        Assert.assertEquals(actual, expected);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void sortByReleaseDateAscendingTest() {
-        CatalogService catalogService = new CatalogService(smartPhonesCatalog);
         SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByReleaseDate(true);
 
-        Object[] sortedSmartPhones = sortedGoods.keySet().toArray();
-        Object[] expectedSortResult = { iphoneX, redmi7, redmiNote7, samsungA30 };
+        Object[] actual = sortedGoods.keySet().toArray();
+        Object[] expected = { iphoneX, redmi7, redmiNote7, samsungA30 };
 
-        Assert.assertEquals(sortedSmartPhones, expectedSortResult);
+        Assert.assertEquals(actual, expected);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void searchByCriteriaTest() {
-        Catalog resultCatalog1 = new CatalogService(smartPhonesCatalog).searchGoodsByName("Xiaomi", false);
+        Catalog resultCatalog1 = catalogService.searchGoodsByName("Xiaomi", false);
         Catalog resultCatalog2 = new CatalogService(resultCatalog1).searchGoodsWithColor(SmartPhone.Color.BLACK);
 
-        Object[] resultArray = resultCatalog2.getSmartPhones().toArray();
-        Object[] expectedResult = { redmi7 };
+        Object[] actual = resultCatalog2.getSmartPhones().toArray();
+        Object[] expected = { redmi7 };
 
-        Assert.assertEquals(resultArray, expectedResult);
+        Assert.assertEquals(actual, expected);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

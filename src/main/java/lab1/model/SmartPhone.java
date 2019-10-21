@@ -2,8 +2,7 @@ package lab1.model;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Class, that represents characteristics of SmartPhone
@@ -136,10 +135,8 @@ public class SmartPhone {
          *
          * @param price Price > 0
          * @return instance of this Builder
-         * @throws IllegalArgumentException when try set price lower than zero
          */
-        public Builder setPrice(Integer price) throws IllegalArgumentException {
-            if (price < 0) throw new IllegalArgumentException("Argument price must be greater than zero");
+        public Builder setPrice(Integer price) {
             smartPhone.price = price;
             return this;
         }
@@ -158,10 +155,8 @@ public class SmartPhone {
          *
          * @param ram capacity in MegaBytes
          * @return instance of this Builder
-         * @throws IllegalArgumentException when try set ram lower than zero
          */
         public Builder setRam(Integer ram) {
-            if (ram <= 0) throw new IllegalArgumentException("Argument ram must be greater than zero");
             smartPhone.ram = ram;
             return this;
         }
@@ -170,10 +165,8 @@ public class SmartPhone {
          *
          * @param diagonal Double
          * @return instance of this Builder
-         * @throws IllegalArgumentException when try set diagonal lower than zero
          */
         public Builder setDiagonal(Double diagonal) {
-            if (diagonal <= 0) throw new IllegalArgumentException("Argument diagonal must be greater than zero");
             smartPhone.diagonal = diagonal;
             return this;
         }
@@ -184,18 +177,29 @@ public class SmartPhone {
          * @throws IllegalStateException if you do not set some of fields
          */
         public SmartPhone build() throws IllegalStateException {
-            ArrayList<String> invalidFields = new ArrayList<>();
+            // Not initialized fields
+            Set<String> notInitializedFields = new HashSet<>();
 
-            if (smartPhone.name == null) invalidFields.add("name");
-            if (smartPhone.price == null) invalidFields.add("price");
-            if (smartPhone.releaseDate == null) invalidFields.add("releaseDate");
-            if (smartPhone.color == null) invalidFields.add("color");
-            if (smartPhone.ram == null) invalidFields.add("ram");
-            if (smartPhone.diagonal == null) invalidFields.add("diagonal");
+            if (smartPhone.name == null) notInitializedFields.add("name");
+            if (smartPhone.price == null) notInitializedFields.add("price");
+            if (smartPhone.releaseDate == null) notInitializedFields.add("releaseDate");
+            if (smartPhone.color == null) notInitializedFields.add("color");
+            if (smartPhone.ram == null) notInitializedFields.add("ram");
+            if (smartPhone.diagonal == null) notInitializedFields.add("diagonal");
 
-            if (invalidFields.size() > 0) {
-                String exceptionMessage = "Not initialized fields: " + invalidFields.toString();
-                throw new IllegalStateException(exceptionMessage);
+            if (notInitializedFields.size() > 0) {
+                throw new IllegalStateException("Not initialized fields: " + notInitializedFields.toString());
+            }
+
+            // Value <= 0
+            Set<String> lessZeroFields = new HashSet<>();
+
+            if (smartPhone.price <= 0) lessZeroFields.add("price");
+            if (smartPhone.ram <= 0) lessZeroFields.add("ram");
+            if (smartPhone.diagonal <= 0) lessZeroFields.add("diagonal");
+
+            if (lessZeroFields.size() > 0) {
+                throw new IllegalStateException("Fields must be greater than zero: " + lessZeroFields.toString());
             }
 
             return smartPhone;
