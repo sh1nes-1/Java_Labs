@@ -1,7 +1,8 @@
-package lab2.model;
+package lab2.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lab2.model.Converter;
 
 import java.io.File;
 import java.io.FileWriter;
