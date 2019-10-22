@@ -1,6 +1,8 @@
 package lab2.model;
 
-public interface Converter<T> {
+import java.io.Serializable;
+
+public interface Converter<T extends Serializable> {
 
     public String serializeToString(T obj) throws Exception;
 
