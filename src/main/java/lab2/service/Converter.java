@@ -1,4 +1,4 @@
-package lab2.model;
+package lab2.service;
 
 import java.io.Serializable;
 

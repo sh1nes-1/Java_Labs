@@ -1,6 +1,7 @@
 package lab2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 import lab1.model.SmartPhone;
 import lab2.service.JsonConverter;
 import org.testng.Assert;
@@ -48,5 +49,11 @@ public class TestJsonConverter {
         Assert.assertEquals(actual, expected);
     }
 
-    // чи робити тести з файлами
+    @Test(expectedExceptions = ValueInstantiationException.class)
+    public void negativeDeserializeStringTest() throws IOException {
+        String jsonString = "{\"name\":\"Samsung Galaxy A30\",\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
+        SmartPhone expected = smartPhone;
+        SmartPhone actual = jsonConverter.deserializeString(jsonString);
+        Assert.assertEquals(actual, expected);
+    }
 }

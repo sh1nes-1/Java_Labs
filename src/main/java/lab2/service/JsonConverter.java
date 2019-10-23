@@ -2,7 +2,6 @@ package lab2.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lab2.model.Converter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -33,6 +32,8 @@ public class JsonConverter<T extends Serializable> implements Converter<T> {
         return mapper.readValue(str, typeOfClass);
     }
 
+    //TODO: Move model from lab1 to lab2
+    //TODO: optimize writing (use another method to write)
     @Override
     public void serializeToFile(T obj, String fileName) throws IOException {
         String jsonString = serializeToString(obj);
