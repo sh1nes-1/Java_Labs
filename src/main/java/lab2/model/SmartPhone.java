@@ -1,4 +1,10 @@
-package lab1.model;
+package lab2.model;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -14,6 +20,7 @@ import java.util.*;
  *                 .setRam(2048)
  *                 .build();
  */
+@JsonDeserialize(builder = SmartPhone.Builder.class)
 public class SmartPhone implements Serializable {
 
     public enum Color {
@@ -28,6 +35,8 @@ public class SmartPhone implements Serializable {
     // all fields cant be changed and assigned once in builder
     private String name;
     private Integer price;
+
+    @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
 
     private Color color;
@@ -120,6 +129,7 @@ public class SmartPhone implements Serializable {
     /**
      * Use this to build new SmartPhone
      */
+    @JsonPOJOBuilder(withPrefix = "set")
     public static class Builder {
 
         SmartPhone smartPhone;
@@ -143,6 +153,7 @@ public class SmartPhone implements Serializable {
             return this;
         }
 
+        @JsonDeserialize(using = LocalDateDeserializer.class)
         public Builder setReleaseDate(LocalDate releaseDate) {
             smartPhone.releaseDate = releaseDate;
             return this;

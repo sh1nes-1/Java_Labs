@@ -2,7 +2,7 @@ package lab2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
-import lab1.model.SmartPhone;
+import lab2.model.SmartPhone;
 import lab2.service.JsonConverter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
