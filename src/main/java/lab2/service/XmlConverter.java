@@ -1,28 +1,25 @@
 package lab2.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lab2.exception.ConvertException;
 
 import java.io.Serializable;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
-public class JsonConverter<T extends Serializable> implements Converter<T> {
+public class XmlConverter<T extends Serializable> implements Converter<T> {
 
     private Class<T> typeOfClass;
-    private ObjectMapper mapper;
+    private XmlMapper mapper;
 
     {
-        mapper = new ObjectMapper();
+        mapper = new XmlMapper();
     }
 
-    public JsonConverter(Class<T> typeOfClass) {
+    public XmlConverter(Class<T> typeOfClass) {
         this.typeOfClass = typeOfClass;
     }
 
     @Override
-    public String serializeToString(T obj) throws ConvertException {
+    public String serializeToString(Serializable obj) throws ConvertException {
         try {
             return mapper.writeValueAsString(obj);
         }

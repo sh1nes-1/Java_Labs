@@ -1,26 +1,23 @@
 package lab2;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.exc.ValueInstantiationException;
 import lab2.exception.ConvertException;
 import lab2.model.SmartPhone;
-import lab2.service.JsonConverter;
+import lab2.service.XmlConverter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
-public class TestJsonConverter {
+public class TestXmlConverter {
 
-    private JsonConverter<SmartPhone> jsonConverter;
+    private XmlConverter<SmartPhone> xmlConverter;
     private SmartPhone smartPhone;
 
     @BeforeTest
     public void beforeTest() {
-        jsonConverter = new JsonConverter<>(SmartPhone.class);
+        xmlConverter = new XmlConverter<>(SmartPhone.class);
     }
 
     @BeforeMethod
@@ -37,24 +34,24 @@ public class TestJsonConverter {
 
     @Test
     public void serializeToStringTest() throws ConvertException {
-        String expected = "{\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
-        String actual = jsonConverter.serializeToString(smartPhone);
+        String expected = "<SmartPhone><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
+        String actual = xmlConverter.serializeToString(smartPhone);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void deserializeStringTest() throws ConvertException {
-        String jsonString = "{\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
+        String jsonString = "<SmartPhone><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
         SmartPhone expected = smartPhone;
-        SmartPhone actual = jsonConverter.deserializeString(jsonString);
+        SmartPhone actual = xmlConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, expected);
     }
 
     @Test(expectedExceptions = ConvertException.class)
     public void negativeDeserializeStringTest() throws ConvertException {
-        String jsonString = "{\"name\":\"Samsung Galaxy A30\",\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
+        String jsonString = "<SmartPhone><name>Samsung Galaxy A30</name><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
         SmartPhone expected = smartPhone;
-        SmartPhone actual = jsonConverter.deserializeString(jsonString);
+        SmartPhone actual = xmlConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, expected);
     }
 }
