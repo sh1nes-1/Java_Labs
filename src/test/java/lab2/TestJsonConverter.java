@@ -3,7 +3,7 @@ package lab2;
 import lab2.model.Catalog;
 import lab2.exception.ConvertException;
 import lab2.model.SmartPhone;
-import lab2.service.JsonConverter;
+import lab2.service.converter.JsonConverter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;

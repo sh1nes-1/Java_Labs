@@ -1,7 +1,8 @@
-package lab2.service;
+package lab2.service.converter;
 
 import lab2.model.SmartPhone;
 import lab2.exception.ConvertException;
+import lab2.service.Converter;
 
 import java.time.LocalDate;
 import java.util.Arrays;

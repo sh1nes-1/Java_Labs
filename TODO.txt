@@ -1,0 +1,7 @@
+Lab2
+- Ask about packages in service
+- Ask about Files in interface Converter
+- Ask about serializing Catalog to JSON and XML
+
+Lab3
+- Ask about Comparable in SmartPhone and what else to do

@@ -1,7 +1,8 @@
-package lab2.service;
+package lab2.service.converter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lab2.exception.ConvertException;
+import lab2.service.Converter;
 
 import java.io.Serializable;
 import java.net.URI;

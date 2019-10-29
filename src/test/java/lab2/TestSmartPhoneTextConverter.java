@@ -2,8 +2,7 @@ package lab2;
 
 import lab2.model.SmartPhone;
 import lab2.exception.ConvertException;
-import lab2.service.Converter;
-import lab2.service.SmartPhoneTextConverter;
+import lab2.service.converter.SmartPhoneTextConverter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;

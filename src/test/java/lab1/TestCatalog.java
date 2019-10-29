@@ -17,8 +17,8 @@ import java.util.SortedMap;
 
 public class TestCatalog {
 
-    Catalog smartPhonesCatalog;
-    CatalogService catalogService;
+    private Catalog smartPhonesCatalog;
+    private CatalogService catalogService;
 
     private SmartPhone redmiNote7;
     private SmartPhone iphoneX;
