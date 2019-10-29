@@ -1,5 +1,6 @@
 package lab2.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -38,7 +39,7 @@ public class SmartPhone implements Serializable {
 
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
-
+    
     private Color color;
     private Integer ram;
     private Double diagonal;

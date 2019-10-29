@@ -1,6 +1,7 @@
 package lab2;
 
 import lab2.exception.ConvertException;
+import lab2.model.Catalog;
 import lab2.model.SmartPhone;
 import lab2.service.XmlConverter;
 import org.testng.Assert;
@@ -53,5 +54,13 @@ public class TestXmlConverter {
         SmartPhone expected = smartPhone;
         SmartPhone actual = xmlConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void serializeCatalogTest() throws ConvertException {
+        Catalog catalog = new Catalog();
+        catalog.addGoodsItem(smartPhone, 2);
+        System.out.println(xmlConverter.serializeToString(catalog));
+        throw new ConvertException("Check me");
     }
 }

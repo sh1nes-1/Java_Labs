@@ -34,11 +34,11 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
     @Override
     public SmartPhone deserializeString(String serializedString) throws ConvertException {
         try {
-            if (!serializedString.contains(FIELDS_SEPARATOR)) {
-                throw new Exception("Invalid format!");
+            String[] stringFields = serializedString.split("(?<!\\\\)" + FIELDS_SEPARATOR);
+            if (stringFields.length != 6) {
+                throw new Exception("Invalid format of string!");
             }
 
-            String[] stringFields = serializedString.split("(?<!\\\\)" + FIELDS_SEPARATOR);
             stringFields = Arrays.stream(stringFields).map(s -> s.replace("\\" + FIELDS_SEPARATOR, FIELDS_SEPARATOR)).toArray(String[]::new);
 
             return new SmartPhone.Builder()
