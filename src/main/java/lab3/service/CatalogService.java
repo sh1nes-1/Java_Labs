@@ -20,11 +20,9 @@ public class CatalogService {
      */
     public SortedMap<SmartPhone, Integer> getGoodsSortedByPrice(boolean ascending) {
 
-        SortedMap<SmartPhone, Integer> result = new TreeMap<>((a, b) -> {
-            int result1 = a.getPrice().compareTo(b.getPrice());
-            if (!ascending) result1 *= -1;
-            return result1;
-        });
+        SortedMap<SmartPhone, Integer> result = new TreeMap<>((a, b) ->
+                ascending ? a.getPrice().compareTo(b.getPrice()) : b.getPrice().compareTo(a.getPrice())
+        );
 
         result.putAll(catalog.getGoods());
         return result;
@@ -37,11 +35,9 @@ public class CatalogService {
      */
     public SortedMap<SmartPhone, Integer> getGoodsSortedByReleaseDate(boolean ascending) {
 
-        SortedMap<SmartPhone, Integer> result = new TreeMap<>((a, b) -> {
-            int result1 = a.getReleaseDate().compareTo(b.getReleaseDate());
-            if (!ascending) result1 *= -1;
-            return result1;
-        });
+        SortedMap<SmartPhone, Integer> result = new TreeMap<>((a, b) ->
+                ascending ? a.getReleaseDate().compareTo(b.getReleaseDate()) : b.getReleaseDate().compareTo(a.getReleaseDate())
+        );
 
         result.putAll(catalog.getGoods());
         return result;

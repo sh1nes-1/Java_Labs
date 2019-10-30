@@ -8,6 +8,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.SortedMap;
 
 public class TestCatalogService {
 
@@ -71,9 +74,58 @@ public class TestCatalogService {
     public void searchByNameTest() {
         Catalog catalog = catalogService.searchGoodsByName("Xiaomi", false);
 
-        Object[] actual = catalog.getSmartPhones().toArray();
-        Object[] expected = { redmi7, redmiNote7 };
+        Set<SmartPhone> actual = catalog.getSmartPhones();
+        Set<Object> expected = Set.of(new Object[]{ redmiNote7, redmi7 });
 
         Assert.assertEquals(actual, expected);
     }
+
+    @Test
+    public void sortByPriceAscendingTest() {
+        SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(true);
+
+        Object[] actual = sortedGoods.keySet().toArray();
+        Object[] expected = { redmi7, redmiNote7, samsungA30, iphoneX };
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void sortByPriceDescendingTest() {
+        SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(false);
+
+        Object[] actual = sortedGoods.keySet().toArray();
+        Object[] expected = { iphoneX, samsungA30, redmiNote7, redmi7 };
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void sortByReleaseDateAscendingTest() {
+        SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByReleaseDate(true);
+
+        Object[] actual = sortedGoods.keySet().toArray();
+        Object[] expected = { iphoneX, redmi7, redmiNote7, samsungA30 };
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void searchByCriteriaTest() {
+        Catalog resultCatalog1 = catalogService.searchGoodsByName("Xiaomi", false);
+        Catalog resultCatalog2 = new CatalogService(resultCatalog1).searchGoodsWithColor(SmartPhone.Color.BLACK);
+
+        Object[] actual = resultCatalog2.getSmartPhones().toArray();
+        Object[] expected = { redmi7 };
+
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

@@ -49,17 +49,14 @@ public class TestJsonConverter {
     @Test
     public void deserializeStringTest() throws ConvertException {
         String jsonString = "{\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
-        SmartPhone expected = smartPhone;
         SmartPhone actual = smartPhoneJsonConverter.deserializeString(jsonString);
-        Assert.assertEquals(actual, expected);
+        Assert.assertEquals(actual, smartPhone);
     }
 
     @Test(expectedExceptions = ConvertException.class)
     public void negativeDeserializeStringTest() throws ConvertException {
         String jsonString = "{\"name\":\"Samsung Galaxy A30\",\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
-        SmartPhone expected = smartPhone;
-        SmartPhone actual = smartPhoneJsonConverter.deserializeString(jsonString);
-        Assert.assertEquals(actual, expected);
+        smartPhoneJsonConverter.deserializeString(jsonString);
     }
 
     @Test
@@ -72,8 +69,7 @@ public class TestJsonConverter {
     @Test
     public void deserializeCatalogTest() throws ConvertException {
         String jsonString = "{\"availableGoods\":{\"{\\\"name\\\":\\\"Samsung Galaxy A30\\\",\\\"price\\\":5500,\\\"releaseDate\\\":\\\"2019-06-15\\\",\\\"color\\\":\\\"BLACK\\\",\\\"ram\\\":3072,\\\"diagonal\\\":6.4}\":5}}";
-        Catalog expected = catalog;
         Catalog actual = catalogJsonConverter.deserializeString(jsonString);
-        Assert.assertEquals(actual, expected);
+        Assert.assertEquals(actual, catalog);
     }
 }

@@ -46,7 +46,7 @@ public class TestSmartPhoneTextConverter {
 
     @Test(expectedExceptions = ConvertException.class)
     public void negativeDeserializeStringTest() throws ConvertException {
-        String serialized = "Str-Samsung Galaxy A30-BLACK-6.4-3072-5500-2019\\-06\\-15";
+        String serialized = "Samsung Galaxy A30-JNKS-6.4-3072-5500-2019\\-36\\-15";
         SmartPhone actual = smartPhoneTextConverter.deserializeString(serialized);
         Assert.assertEquals(actual, smartPhone);
     }

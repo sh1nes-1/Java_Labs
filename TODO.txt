@@ -1,3 +1,5 @@
+# 29.10.2019 ##
+
 Lab2
 - Ask about packages in service
 - Ask about Files in interface Converter
@@ -5,3 +7,10 @@ Lab2
 
 Lab3
 - Ask about Comparable in SmartPhone and what else to do
+
+## 30.10.2019 ##
+- Додати ID в SmartPhone
+- В 3 лабі зробити Comparable по ReleaseDate
+- Вирішити проблему в XML (почитати про Adapter)
+- Тернарний оператор в сервісі
+Xml Java Type Adapter

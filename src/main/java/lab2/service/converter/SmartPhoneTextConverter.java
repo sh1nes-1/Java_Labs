@@ -13,6 +13,7 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
 
     private final String FIELDS_SEPARATOR = "-";
 
+
     private Object[] getSmartPhoneFields(SmartPhone smartPhone) {
         return new Object[] {
             smartPhone.getName(), smartPhone.getColor(), smartPhone.getDiagonal(), smartPhone.getRam(),
