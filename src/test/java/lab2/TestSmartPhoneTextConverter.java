@@ -21,6 +21,7 @@ public class TestSmartPhoneTextConverter {
     @BeforeMethod
     public void beforeMethod() {
         smartPhone = new SmartPhone.Builder()
+                .setId(1)
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
                 .setColor(SmartPhone.Color.BLACK)
@@ -32,14 +33,14 @@ public class TestSmartPhoneTextConverter {
 
     @Test
     public void serializeToStringTest() throws ConvertException {
-        String expected = "Samsung Galaxy A30-BLACK-6.4-3072-5500-2019\\-06\\-15";
+        String expected = "1-Samsung Galaxy A30-BLACK-6.4-3072-5500-2019\\-06\\-15";
         String actual = smartPhoneTextConverter.serializeToString(smartPhone);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void deserializeStringTest() throws ConvertException {
-        String serialized = "Samsung Galaxy A30-BLACK-6.4-3072-5500-2019\\-06\\-15";
+        String serialized = "1-Samsung Galaxy A30-BLACK-6.4-3072-5500-2019\\-06\\-15";
         SmartPhone actual = smartPhoneTextConverter.deserializeString(serialized);
         Assert.assertEquals(actual, smartPhone);
     }

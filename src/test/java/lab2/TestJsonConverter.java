@@ -27,6 +27,7 @@ public class TestJsonConverter {
     @BeforeMethod
     public void beforeMethod() {
         smartPhone = new SmartPhone.Builder()
+                .setId(1)
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
                 .setColor(SmartPhone.Color.BLACK)
@@ -41,14 +42,14 @@ public class TestJsonConverter {
 
     @Test
     public void serializeToStringTest() throws ConvertException {
-        String expected = "{\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
+        String expected = "{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
         String actual = smartPhoneJsonConverter.serializeToString(smartPhone);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void deserializeStringTest() throws ConvertException {
-        String jsonString = "{\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
+        String jsonString = "{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
         SmartPhone actual = smartPhoneJsonConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, smartPhone);
     }
@@ -61,14 +62,14 @@ public class TestJsonConverter {
 
     @Test
     public void serializeCatalogTest() throws ConvertException {
-        String expected = "{\"availableGoods\":{\"{\\\"name\\\":\\\"Samsung Galaxy A30\\\",\\\"price\\\":5500,\\\"releaseDate\\\":\\\"2019-06-15\\\",\\\"color\\\":\\\"BLACK\\\",\\\"ram\\\":3072,\\\"diagonal\\\":6.4}\":5}}";
+        String expected = "{\"availableGoods\":{\"{\\\"id\\\":1,\\\"name\\\":\\\"Samsung Galaxy A30\\\",\\\"price\\\":5500,\\\"releaseDate\\\":\\\"2019-06-15\\\",\\\"color\\\":\\\"BLACK\\\",\\\"ram\\\":3072,\\\"diagonal\\\":6.4}\":5}}";
         String actual = catalogJsonConverter.serializeToString(catalog);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void deserializeCatalogTest() throws ConvertException {
-        String jsonString = "{\"availableGoods\":{\"{\\\"name\\\":\\\"Samsung Galaxy A30\\\",\\\"price\\\":5500,\\\"releaseDate\\\":\\\"2019-06-15\\\",\\\"color\\\":\\\"BLACK\\\",\\\"ram\\\":3072,\\\"diagonal\\\":6.4}\":5}}";
+        String jsonString = "{\"availableGoods\":{\"{\\\"id\\\":1,\\\"name\\\":\\\"Samsung Galaxy A30\\\",\\\"price\\\":5500,\\\"releaseDate\\\":\\\"2019-06-15\\\",\\\"color\\\":\\\"BLACK\\\",\\\"ram\\\":3072,\\\"diagonal\\\":6.4}\":5}}";
         Catalog actual = catalogJsonConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, catalog);
     }

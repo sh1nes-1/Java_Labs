@@ -9,7 +9,7 @@ Lab3
 - Ask about Comparable in SmartPhone and what else to do
 
 ## 30.10.2019 ##
-- Додати ID в SmartPhone
+- Додати ID в SmartPhone (готово)
 - В 3 лабі зробити Comparable по ReleaseDate (готово)
 - Вирішити проблему в XML (почитати про Adapter)
 - Тернарний оператор в сервісі (готово)

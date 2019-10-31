@@ -24,6 +24,7 @@ public class TestXmlConverter {
     @BeforeMethod
     public void beforeMethod() {
         smartPhone = new SmartPhone.Builder()
+                .setId(1)
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
                 .setColor(SmartPhone.Color.BLACK)
@@ -35,14 +36,14 @@ public class TestXmlConverter {
 
     @Test
     public void serializeToStringTest() throws ConvertException {
-        String expected = "<SmartPhone><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
+        String expected = "<SmartPhone><id>1</id><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
         String actual = xmlConverter.serializeToString(smartPhone);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void deserializeStringTest() throws ConvertException {
-        String jsonString = "<SmartPhone><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
+        String jsonString = "<SmartPhone><id>1</id><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
         SmartPhone expected = smartPhone;
         SmartPhone actual = xmlConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, expected);

@@ -6,17 +6,18 @@ import lab2.service.Converter;
 
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class SmartPhoneTextConverter implements Converter<SmartPhone> {
 
     private final String FIELDS_SEPARATOR = "-";
-    private final Integer FIELDS_COUNT = 6;
+    private final Integer FIELDS_COUNT = 7;
 
     private Object[] getSmartPhoneFields(SmartPhone smartPhone) {
         return new Object[] {
-            smartPhone.getName(), smartPhone.getColor(), smartPhone.getDiagonal(), smartPhone.getRam(),
+            smartPhone.getId(), smartPhone.getName(), smartPhone.getColor(), smartPhone.getDiagonal(), smartPhone.getRam(),
             smartPhone.getPrice(), smartPhone.getReleaseDate()
         };
     }
@@ -42,15 +43,16 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
                 throw new Exception("Invalid format of string!");
             }
 
-            stringFields = Arrays.stream(stringFields).map(s -> s.replace("\\" + FIELDS_SEPARATOR, FIELDS_SEPARATOR)).toArray(String[]::new);
+            Iterator<String> fieldsIterator = Arrays.stream(stringFields).map(s -> s.replace("\\" + FIELDS_SEPARATOR, FIELDS_SEPARATOR)).iterator();
 
             return new SmartPhone.Builder()
-                    .setName(stringFields[0])
-                    .setColor(SmartPhone.Color.valueOf(stringFields[1]))
-                    .setDiagonal(Double.parseDouble(stringFields[2]))
-                    .setRam(Integer.parseInt(stringFields[3]))
-                    .setPrice(Integer.parseInt(stringFields[4]))
-                    .setReleaseDate(LocalDate.parse(stringFields[5]))
+                    .setId(Integer.parseInt(fieldsIterator.next()))
+                    .setName(fieldsIterator.next())
+                    .setColor(SmartPhone.Color.valueOf(fieldsIterator.next()))
+                    .setDiagonal(Double.parseDouble(fieldsIterator.next()))
+                    .setRam(Integer.parseInt(fieldsIterator.next()))
+                    .setPrice(Integer.parseInt(fieldsIterator.next()))
+                    .setReleaseDate(LocalDate.parse(fieldsIterator.next()))
                     .build();
         }
         catch (Exception ex) {
