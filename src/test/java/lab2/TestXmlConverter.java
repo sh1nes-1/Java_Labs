@@ -13,12 +13,16 @@ import java.time.LocalDate;
 
 public class TestXmlConverter {
 
-    private XmlConverter<SmartPhone> xmlConverter;
+    private XmlConverter<SmartPhone> smartPhoneXmlConverter;
     private SmartPhone smartPhone;
+
+    private XmlConverter<Catalog> catalogXmlConverter;
+    private Catalog catalog;
 
     @BeforeTest
     public void beforeTest() {
-        xmlConverter = new XmlConverter<>(SmartPhone.class);
+        smartPhoneXmlConverter = new XmlConverter<>(SmartPhone.class);
+        catalogXmlConverter = new XmlConverter<>(Catalog.class);
     }
 
     @BeforeMethod
@@ -32,36 +36,44 @@ public class TestXmlConverter {
                 .setReleaseDate(LocalDate.of(2019, 6, 15))
                 .setPrice(5500)
                 .build();
+
+        // In catalog only item because items in catalog store in set (unordered) and after serialization order may be random
+        catalog = new Catalog();
+        catalog.addGoodsItem(smartPhone, 5);
     }
 
     @Test
     public void serializeToStringTest() throws ConvertException {
         String expected = "<SmartPhone><id>1</id><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
-        String actual = xmlConverter.serializeToString(smartPhone);
+        String actual = smartPhoneXmlConverter.serializeToString(smartPhone);
         Assert.assertEquals(actual, expected);
     }
 
     @Test
     public void deserializeStringTest() throws ConvertException {
         String jsonString = "<SmartPhone><id>1</id><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
-        SmartPhone expected = smartPhone;
-        SmartPhone actual = xmlConverter.deserializeString(jsonString);
-        Assert.assertEquals(actual, expected);
+        SmartPhone actual = smartPhoneXmlConverter.deserializeString(jsonString);
+        Assert.assertEquals(actual, smartPhone);
     }
 
     @Test(expectedExceptions = ConvertException.class)
     public void negativeDeserializeStringTest() throws ConvertException {
         String jsonString = "<SmartPhone><name>Samsung Galaxy A30</name><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></SmartPhone>";
-        SmartPhone expected = smartPhone;
-        SmartPhone actual = xmlConverter.deserializeString(jsonString);
-        Assert.assertEquals(actual, expected);
+        SmartPhone actual = smartPhoneXmlConverter.deserializeString(jsonString);
+        Assert.assertEquals(actual, smartPhone);
     }
 
     @Test
     public void serializeCatalogTest() throws ConvertException {
-        Catalog catalog = new Catalog();
-        catalog.addGoodsItem(smartPhone, 2);
-        System.out.println(xmlConverter.serializeToString(catalog));
-        throw new ConvertException("Check me");
+        String expected = "<Catalog><SmartPhones><item><smartPhone><id>1</id><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></smartPhone><amount>5</amount></item></SmartPhones></Catalog>";
+        String actual = catalogXmlConverter.serializeToString(catalog);
+        Assert.assertEquals(actual, expected);
+    }
+
+    @Test
+    public void deserializeCatalogTest() throws ConvertException {
+        String xmlString = "<Catalog><SmartPhones><item><smartPhone><id>1</id><name>Samsung Galaxy A30</name><price>5500</price><releaseDate>2019-06-15</releaseDate><color>BLACK</color><ram>3072</ram><diagonal>6.4</diagonal></smartPhone><amount>5</amount></item></SmartPhones></Catalog>";
+        Catalog actual = catalogXmlConverter.deserializeString(xmlString);
+        Assert.assertEquals(actual, catalog);
     }
 }

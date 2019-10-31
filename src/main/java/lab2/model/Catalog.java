@@ -1,10 +1,9 @@
 package lab2.model;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lab2.service.SmartPhoneJsonDeserializer;
-import lab2.service.SmartPhoneJsonSerializer;
+import lab2.service.catalog.CatalogDeserializer;
+import lab2.service.catalog.CatalogSerializer;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -12,11 +11,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY, getterVisibility = JsonAutoDetect.Visibility.NONE)
+@JsonSerialize(using = CatalogSerializer.class)
+@JsonDeserialize(using = CatalogDeserializer.class)
 public class Catalog implements Serializable {
 
-    @JsonSerialize(keyUsing = SmartPhoneJsonSerializer.class)
-    @JsonDeserialize(keyUsing = SmartPhoneJsonDeserializer.class)
     private Map<SmartPhone, Integer> availableGoods;
 
     public Catalog() {

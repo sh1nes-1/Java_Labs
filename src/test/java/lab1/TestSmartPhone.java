@@ -28,7 +28,7 @@ public class TestSmartPhone {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test(expectedExceptions = IllegalStateException.class)
     public void builderNegativeTest1() {
         SmartPhone samsungA30 = new SmartPhone.Builder()
                 .setName("Samsung Galaxy A30")
