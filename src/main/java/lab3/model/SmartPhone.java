@@ -16,7 +16,7 @@ import java.util.Set;
  *                 .setRam(2048)
  *                 .build();
  */
-public class SmartPhone implements Serializable {
+public class SmartPhone implements Serializable, Comparable<SmartPhone> {
 
     public enum Color {
         BLACK,
@@ -117,7 +117,10 @@ public class SmartPhone implements Serializable {
         return result;
     }
 
-
+    @Override
+    public int compareTo(SmartPhone other) {
+        return releaseDate.compareTo(other.releaseDate);
+    }
 
     /**
      * Use this to build new SmartPhone

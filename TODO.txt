@@ -10,7 +10,7 @@ Lab3
 
 ## 30.10.2019 ##
 - Додати ID в SmartPhone
-- В 3 лабі зробити Comparable по ReleaseDate
+- В 3 лабі зробити Comparable по ReleaseDate (готово)
 - Вирішити проблему в XML (почитати про Adapter)
-- Тернарний оператор в сервісі
+- Тернарний оператор в сервісі (готово)
 Xml Java Type Adapter

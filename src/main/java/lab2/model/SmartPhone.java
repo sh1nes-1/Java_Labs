@@ -34,6 +34,7 @@ public class SmartPhone implements Serializable {
 
 
     // all fields cant be changed and assigned once in builder
+    private Integer id;
     private String name;
     private Integer price;
 
@@ -48,7 +49,7 @@ public class SmartPhone implements Serializable {
         // Private constructor to deny creating new instance outside by constructor
     }
 
-
+    public Integer getId() { return id; }
 
     public String getName() {
         return name;
@@ -105,27 +106,26 @@ public class SmartPhone implements Serializable {
 
         SmartPhone that = (SmartPhone) o;
 
-        if (!Objects.equals(ram, that.ram)) return false;
-        if (Double.compare(that.diagonal, diagonal) != 0) return false;
-        if (!Objects.equals(name, that.name)) return false;
-        if (!Objects.equals(releaseDate, that.releaseDate)) return false;
-        return color == that.color;
+        if (!id.equals(that.id)) return false;
+        if (!name.equals(that.name)) return false;
+        if (!price.equals(that.price)) return false;
+        if (!releaseDate.equals(that.releaseDate)) return false;
+        if (color != that.color) return false;
+        if (!ram.equals(that.ram)) return false;
+        return diagonal.equals(that.diagonal);
     }
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (releaseDate != null ? releaseDate.hashCode() : 0);
-        result = 31 * result + (color != null ? color.hashCode() : 0);
-        result = 31 * result + ram;
-        temp = Double.doubleToLongBits(diagonal);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        int result = id.hashCode();
+        result = 31 * result + name.hashCode();
+        result = 31 * result + price.hashCode();
+        result = 31 * result + releaseDate.hashCode();
+        result = 31 * result + color.hashCode();
+        result = 31 * result + ram.hashCode();
+        result = 31 * result + diagonal.hashCode();
         return result;
     }
-
-
 
     /**
      * Use this to build new SmartPhone
@@ -137,6 +137,11 @@ public class SmartPhone implements Serializable {
 
         public Builder() {
             smartPhone = new SmartPhone();
+        }
+
+        public Builder setId(Integer id) {
+            smartPhone.id = id;
+            return this;
         }
 
         public Builder setName(String name) {
@@ -194,6 +199,7 @@ public class SmartPhone implements Serializable {
             // Not initialized fields
             Set<String> notInitializedFields = new HashSet<>();
 
+            if (smartPhone.id == null) notInitializedFields.add("id");
             if (smartPhone.name == null) notInitializedFields.add("name");
             if (smartPhone.price == null) notInitializedFields.add("price");
             if (smartPhone.releaseDate == null) notInitializedFields.add("releaseDate");
@@ -208,6 +214,7 @@ public class SmartPhone implements Serializable {
             // Value <= 0
             Set<String> lessZeroFields = new HashSet<>();
 
+            if (smartPhone.id <= 0) lessZeroFields.add("id");
             if (smartPhone.price <= 0) lessZeroFields.add("price");
             if (smartPhone.ram <= 0) lessZeroFields.add("ram");
             if (smartPhone.diagonal <= 0) lessZeroFields.add("diagonal");

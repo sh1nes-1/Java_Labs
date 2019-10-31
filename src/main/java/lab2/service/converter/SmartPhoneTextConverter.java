@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 public class SmartPhoneTextConverter implements Converter<SmartPhone> {
 
     private final String FIELDS_SEPARATOR = "-";
-
+    private final Integer FIELDS_COUNT = 6;
 
     private Object[] getSmartPhoneFields(SmartPhone smartPhone) {
         return new Object[] {
@@ -37,7 +37,8 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
     public SmartPhone deserializeString(String serializedString) throws ConvertException {
         try {
             String[] stringFields = serializedString.split("(?<!\\\\)" + FIELDS_SEPARATOR);
-            if (stringFields.length != 6) {
+
+            if (stringFields.length != FIELDS_COUNT) {
                 throw new Exception("Invalid format of string!");
             }
 
