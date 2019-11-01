@@ -26,7 +26,12 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
     public String serializeToString(SmartPhone smartPhone) throws ConvertException {
         try {
             Object[] smartPhoneFields = getSmartPhoneFields(smartPhone);
-            List<String> stringFields = Arrays.stream(smartPhoneFields).map(Object::toString).map(o -> o.replace(FIELDS_SEPARATOR, "\\" + FIELDS_SEPARATOR)).collect(Collectors.toList());
+
+            List<String> stringFields = Arrays.stream(smartPhoneFields)
+                    .map(Object::toString)
+                    .map(o -> o.replace(FIELDS_SEPARATOR, "\\" + FIELDS_SEPARATOR))
+                    .collect(Collectors.toList());
+
             return String.join(FIELDS_SEPARATOR, stringFields);
         }
         catch (Exception ex) {
