@@ -5,14 +5,12 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import lab4.service.NotOlderYear;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -43,15 +41,34 @@ public class SmartPhone implements Serializable {
     // all fields cant be changed and assigned once in builder
     @NotNull
     private Integer id;
+
+    @NotNull
     private String name;
+
+    @NotNull
     @Positive
+    @Min(1000)
+    @Max(500000)
     private Integer price;
 
+    @NotNull
+    @NotOlderYear(2014)
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
 
+    @NotNull
     private Color color;
+
+    @NotNull
+    @Positive
+    @Min(1024)
+    @Max(8096)
     private Integer ram;
+
+    @NotNull
+    @Positive
+    @Min(3)
+    @Max(10)
     private Double diagonal;
 
     private SmartPhone() {
