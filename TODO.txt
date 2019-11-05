@@ -16,8 +16,9 @@ Lab3
 - Xml Java Type Adapter (skip)
 
 ## 1.11.2019 ##
-hamcrest для тестів
+hamcrest для тестів (no)
+зробити щоб тести працювали для багатьох елементів (готово)
 constraints
-написати свою анотацію (https://www.baeldung.com/javax-validation-method-constraints) для SmartPhone releaseDate
-наприклад щоб не можна було поставити дату не раніше ніж 5 років
-всередині build використати валідацію
+написати свою анотацію (https://www.baeldung.com/javax-validation-method-constraints) для SmartPhone releaseDate (готово)
+наприклад щоб не можна було поставити дату не раніше ніж 5 років (готово)
+всередині build використати валідацію (готово)

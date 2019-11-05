@@ -15,98 +15,77 @@ import lab2.model.Catalog;
 import lab2.model.SmartPhone;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CatalogDeserializer extends StdDeserializer<Catalog> {
     protected CatalogDeserializer() {
         super(Catalog.class);
     }
 
-        /* OLD deserialize
-
-        Catalog result = new Catalog();
-
-        JsonNode rootNote = jp.getCodec().readTree(jp);
-
-        if (jp instanceof FromXmlParser) {
-            rootNote = rootNote.get("Catalog");
-        }
-
-        JsonNode catalogNode = rootNote.get("SmartPhones");
-
-        //if (!catalogNode.isArray())
-          //  throw new JsonParseException(jp, "Array expected");
-
-        ObjectMapper mapper;
-        if (jp instanceof FromXmlParser) {
-             mapper = new XmlMapper();
-        } else {
-             mapper = new ObjectMapper();
-        }
-
-        for (JsonNode item : catalogNode) {
-            if (jp instanceof FromXmlParser) {
-                item = item.get("item");
-            }
-
-            SmartPhone smartPhone = mapper.readValue(item.get("smartPhone").toString(), SmartPhone.class);
-            Integer amount = item.get("amount").asInt();
-            result.addGoodsItem(smartPhone, amount);
-        }
-
-        return result;
-
-     */
-
     @Override
     public Catalog deserialize(JsonParser jp, DeserializationContext context) throws IOException {
 
         Catalog result = new Catalog();
 
-        // startObject
+        /* DEBUG
+        JsonToken jit = jp.currentToken();
+        List<String> tokens = new ArrayList<>();
+        while (jp.hasCurrentToken()) {
+            tokens.add(jit.toString());
+            jit = jp.nextToken();
+        }
+        Files.writeString(Path.of("D:\\tokens.txt"), tokens.toString());
+        */
+
+        // Skip START_OBJECT
         JsonToken jt = jp.nextToken();
 
-        // SmartPhones fieldName
+        // Skip FIELD_NAME (SmartPhones)
         jt = jp.nextToken();
 
-        // SmartPhones startObject
+        // Skip START_ARRAY (JSON) | START_OBJECT (XML)
+        jt = jp.nextToken();
+
+        // Skip XML FIELD_NAME (item)
         if (jp instanceof FromXmlParser) {
             jt = jp.nextToken();
         }
 
         XmlMapper mapper = new XmlMapper();
 
-        do {
-            if (jp instanceof FromXmlParser) {
-                // item fieldName start
-                jt = jp.nextToken();
-            }
-
-            // item
+        while (jp.currentToken() == JsonToken.START_OBJECT) {
+            // Skip START_OBJECT
             jt = jp.nextToken();
 
-            // smartPhone fieldName
+            // Skip FIELD_NAME (smartPhone)
             jt = jp.nextToken();
 
-            // smartPhone object
-            jt = jp.nextToken();
             SmartPhone smartPhone = mapper.readValue(jp, SmartPhone.class);
 
-            // amount fieldName
+            // Skip smartPhone
             jt = jp.nextToken();
 
-            // amount object
+            // Skip FIELD_NAME (amount)
             jt = jp.nextToken();
+
             Integer amount = jp.getValueAsInt();
 
-            // add to result
-            result.addGoodsItem(smartPhone, amount);
+            // Skip VALUE_NUMBER_INT (Amount)
+            jt = jp.nextToken();
 
+            // Skip END_OBJECT
+            jt = jp.nextToken();
+
+            // XML Skip FIELD_NAME (item)
             if (jp instanceof FromXmlParser) {
-                // item endObject
                 jt = jp.nextToken();
             }
+
+            result.addGoodsItem(smartPhone, amount);
         }
-        while (jp.nextToken() != JsonToken.END_OBJECT);
 
         return result;
     }

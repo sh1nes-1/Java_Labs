@@ -4,6 +4,8 @@ import lab2.model.Catalog;
 import lab2.exception.ConvertException;
 import lab2.model.SmartPhone;
 import lab2.service.converter.JsonConverter;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -13,7 +15,8 @@ import java.time.LocalDate;
 public class TestJsonConverter {
 
     private JsonConverter<SmartPhone> smartPhoneJsonConverter;
-    private SmartPhone smartPhone;
+    private SmartPhone smartPhone1;
+    private SmartPhone smartPhone2;
 
     private JsonConverter<Catalog> catalogJsonConverter;
     private Catalog catalog;
@@ -26,7 +29,7 @@ public class TestJsonConverter {
 
     @BeforeMethod
     public void beforeMethod() {
-        smartPhone = new SmartPhone.Builder()
+        smartPhone1 = new SmartPhone.Builder()
                 .setId(1)
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
@@ -36,14 +39,25 @@ public class TestJsonConverter {
                 .setPrice(5500)
                 .build();
 
+        smartPhone2 = new SmartPhone.Builder()
+                .setId(2)
+                .setName("Xiaomi Redmi Note 7")
+                .setDiagonal(6.8)
+                .setColor(SmartPhone.Color.RED)
+                .setRam(4096)
+                .setReleaseDate(LocalDate.of(2019, 8, 16))
+                .setPrice(6800)
+                .build();
+
         catalog = new Catalog();
-        catalog.addGoodsItem(smartPhone, 5);
+        catalog.addGoodsItem(smartPhone1, 5);
+        catalog.addGoodsItem(smartPhone2, 10);
     }
 
     @Test
     public void serializeToStringTest() throws ConvertException {
         String expected = "{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
-        String actual = smartPhoneJsonConverter.serializeToString(smartPhone);
+        String actual = smartPhoneJsonConverter.serializeToString(smartPhone1);
         Assert.assertEquals(actual, expected);
     }
 
@@ -51,7 +65,7 @@ public class TestJsonConverter {
     public void deserializeStringTest() throws ConvertException {
         String jsonString = "{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4}";
         SmartPhone actual = smartPhoneJsonConverter.deserializeString(jsonString);
-        Assert.assertEquals(actual, smartPhone);
+        Assert.assertEquals(actual, smartPhone1);
     }
 
     @Test(expectedExceptions = ConvertException.class)
@@ -61,15 +75,15 @@ public class TestJsonConverter {
     }
 
     @Test
-    public void serializeCatalogTest() throws ConvertException {
-        String expected = "{\"SmartPhones\":[{\"smartPhone\":{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4},\"amount\":5}]}";
+    public void serializeCatalogTest() throws ConvertException, JSONException {
+        String expected = "{\"SmartPhones\":[{\"smartPhone\":{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4},\"amount\":5},{\"smartPhone\":{\"id\":2,\"name\":\"Xiaomi Redmi Note 7\",\"price\":6800,\"releaseDate\":\"2019-08-16\",\"color\":\"RED\",\"ram\":4096,\"diagonal\":6.8},\"amount\":10}]}";
         String actual = catalogJsonConverter.serializeToString(catalog);
-        Assert.assertEquals(actual, expected);
+        JSONAssert.assertEquals(actual, expected, false);
     }
 
     @Test
     public void deserializeCatalogTest() throws ConvertException {
-        String jsonString = "{\"SmartPhones\":[{\"smartPhone\":{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4},\"amount\":5}]}";
+        String jsonString = "{\"SmartPhones\":[{\"smartPhone\":{\"id\":1,\"name\":\"Samsung Galaxy A30\",\"price\":5500,\"releaseDate\":\"2019-06-15\",\"color\":\"BLACK\",\"ram\":3072,\"diagonal\":6.4},\"amount\":5},{\"smartPhone\":{\"id\":2,\"name\":\"Xiaomi Redmi Note 7\",\"price\":6800,\"releaseDate\":\"2019-08-16\",\"color\":\"RED\",\"ram\":4096,\"diagonal\":6.8},\"amount\":10}]}";
         Catalog actual = catalogJsonConverter.deserializeString(jsonString);
         Assert.assertEquals(actual, catalog);
     }
