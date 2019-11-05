@@ -4,8 +4,6 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
-import static java.time.temporal.ChronoUnit.YEARS;
-
 public class NotOlderYearValidator implements ConstraintValidator<NotOlderYear, LocalDate> {
 
     private int annotationYear;

@@ -5,9 +5,6 @@ import lab2.exception.ConvertException;
 import lab2.service.Converter;
 
 import java.io.Serializable;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 public class JsonConverter<T extends Serializable> implements Converter<T> {
 

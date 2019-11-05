@@ -4,7 +4,6 @@ import lab2.exception.ConvertException;
 
 import java.io.File;
 import java.io.Serializable;
-import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
