@@ -52,7 +52,7 @@ public class SmartPhone implements Serializable {
     private Integer price;
 
     @NotNull
-    @NotOlderYear(2014)
+    @NotOlderYear(value = 2014, message = "")
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
 

@@ -8,12 +8,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-import org.xml.sax.SAXException;
 import org.xmlunit.diff.DefaultNodeMatcher;
 import org.xmlunit.diff.ElementSelectors;
 import org.xmlunit.matchers.CompareMatcher;
 
-import java.io.IOException;
 import java.time.LocalDate;
 
 import static org.hamcrest.MatcherAssert.assertThat;

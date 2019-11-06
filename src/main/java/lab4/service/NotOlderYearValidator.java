@@ -9,8 +9,8 @@ public class NotOlderYearValidator implements ConstraintValidator<NotOlderYear, 
     private int annotationYear;
 
     @Override
-    public void initialize(NotOlderYear dateRange) {
-        this.annotationYear = dateRange.value();
+    public void initialize(NotOlderYear notOlderYear) {
+        this.annotationYear = notOlderYear.value();
     }
 
     @Override

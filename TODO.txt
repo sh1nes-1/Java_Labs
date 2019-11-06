@@ -25,3 +25,6 @@ constraints
 
 ## 05.11.2019 ##
 спитати як саме потрібно робити таблиці
+connector
+url and pass and user - property
+dao

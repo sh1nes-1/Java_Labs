@@ -16,7 +16,6 @@ public class TestJsonConverter {
 
     private JsonConverter<SmartPhone> smartPhoneJsonConverter;
     private SmartPhone smartPhone1;
-    private SmartPhone smartPhone2;
 
     private JsonConverter<Catalog> catalogJsonConverter;
     private Catalog catalog;
@@ -39,7 +38,7 @@ public class TestJsonConverter {
                 .setPrice(5500)
                 .build();
 
-        smartPhone2 = new SmartPhone.Builder()
+        SmartPhone smartPhone2 = new SmartPhone.Builder()
                 .setId(2)
                 .setName("Xiaomi Redmi Note 7")
                 .setDiagonal(6.8)
