@@ -5,6 +5,7 @@ import lab2.exception.ConvertException;
 import lab2.service.converter.SmartPhoneTextConverter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
@@ -45,10 +46,20 @@ public class TestSmartPhoneTextConverter {
         Assert.assertEquals(actual, smartPhone);
     }
 
-    @Test(expectedExceptions = ConvertException.class)
-    public void negativeDeserializeStringTest() throws ConvertException {
-        String serialized = "Samsung Galaxy A30-JNKS-6.4-3072-5500-2019\\-36\\-15";
-        SmartPhone actual = smartPhoneTextConverter.deserializeString(serialized);
-        Assert.assertEquals(actual, smartPhone);
+
+    @DataProvider
+    public Object[][] negativeDeserializeStringDataProvider() {
+        return new Object[][] {
+                { "Samsung Galaxy A30-JNKS-6.4-3072-5500-2019\\-36\\-15" },
+                { "Samsung Galaxy A30-6.4-3072-5500-2019-36-15" },
+                { "Samsung Galaxy A30-6.4-string-5500-2019\\-36\\-15" },
+                { "Samsung Galaxy A30-6.4-3072.0-5500-2019\\-36\\-15" },
+                { "Samsung Galaxy A30-3072-5500-2019\\-36\\-15" }
+        };
+    }
+
+    @Test(expectedExceptions = ConvertException.class, dataProvider = "negativeDeserializeStringDataProvider")
+    public void negativeDeserializeStringTest(String serializedString) throws ConvertException {
+        smartPhoneTextConverter.deserializeString(serializedString);
     }
 }
