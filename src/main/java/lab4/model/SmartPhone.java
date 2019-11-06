@@ -43,10 +43,10 @@ public class SmartPhone implements Serializable {
     private Integer id;
 
     @NotNull
+    @NotEmpty
     private String name;
 
     @NotNull
-    @Positive
     @Min(1000)
     @Max(500000)
     private Integer price;
@@ -60,13 +60,11 @@ public class SmartPhone implements Serializable {
     private Color color;
 
     @NotNull
-    @Positive
     @Min(1024)
     @Max(8096)
     private Integer ram;
 
     @NotNull
-    @Positive
     @Min(3)
     @Max(10)
     private Double diagonal;
