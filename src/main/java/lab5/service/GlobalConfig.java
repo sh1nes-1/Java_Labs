@@ -13,8 +13,8 @@ public class GlobalConfig
      * Loads default config
      * @throws IOException if can't read config
      */
-    public static void initGlobalConfig() throws IOException {
-        initGlobalConfig(null);
+    public static void loadGlobalConfig() throws IOException {
+        loadGlobalConfig(null);
     }
 
     /**
@@ -22,7 +22,7 @@ public class GlobalConfig
      * @param name filename of config
      * @throws IOException if can't read config
      */
-    public static void initGlobalConfig(String name) throws IOException {
+    public static void loadGlobalConfig(String name) throws IOException {
         if (name != null && !name.trim().isEmpty()) {
             GLOBAL_CONFIG.load(new FileReader(name));
         } else {
