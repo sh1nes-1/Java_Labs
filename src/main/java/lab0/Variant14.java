@@ -3,7 +3,6 @@ package lab0;
 public class Variant14 {
 
     /**
-     *
      * @param l length of circle
      * @return Pair with R and S of circle
      */
@@ -14,7 +13,6 @@ public class Variant14 {
     }
 
     /**
-     *
      * @param number 3 digit integer
      * @return number where last digit moved to start
      * @throws IllegalArgumentException if number < 100 or number > 999
@@ -32,7 +30,6 @@ public class Variant14 {
     }
 
     /**
-     *
      * @param a integer
      * @param b integer
      * @param c integer
@@ -44,7 +41,6 @@ public class Variant14 {
     }
 
     /**
-     *
      * @param a integer
      * @param b integer
      * @param c integer
@@ -67,7 +63,6 @@ public class Variant14 {
     }
 
     /**
-     *
      * @param pIndex index of parameter (1 - a, 2 - r1, 3 - r2, 4 - s)
      * @param pValue value of parameter
      * @return information about triangle
@@ -118,7 +113,6 @@ public class Variant14 {
     }
 
     /**
-     *
      * @param n integer
      * @return square of n
      */
@@ -138,6 +132,7 @@ public class Variant14 {
     /**
      * The number A (> 1) is given. Derive the largest integer K for which the sum of 1 + 1/2 +… + 1 / K
      * will be less than A, and this sum itself.
+     *
      * @param a double ( a > 1 )
      * @return Pair of k and sum
      * @throws IllegalArgumentException if a <= 1
@@ -159,7 +154,6 @@ public class Variant14 {
 
 
     /**
-     *
      * @param arr array of Integer
      * @return Pair of two arrays. First - array of even numbers. Second - not even numbers
      */
@@ -169,19 +163,18 @@ public class Variant14 {
         Integer[] result1 = new Integer[arr.length / 2 + arr.length % 2];
 
         int k = 0;
-        for (int i = 0; i < arr.length; i+=2)
+        for (int i = 0; i < arr.length; i += 2)
             result1[k++] = arr[i];
 
         Integer[] result2 = new Integer[arr.length / 2];
         k = 0;
-        for (int i = 1; i < arr.length; i+=2)
+        for (int i = 1; i < arr.length; i += 2)
             result2[k++] = arr[i];
 
         return new Pair<Integer[], Integer[]>(result1, result2);
     }
 
     /**
-     *
      * @param arr two dimension array of Integer
      * @return index of last row which contains only even numbers
      */

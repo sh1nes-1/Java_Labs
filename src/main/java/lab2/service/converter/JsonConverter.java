@@ -23,8 +23,7 @@ public class JsonConverter<T extends Serializable> implements Converter<T> {
     public String serializeToString(T obj) throws ConvertException {
         try {
             return mapper.writeValueAsString(obj);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ConvertException(ex.getMessage());
         }
     }
@@ -33,8 +32,7 @@ public class JsonConverter<T extends Serializable> implements Converter<T> {
     public T deserializeString(String str) throws ConvertException {
         try {
             return mapper.readValue(str, typeOfClass);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ConvertException(ex.getMessage());
         }
     }

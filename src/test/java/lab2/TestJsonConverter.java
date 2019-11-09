@@ -1,7 +1,7 @@
 package lab2;
 
-import lab2.model.Catalog;
 import lab2.exception.ConvertException;
+import lab2.model.Catalog;
 import lab2.model.SmartPhone;
 import lab2.service.converter.JsonConverter;
 import org.json.JSONException;
@@ -9,8 +9,8 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
 import java.time.LocalDate;
 
 public class TestJsonConverter {

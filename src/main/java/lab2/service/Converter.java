@@ -19,8 +19,7 @@ public interface Converter<T extends Serializable> {
             Path filePath = Path.of(file.toURI());
             String serializedString = serializeToString(obj);
             Files.writeString(filePath, serializedString);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ConvertException(ex.getMessage());
         }
     }
@@ -31,8 +30,7 @@ public interface Converter<T extends Serializable> {
             Path filePath = Path.of(file.toURI());
             String fileContent = Files.readString(filePath);
             return deserializeString(fileContent);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ConvertException(ex.getMessage());
         }
     }

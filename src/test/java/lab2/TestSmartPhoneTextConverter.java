@@ -1,7 +1,7 @@
 package lab2;
 
-import lab2.model.SmartPhone;
 import lab2.exception.ConvertException;
+import lab2.model.SmartPhone;
 import lab2.service.converter.SmartPhoneTextConverter;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -49,12 +49,12 @@ public class TestSmartPhoneTextConverter {
 
     @DataProvider
     public Object[][] negativeDeserializeStringDataProvider() {
-        return new Object[][] {
-                { "Samsung Galaxy A30-JNKS-6.4-3072-5500-2019\\-36\\-15" },
-                { "Samsung Galaxy A30-6.4-3072-5500-2019-36-15" },
-                { "Samsung Galaxy A30-6.4-string-5500-2019\\-36\\-15" },
-                { "Samsung Galaxy A30-6.4-3072.0-5500-2019\\-36\\-15" },
-                { "Samsung Galaxy A30-3072-5500-2019\\-36\\-15" }
+        return new Object[][]{
+                {"Samsung Galaxy A30-JNKS-6.4-3072-5500-2019\\-36\\-15"},
+                {"Samsung Galaxy A30-6.4-3072-5500-2019-36-15"},
+                {"Samsung Galaxy A30-6.4-string-5500-2019\\-36\\-15"},
+                {"Samsung Galaxy A30-6.4-3072.0-5500-2019\\-36\\-15"},
+                {"Samsung Galaxy A30-3072-5500-2019\\-36\\-15"}
         };
     }
 

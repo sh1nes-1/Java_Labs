@@ -6,13 +6,15 @@ import java.lang.annotation.*;
 
 @Documented
 @Constraint(validatedBy = NotOlderThanYearsValidator.class)
-@Target( { ElementType.METHOD, ElementType.FIELD })
+@Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NotOlderThanYears {
 
     int value();
 
     String message() default "{lab4.service.NotOlderThanYears.message}";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }

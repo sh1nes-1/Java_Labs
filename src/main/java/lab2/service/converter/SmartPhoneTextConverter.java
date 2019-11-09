@@ -1,7 +1,7 @@
 package lab2.service.converter;
 
-import lab2.model.SmartPhone;
 import lab2.exception.ConvertException;
+import lab2.model.SmartPhone;
 import lab2.service.Converter;
 
 import java.time.LocalDate;
@@ -16,9 +16,9 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
     private final Integer FIELDS_COUNT = 7;
 
     private Object[] getSmartPhoneFields(SmartPhone smartPhone) {
-        return new Object[] {
-            smartPhone.getId(), smartPhone.getName(), smartPhone.getColor(), smartPhone.getDiagonal(), smartPhone.getRam(),
-            smartPhone.getPrice(), smartPhone.getReleaseDate()
+        return new Object[]{
+                smartPhone.getId(), smartPhone.getName(), smartPhone.getColor(), smartPhone.getDiagonal(), smartPhone.getRam(),
+                smartPhone.getPrice(), smartPhone.getReleaseDate()
         };
     }
 
@@ -33,8 +33,7 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
                     .collect(Collectors.toList());
 
             return String.join(FIELDS_SEPARATOR, stringFields);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ConvertException(ex.getMessage());
         }
     }
@@ -59,8 +58,7 @@ public class SmartPhoneTextConverter implements Converter<SmartPhone> {
                     .setPrice(Integer.parseInt(fieldsIterator.next()))
                     .setReleaseDate(LocalDate.parse(fieldsIterator.next()))
                     .build();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new ConvertException(ex.getMessage());
         }
     }

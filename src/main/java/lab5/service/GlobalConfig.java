@@ -4,13 +4,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class GlobalConfig
-{
+public class GlobalConfig {
     private static final String CONFIG_NAME = "config.properties";
     private static final Properties GLOBAL_CONFIG = new Properties();
 
     /**
      * Loads default config
+     *
      * @throws IOException if can't read config
      */
     public static void loadGlobalConfig() throws IOException {
@@ -19,6 +19,7 @@ public class GlobalConfig
 
     /**
      * Loads config with given name
+     *
      * @param name filename of config
      * @throws IOException if can't read config
      */
@@ -32,6 +33,7 @@ public class GlobalConfig
 
     /**
      * Gets value from loaded config
+     *
      * @param property key (name) of needed property
      * @return value of needed property
      */

@@ -8,7 +8,9 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.xml.deser.FromXmlParser;
 import lab2.model.Catalog;
 import lab2.model.SmartPhone;
+
 import java.io.IOException;
+
 public class CatalogDeserializer extends StdDeserializer<Catalog> {
     protected CatalogDeserializer() {
         super(Catalog.class);

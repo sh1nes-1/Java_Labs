@@ -22,7 +22,6 @@ public class Catalog implements Serializable {
     }
 
     /**
-     *
      * @return Map of all SmartPhones and its Count
      */
     public Map<SmartPhone, Integer> getGoods() {
@@ -30,30 +29,33 @@ public class Catalog implements Serializable {
     }
 
     /**
-     *
      * @return Set of all SmartPhones
      */
-    public Set<SmartPhone> getSmartPhones() { return availableGoods.keySet(); }
+    public Set<SmartPhone> getSmartPhones() {
+        return availableGoods.keySet();
+    }
 
     /**
      * Adds NEW item to Catalog
+     *
      * @param smartPhone SmartPhone
-     * @param count Integer
+     * @param count      Integer
      * @return true if success, false if key already exists
      */
     public boolean addGoodsItem(SmartPhone smartPhone, Integer count) {
-       if (count <= 0)
-           throw new IllegalArgumentException("Count must be > 0");
+        if (count <= 0)
+            throw new IllegalArgumentException("Count must be > 0");
 
-       if (availableGoods.containsKey(smartPhone))
-           return false;
+        if (availableGoods.containsKey(smartPhone))
+            return false;
 
-       availableGoods.put(smartPhone, count);
-       return true;
+        availableGoods.put(smartPhone, count);
+        return true;
     }
 
     /**
      * Get count of some SmartPhone
+     *
      * @param smartPhone some SmartPhone that exists in Catalog
      * @return Integer count of such SmartPhones or null if not exists
      */
@@ -62,9 +64,8 @@ public class Catalog implements Serializable {
     }
 
     /**
-     *
      * @param smartPhone SmartPhone
-     * @param count value that will be added to count
+     * @param count      value that will be added to count
      * @return true if success, false if such key not found
      */
     public boolean addItemCount(SmartPhone smartPhone, Integer count) {
@@ -76,9 +77,8 @@ public class Catalog implements Serializable {
     }
 
     /**
-     *
      * @param smartPhone SmartPhone
-     * @param count value by which count will be reduced
+     * @param count      value by which count will be reduced
      * @return true if success, false if such key not found
      */
     public boolean subItemCount(SmartPhone smartPhone, Integer count) {

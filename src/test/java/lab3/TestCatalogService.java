@@ -1,14 +1,13 @@
 package lab3;
 
-import lab3.model.SmartPhone;
 import lab3.model.Catalog;
+import lab3.model.SmartPhone;
 import lab3.service.CatalogService;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.SortedMap;
 
@@ -75,7 +74,7 @@ public class TestCatalogService {
         Catalog catalog = catalogService.searchGoodsByName("Xiaomi", false);
 
         Set<SmartPhone> actual = catalog.getSmartPhones();
-        Set<Object> expected = Set.of(new Object[]{ redmiNote7, redmi7 });
+        Set<Object> expected = Set.of(new Object[]{redmiNote7, redmi7});
 
         Assert.assertEquals(actual, expected);
     }
@@ -85,7 +84,7 @@ public class TestCatalogService {
         SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(true);
 
         Object[] actual = sortedGoods.keySet().toArray();
-        Object[] expected = { redmi7, redmiNote7, samsungA30, iphoneX };
+        Object[] expected = {redmi7, redmiNote7, samsungA30, iphoneX};
 
         Assert.assertEquals(actual, expected);
     }
@@ -97,7 +96,7 @@ public class TestCatalogService {
         SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByPrice(false);
 
         Object[] actual = sortedGoods.keySet().toArray();
-        Object[] expected = { iphoneX, samsungA30, redmiNote7, redmi7 };
+        Object[] expected = {iphoneX, samsungA30, redmiNote7, redmi7};
 
         Assert.assertEquals(actual, expected);
     }
@@ -109,7 +108,7 @@ public class TestCatalogService {
         SortedMap<SmartPhone, Integer> sortedGoods = catalogService.getGoodsSortedByReleaseDate(true);
 
         Object[] actual = sortedGoods.keySet().toArray();
-        Object[] expected = { iphoneX, redmi7, redmiNote7, samsungA30 };
+        Object[] expected = {iphoneX, redmi7, redmiNote7, samsungA30};
 
         Assert.assertEquals(actual, expected);
     }
@@ -122,7 +121,7 @@ public class TestCatalogService {
         Catalog resultCatalog2 = new CatalogService(resultCatalog1).searchGoodsWithColor(SmartPhone.Color.BLACK);
 
         Object[] actual = resultCatalog2.getSmartPhones().toArray();
-        Object[] expected = { redmi7 };
+        Object[] expected = {redmi7};
 
         Assert.assertEquals(actual, expected);
     }

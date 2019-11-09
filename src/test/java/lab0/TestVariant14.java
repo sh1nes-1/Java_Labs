@@ -4,8 +4,6 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.util.Arrays;
-
 public class TestVariant14 {
 
     private Variant14 variant14 = new Variant14();
@@ -14,7 +12,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] inputOutputProvider() {
-        return new Object[][] { { 6.28, 0.9999999665910283, 3.139999895095829 } };
+        return new Object[][]{{6.28, 0.9999999665910283, 3.139999895095829}};
     }
 
     @Test(dataProvider = "inputOutputProvider")
@@ -26,7 +24,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] integerTaskProvider() {
-        return new Object[][] { { 200, 20 }, { 325, 532 }, { 999, 999 } };
+        return new Object[][]{{200, 20}, {325, 532}, {999, 999}};
     }
 
     @Test(dataProvider = "integerTaskProvider")
@@ -43,8 +41,8 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] booleanTaskProvider() {
-        return new Object[][] { { -1, 0, 1, true }, { 0, -1, 1, true }, { 0, 1, -1, true },
-                { -1, -1, -1, false }, { 1, 1, 1, false }, { -1, 1, 1, false } };
+        return new Object[][]{{-1, 0, 1, true}, {0, -1, 1, true}, {0, 1, -1, true},
+                {-1, -1, -1, false}, {1, 1, 1, false}, {-1, 1, 1, false}};
     }
 
     @Test(dataProvider = "booleanTaskProvider")
@@ -56,7 +54,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] conditionTaskProvider() {
-        return new Object[][] { { 2, 3, 1, 1, 3 } };
+        return new Object[][]{{2, 3, 1, 1, 3}};
     }
 
     @Test(dataProvider = "conditionTaskProvider")
@@ -68,9 +66,9 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] switchTaskProvider() {
-        TriangleInfo expectedResult = new TriangleInfo(5.0, 1.44,2.88, 10.83);
-        return new Object[][] { { 1, 5.0, expectedResult }, { 2, 1.44, expectedResult },
-                { 3, 2.88, expectedResult }, { 4, 10.83, expectedResult } };
+        TriangleInfo expectedResult = new TriangleInfo(5.0, 1.44, 2.88, 10.83);
+        return new Object[][]{{1, 5.0, expectedResult}, {2, 1.44, expectedResult},
+                {3, 2.88, expectedResult}, {4, 10.83, expectedResult}};
     }
 
     @Test(dataProvider = "switchTaskProvider")
@@ -82,7 +80,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] forTaskProvider() {
-        return new Object[][] { { 2, 4 }, { -3, 9 }, { 9, 81 } };
+        return new Object[][]{{2, 4}, {-3, 9}, {9, 81}};
     }
 
     @Test(dataProvider = "forTaskProvider")
@@ -94,7 +92,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] whileTaskProvider() {
-        return new Object[][] { { 2, 4, 2.08 }, { 3, 11, 3.02 }, { 5, 83, 5.0 }, { 10, 12367, 10.0 } };
+        return new Object[][]{{2, 4, 2.08}, {3, 11, 3.02}, {5, 83, 5.0}, {10, 12367, 10.0}};
     }
 
     @Test(dataProvider = "whileTaskProvider")
@@ -111,7 +109,7 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] arrayTaskProvider() {
-        return new Object[][] { { new Integer[] { 4, 5, 6, 7, 8 }, new Integer[] { 4, 6, 8 }, new Integer[] { 5, 7 } } };
+        return new Object[][]{{new Integer[]{4, 5, 6, 7, 8}, new Integer[]{4, 6, 8}, new Integer[]{5, 7}}};
     }
 
     @Test(dataProvider = "arrayTaskProvider")
@@ -123,18 +121,18 @@ public class TestVariant14 {
 
     @DataProvider
     public Object[][] twoDimensionArrayTaskProvider() {
-        return new Object[][] {
-                { new Integer[][] { { 1, 2, 3 },
-                                    { 4, 8, 6 },
-                                    { 7, 8, 9 } }, 2},
+        return new Object[][]{
+                {new Integer[][]{{1, 2, 3},
+                        {4, 8, 6},
+                        {7, 8, 9}}, 2},
 
-                { new Integer[][] { { 2, 2, 3 },
-                                    { 4, 8, 6 },
-                                    { 6, 6, 8 } }, 3},
+                {new Integer[][]{{2, 2, 3},
+                        {4, 8, 6},
+                        {6, 6, 8}}, 3},
 
-                { new Integer[][] { { 8, 7, 3 },
-                                    { 3, 1, 2 },
-                                    { 6, 2, 7 } }, 0},
+                {new Integer[][]{{8, 7, 3},
+                        {3, 1, 2},
+                        {6, 2, 7}}, 0},
         };
     }
 

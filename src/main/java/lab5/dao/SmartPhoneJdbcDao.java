@@ -1,9 +1,9 @@
 package lab5.dao;
 
 import lab5.exception.DaoException;
+import lab5.exception.DatabaseConnectionException;
 import lab5.model.SmartPhone;
 import lab5.service.connection.ConnectionFactory;
-import lab5.exception.DatabaseConnectionException;
 
 import java.sql.Connection;
 import java.util.List;

@@ -3,16 +3,18 @@ package lab1.model;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * Class, that represents characteristics of SmartPhone
  * Can be created using pattern Builder
  * Example: SmartPhone smartPhone = new SmartPhone.Builder()
- *                 .setName("Some Phone")
- *                 .setColor(Color.BLACK)
- *                 .setRam(2048)
- *                 .build();
+ * .setName("Some Phone")
+ * .setColor(Color.BLACK)
+ * .setRam(2048)
+ * .build();
  */
 public class SmartPhone implements Serializable {
 
@@ -39,13 +41,11 @@ public class SmartPhone implements Serializable {
     }
 
 
-
     public String getName() {
         return name;
     }
 
     /**
-     *
      * @return price in UAH
      */
     public Integer getPrice() {
@@ -61,7 +61,6 @@ public class SmartPhone implements Serializable {
     }
 
     /**
-     *
      * @return RAM capacity in MegaBytes
      */
     public Integer getRam() {
@@ -69,10 +68,11 @@ public class SmartPhone implements Serializable {
     }
 
     /**
-     *
      * @return diagonal of display in inches
      */
-    public Double getDiagonal() { return diagonal; }
+    public Double getDiagonal() {
+        return diagonal;
+    }
 
 
     @Override
@@ -116,7 +116,6 @@ public class SmartPhone implements Serializable {
     }
 
 
-
     /**
      * Use this to build new SmartPhone
      */
@@ -134,7 +133,6 @@ public class SmartPhone implements Serializable {
         }
 
         /**
-         *
          * @param price Price > 0
          * @return instance of this Builder
          */
@@ -154,7 +152,6 @@ public class SmartPhone implements Serializable {
         }
 
         /**
-         *
          * @param ram capacity in MegaBytes
          * @return instance of this Builder
          */
@@ -164,7 +161,6 @@ public class SmartPhone implements Serializable {
         }
 
         /**
-         *
          * @param diagonal Double
          * @return instance of this Builder
          */
@@ -175,6 +171,7 @@ public class SmartPhone implements Serializable {
 
         /**
          * Use it after calling all setters
+         *
          * @return instance of SmartPhone
          * @throws IllegalStateException if you do not set some of fields
          */

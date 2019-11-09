@@ -3,8 +3,6 @@ package lab4;
 import lab4.model.SmartPhone;
 import org.testng.annotations.Test;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.time.LocalDate;
 
 public class TestSmartPhone {

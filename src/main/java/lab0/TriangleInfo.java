@@ -28,7 +28,7 @@ public class TriangleInfo {
         if (obj == null || obj.getClass() != this.getClass())
             return false;
 
-        TriangleInfo tr = (TriangleInfo)obj;
+        TriangleInfo tr = (TriangleInfo) obj;
         return Math.abs(Utils.RoundTwoSigns(a) - Utils.RoundTwoSigns(tr.a)) < EPSILON
                 && Math.abs(Utils.RoundTwoSigns(r1) - Utils.RoundTwoSigns(tr.r1)) < EPSILON
                 && Math.abs(Utils.RoundTwoSigns(r2) - Utils.RoundTwoSigns(tr.r2)) < EPSILON

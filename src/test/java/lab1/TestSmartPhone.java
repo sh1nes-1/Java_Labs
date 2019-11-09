@@ -1,16 +1,9 @@
 package lab1;
 
-import lab1.model.Catalog;
 import lab1.model.SmartPhone;
-import lab1.service.CatalogService;
-import org.testng.Assert;
-import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 public class TestSmartPhone {
 

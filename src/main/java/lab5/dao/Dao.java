@@ -9,12 +9,12 @@ public interface Dao<T> {
 
     Optional<T> findById(int id) throws DaoException;
 
-    List<T> findAll()  throws DaoException;
+    List<T> findAll() throws DaoException;
 
-    boolean insert(T t)  throws DaoException;
+    boolean insert(T t) throws DaoException;
 
-    boolean update(T t)  throws DaoException;
+    boolean update(T t) throws DaoException;
 
-    boolean delete(T t)  throws DaoException;
+    boolean delete(T t) throws DaoException;
 
 }

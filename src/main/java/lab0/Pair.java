@@ -1,6 +1,5 @@
 package lab0;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 public class Pair<T1, T2> {
@@ -21,10 +20,10 @@ public class Pair<T1, T2> {
         if (obj == null || obj.getClass() != this.getClass())
             return false;
 
-        Pair pair = (Pair)obj;
+        Pair pair = (Pair) obj;
 
         if (p1 instanceof Integer[]) {
-            return Arrays.equals((Integer[])p1, (Integer[])pair.p1) && Arrays.equals((Integer[])p2, (Integer[])pair.p2);
+            return Arrays.equals((Integer[]) p1, (Integer[]) pair.p1) && Arrays.equals((Integer[]) p2, (Integer[]) pair.p2);
         }
 
         return p1.equals(pair.p1) && p2.equals(pair.p2);

@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
-import lab4.service.NotOlderYear;
+import lab4.service.NotOlderThanYears;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -24,10 +24,10 @@ import java.util.Set;
  * Class, that represents characteristics of SmartPhone
  * Can be created using pattern Builder
  * Example: SmartPhone smartPhone = new SmartPhone.Builder()
- *                 .setName("Some Phone")
- *                 .setColor(Color.BLACK)
- *                 .setRam(2048)
- *                 .build();
+ * .setName("Some Phone")
+ * .setColor(Color.BLACK)
+ * .setRam(2048)
+ * .build();
  */
 @JsonDeserialize(builder = SmartPhone.Builder.class)
 public class SmartPhone implements Serializable {
@@ -42,48 +42,49 @@ public class SmartPhone implements Serializable {
 
 
     // all fields cant be changed and assigned once in builder
-    @NotNull
+    @NotNull(message = "can't be not null")
     private Integer id;
 
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "can't be not null")
+    @NotEmpty(message = "can't be empty")
     private String name;
 
-    @NotNull
-    @Min(1000)
-    @Max(500000)
+    @NotNull(message = "can't be not null")
+    @Min(value = 1000, message = "can't be less than 1000")
+    @Max(value = 500000, message = "can't be more than 500000")
     private Integer price;
 
-    @NotNull
-    @NotOlderYear(value = 2014, message = "")
+    @NotNull(message = "can't be not null")
+    @NotOlderThanYears(value = 5, message = "can't be older than 5 years")
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
 
-    @NotNull
+    @NotNull(message = "can't be not null")
     private Color color;
 
-    @NotNull
-    @Min(1024)
-    @Max(8096)
+    @NotNull(message = "can't be not null")
+    @Min(value = 1024, message = "can't be less than 1024")
+    @Max(value = 8096, message = "can't be more than 8096")
     private Integer ram;
 
-    @NotNull
-    @Min(3)
-    @Max(10)
+    @NotNull(message = "can't be not null")
+    @Min(value = 3, message = "can't be less than 3")
+    @Max(value = 10, message = "can't be more than 10")
     private Double diagonal;
 
     private SmartPhone() {
         // Private constructor to deny creating new instance outside by constructor
     }
 
-    public Integer getId() { return id; }
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
     }
 
     /**
-     *
      * @return price in UAH
      */
     public Integer getPrice() {
@@ -99,7 +100,6 @@ public class SmartPhone implements Serializable {
     }
 
     /**
-     *
      * @return RAM capacity in MegaBytes
      */
     public Integer getRam() {
@@ -107,10 +107,11 @@ public class SmartPhone implements Serializable {
     }
 
     /**
-     *
      * @return diagonal of display in inches
      */
-    public Double getDiagonal() { return diagonal; }
+    public Double getDiagonal() {
+        return diagonal;
+    }
 
 
     @Override
@@ -177,7 +178,6 @@ public class SmartPhone implements Serializable {
         }
 
         /**
-         *
          * @param price Price > 0
          * @return instance of this Builder
          */
@@ -198,7 +198,6 @@ public class SmartPhone implements Serializable {
         }
 
         /**
-         *
          * @param ram capacity in MegaBytes
          * @return instance of this Builder
          */
@@ -208,7 +207,6 @@ public class SmartPhone implements Serializable {
         }
 
         /**
-         *
          * @param diagonal Double
          * @return instance of this Builder
          */
@@ -219,6 +217,7 @@ public class SmartPhone implements Serializable {
 
         /**
          * Use it after calling all setters
+         *
          * @return instance of SmartPhone
          * @throws IllegalStateException if you do not set some of fields
          */

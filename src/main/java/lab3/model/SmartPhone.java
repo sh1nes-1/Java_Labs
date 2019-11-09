@@ -11,10 +11,10 @@ import java.util.Set;
  * Class, that represents characteristics of SmartPhone
  * Can be created using pattern Builder
  * Example: SmartPhone smartPhone = new SmartPhone.Builder()
- *                 .setName("Some Phone")
- *                 .setColor(Color.BLACK)
- *                 .setRam(2048)
- *                 .build();
+ * .setName("Some Phone")
+ * .setColor(Color.BLACK)
+ * .setRam(2048)
+ * .build();
  */
 public class SmartPhone implements Serializable, Comparable<SmartPhone> {
 
@@ -41,13 +41,11 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
     }
 
 
-
     public String getName() {
         return name;
     }
 
     /**
-     *
      * @return price in UAH
      */
     public Integer getPrice() {
@@ -63,7 +61,6 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
     }
 
     /**
-     *
      * @return RAM capacity in MegaBytes
      */
     public Integer getRam() {
@@ -71,10 +68,11 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
     }
 
     /**
-     *
      * @return diagonal of display in inches
      */
-    public Double getDiagonal() { return diagonal; }
+    public Double getDiagonal() {
+        return diagonal;
+    }
 
 
     @Override
@@ -139,7 +137,6 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
         }
 
         /**
-         *
          * @param price Price > 0
          * @return instance of this Builder
          */
@@ -159,7 +156,6 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
         }
 
         /**
-         *
          * @param ram capacity in MegaBytes
          * @return instance of this Builder
          */
@@ -169,7 +165,6 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
         }
 
         /**
-         *
          * @param diagonal Double
          * @return instance of this Builder
          */
@@ -180,6 +175,7 @@ public class SmartPhone implements Serializable, Comparable<SmartPhone> {
 
         /**
          * Use it after calling all setters
+         *
          * @return instance of SmartPhone
          * @throws IllegalStateException if you do not set some of fields
          */

@@ -1,9 +1,9 @@
 package lab5.service.connection.builder;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import lab5.exception.DatabaseConnectionException;
 import lab5.service.GlobalConfig;
 import lab5.service.connection.ConnectionBuilder;
-import lab5.exception.DatabaseConnectionException;
 
 import java.sql.Connection;
 
@@ -21,8 +21,7 @@ public class ComboPooledConnectionBuilder implements ConnectionBuilder {
             dataSource.setUser(GlobalConfig.getProperty("connection.login"));
             dataSource.setPassword(GlobalConfig.getProperty("connection.password"));
             dataSource.setMaxPoolSize(20);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new DatabaseConnectionException(ex.getMessage());
         }
     }
@@ -31,8 +30,7 @@ public class ComboPooledConnectionBuilder implements ConnectionBuilder {
     public Connection getConnection() throws DatabaseConnectionException {
         try {
             return dataSource.getConnection();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             throw new DatabaseConnectionException(ex.getMessage());
         }
     }

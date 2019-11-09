@@ -16,7 +16,6 @@ public class CatalogSerializer extends StdSerializer<Catalog> {
     }
 
 
-
     @Override
     public void serialize(Catalog catalog, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
         jsonGenerator.writeStartObject();

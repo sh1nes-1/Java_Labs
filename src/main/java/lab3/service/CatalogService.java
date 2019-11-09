@@ -2,6 +2,7 @@ package lab3.service;
 
 import lab3.model.Catalog;
 import lab3.model.SmartPhone;
+
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -14,7 +15,6 @@ public class CatalogService {
     }
 
     /**
-     *
      * @param ascending direction of sorting (true - from Lower price to Higher, false - from Higher price to Lower)
      * @return new Sorted by price Map of all SmartPhones and its Count
      */
@@ -29,7 +29,6 @@ public class CatalogService {
     }
 
     /**
-     *
      * @param ascending direction of sorting (true - from Earlier date to Later, false - from Later date to Earlier)
      * @return new Sorted by date Map of all SmartPhones and its Count
      */
@@ -46,7 +45,8 @@ public class CatalogService {
 
     /**
      * Searches goods with given name or part of name
-     * @param name searched name
+     *
+     * @param name      searched name
      * @param fullMatch true - name must be equals to smartphone name, false - smartphone name can start with given name
      * @return new Catalog with goods
      */
@@ -62,6 +62,7 @@ public class CatalogService {
 
     /**
      * Searches goods with given color
+     *
      * @param color color
      * @return new Catalog with elements only given color
      */
@@ -77,6 +78,7 @@ public class CatalogService {
 
     /**
      * Searches goods where Ram is in range from min to max
+     *
      * @param minRam min ram (including min)
      * @param maxRam max ram (including max)
      * @return Catalog with goods
@@ -93,6 +95,7 @@ public class CatalogService {
 
     /**
      * Searches goods where Diagonal is in range from min to max
+     *
      * @param minDiagonal min Diagonal (including min)
      * @param maxDiagonal max Diagonal (including max)
      * @return Catalog with goods
