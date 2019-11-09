@@ -4,13 +4,13 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
 
-public class NotOlderYearValidator implements ConstraintValidator<NotOlderYear, LocalDate> {
+public class NotOlderThanYearsValidator implements ConstraintValidator<NotOlderThanYears, LocalDate> {
 
-    private int annotationYear;
+    private int annotationYears;
 
     @Override
-    public void initialize(NotOlderYear notOlderYear) {
-        this.annotationYear = notOlderYear.value();
+    public void initialize(NotOlderThanYears notOlderThanYears) {
+        this.annotationYears = notOlderThanYears.value();
     }
 
     @Override
@@ -19,11 +19,11 @@ public class NotOlderYearValidator implements ConstraintValidator<NotOlderYear, 
         if (localDate == null)
             return true;
 
-        boolean isValid = localDate.getYear() >= annotationYear;
+        boolean isValid = localDate.getYear() >= annotationYears;
 
         if (!isValid) {
             constraintContext.disableDefaultConstraintViolation();
-            constraintContext.buildConstraintViolationWithTemplate("must be not older than " + annotationYear)
+            constraintContext.buildConstraintViolationWithTemplate("must be not older than " + annotationYears + " years")
                     .addConstraintViolation();
         }
 
