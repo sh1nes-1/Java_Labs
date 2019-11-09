@@ -3,7 +3,7 @@ package lab5.service.connection.builder;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import lab5.service.GlobalConfig;
 import lab5.service.connection.ConnectionBuilder;
-import lab5.service.connection.exception.DatabaseConnectionException;
+import lab5.exception.DatabaseConnectionException;
 
 import java.sql.Connection;
 

@@ -2,11 +2,10 @@ package lab5.service.connection.builder;
 
 import lab5.service.GlobalConfig;
 import lab5.service.connection.ConnectionBuilder;
-import lab5.service.connection.exception.DatabaseConnectionException;
+import lab5.exception.DatabaseConnectionException;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class SimpleConnectionBuilder implements ConnectionBuilder {
 

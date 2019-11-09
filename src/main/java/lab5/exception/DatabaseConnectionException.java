@@ -1,4 +1,4 @@
-package lab5.service.connection.exception;
+package lab5.exception;
 
 public class DatabaseConnectionException extends Exception {
 
