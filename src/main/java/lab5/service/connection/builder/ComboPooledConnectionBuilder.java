@@ -20,7 +20,8 @@ public class ComboPooledConnectionBuilder implements ConnectionBuilder {
             dataSource.setJdbcUrl(GlobalConfig.getProperty("connection.url"));
             dataSource.setUser(GlobalConfig.getProperty("connection.login"));
             dataSource.setPassword(GlobalConfig.getProperty("connection.password"));
-            dataSource.setMaxPoolSize(20);
+            dataSource.setMinPoolSize(1);
+            dataSource.setMaxPoolSize(1);
         } catch (Exception ex) {
             throw new DatabaseConnectionException(ex.getMessage());
         }

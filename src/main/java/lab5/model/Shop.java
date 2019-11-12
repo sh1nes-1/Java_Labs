@@ -4,6 +4,7 @@ import lab1.model.Catalog;
 
 public class Shop {
 
+    private Integer id;
     private String name;
     private Catalog catalog;
 
