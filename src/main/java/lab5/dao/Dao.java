@@ -11,10 +11,10 @@ public interface Dao<T> {
 
     List<T> findAll() throws DaoException;
 
-    boolean insert(T t) throws DaoException;
+    void insert(T t) throws DaoException;
 
-    boolean update(T t) throws DaoException;
+    void update(T t) throws DaoException;
 
-    boolean delete(T t) throws DaoException;
+    void delete(int id) throws DaoException;
 
 }
