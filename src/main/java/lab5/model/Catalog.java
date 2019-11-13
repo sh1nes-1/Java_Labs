@@ -12,6 +12,11 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
+// TODO:
+// дозволяє змінити кількість
+// ціна для магазину
+// подумати про заміну мапи на клас
+
 @JsonSerialize(using = CatalogSerializer.class)
 @JsonDeserialize(using = CatalogDeserializer.class)
 public class Catalog implements Serializable {

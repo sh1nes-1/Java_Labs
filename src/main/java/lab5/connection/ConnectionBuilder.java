@@ -1,4 +1,4 @@
-package lab5.service.connection;
+package lab5.connection;
 
 import lab5.exception.DatabaseConnectionException;
 

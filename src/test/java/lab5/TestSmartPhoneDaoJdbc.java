@@ -1,13 +1,12 @@
 package lab5;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lab5.exception.DaoException;
 import lab5.model.SmartPhone;
 import lab5.dao.Dao;
-import lab5.dao.SmartPhoneJdbcDao;
+import lab5.dao.SmartPhoneDaoJdbc;
 import lab5.exception.DatabaseConnectionException;
-import lab5.service.connection.ConnectionBuilder;
-import lab5.service.connection.ConnectionFactory;
+import lab5.connection.ConnectionBuilder;
+import lab5.connection.ConnectionFactory;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
@@ -17,7 +16,7 @@ import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.*;
 
-public class TestSmartPhoneJdbcDao {
+public class TestSmartPhoneDaoJdbc {
 
     private Dao<SmartPhone> smartPhoneDao;
 
@@ -27,7 +26,7 @@ public class TestSmartPhoneJdbcDao {
 
     @BeforeTest
     public void beforeTest() {
-        smartPhoneDao = new SmartPhoneJdbcDao();
+        smartPhoneDao = new SmartPhoneDaoJdbc();
     }
 
     @BeforeMethod
@@ -88,6 +87,8 @@ public class TestSmartPhoneJdbcDao {
         Assert.assertEquals(result.get(), redmiNote7);
     }
 
+    // neg
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
@@ -111,7 +112,9 @@ public class TestSmartPhoneJdbcDao {
                 .setPrice(5500)
                 .build();
 
+        //count
         smartPhoneDao.insert(samsungA30);
+        //count
 
         Set<SmartPhone> expected = new HashSet<>(Arrays.asList(redmiNote7, iphoneX, redmi7, samsungA30));
         Set<SmartPhone> actual = new HashSet<>(smartPhoneDao.findAll());

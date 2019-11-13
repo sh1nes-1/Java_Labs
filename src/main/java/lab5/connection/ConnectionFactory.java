@@ -1,8 +1,7 @@
-package lab5.service.connection;
+package lab5.connection;
 
 import lab5.exception.DatabaseConnectionException;
-import lab5.service.connection.builder.ComboPooledConnectionBuilder;
-import lab5.service.connection.builder.SimpleConnectionBuilder;
+import lab5.connection.builder.SimpleConnectionBuilder;
 
 public class ConnectionFactory {
 

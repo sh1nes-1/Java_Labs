@@ -34,7 +34,7 @@ public class TestSmartPhone {
         SmartPhone smartPhone = new SmartPhone.Builder()
                 .setId(5)
                 .setColor(SmartPhone.Color.GOLD)
-                .setReleaseDate(LocalDate.of(2013, 5, 5))
+                .setReleaseDate(LocalDate.of(2011, 5, 5))
                 .setPrice(5000)
                 .setDiagonal(5.5)
                 .setRam(2048)

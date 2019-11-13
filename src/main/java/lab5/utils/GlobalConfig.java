@@ -1,15 +1,16 @@
-package lab5.service;
+package lab5.utils;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+//TODO: move to utils
 public class GlobalConfig {
-    private static final String CONFIG_NAME = "config.properties";
+    private static final String CONFIG_NAME = "src/main/resources/config.properties";
     private static final Properties GLOBAL_CONFIG = new Properties();
 
     /**
-     * Loads default config
+     * Loads default config.properties from resources
      *
      * @throws IOException if can't read config
      */

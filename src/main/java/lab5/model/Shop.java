@@ -8,6 +8,8 @@ public class Shop {
     private String name;
     private Catalog catalog;
 
+    // path
+
     {
         catalog = new Catalog();
     }

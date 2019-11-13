@@ -1,9 +1,9 @@
-package lab5.service.connection.builder;
+package lab5.connection.builder;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import lab5.exception.DatabaseConnectionException;
-import lab5.service.GlobalConfig;
-import lab5.service.connection.ConnectionBuilder;
+import lab5.utils.GlobalConfig;
+import lab5.connection.ConnectionBuilder;
 
 import java.sql.Connection;
 
