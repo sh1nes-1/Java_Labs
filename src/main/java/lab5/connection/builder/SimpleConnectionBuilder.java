@@ -11,7 +11,7 @@ public class SimpleConnectionBuilder implements ConnectionBuilder {
 
     public SimpleConnectionBuilder() throws DatabaseConnectionException {
         try {
-            GlobalConfig.loadGlobalConfig("src/main/resources/database.properties");
+            GlobalConfig.loadGlobalConfig("database.properties");
             Class.forName(GlobalConfig.getProperty("connection.driver.class"));
         } catch (Exception ex) {
             throw new DatabaseConnectionException(ex.getMessage());

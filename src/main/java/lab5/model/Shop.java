@@ -4,11 +4,11 @@ import lab1.model.Catalog;
 
 public class Shop {
 
-    private Integer id;
+    private Long id;
     private String name;
     private Catalog catalog;
 
-    // path
+    //TODO: path to image
 
     {
         catalog = new Catalog();

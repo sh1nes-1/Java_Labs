@@ -13,7 +13,7 @@ public class ComboPooledConnectionBuilder implements ConnectionBuilder {
 
     public ComboPooledConnectionBuilder() throws DatabaseConnectionException {
         try {
-            GlobalConfig.loadGlobalConfig("src/main/resources/database.properties");
+            GlobalConfig.loadGlobalConfig("database.properties");
 
             dataSource = new ComboPooledDataSource();
             dataSource.setDriverClass(GlobalConfig.getProperty("connection.driver.class"));

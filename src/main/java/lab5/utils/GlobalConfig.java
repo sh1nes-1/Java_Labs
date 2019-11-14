@@ -4,9 +4,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-//TODO: move to utils
 public class GlobalConfig {
-    private static final String CONFIG_NAME = "src/main/resources/config.properties";
+    private static final String CONFIG_PATH = "src/main/resources/";
+    private static final String CONFIG_NAME = "config.properties";
     private static final Properties GLOBAL_CONFIG = new Properties();
 
     /**
@@ -26,9 +26,9 @@ public class GlobalConfig {
      */
     public static void loadGlobalConfig(String name) throws IOException {
         if (name != null && !name.trim().isEmpty()) {
-            GLOBAL_CONFIG.load(new FileReader(name));
+            GLOBAL_CONFIG.load(new FileReader(CONFIG_PATH + name));
         } else {
-            GLOBAL_CONFIG.load(new FileReader(CONFIG_NAME));
+            GLOBAL_CONFIG.load(new FileReader(CONFIG_PATH + CONFIG_NAME));
         }
     }
 

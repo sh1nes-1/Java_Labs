@@ -18,6 +18,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -42,32 +43,31 @@ public class SmartPhone implements Serializable {
 
 
     // all fields cant be changed and assigned once in builder
-    @NotNull(message = "can't be not null")
-    private Integer id;
+    private Long id;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @NotEmpty(message = "can't be empty")
     private String name;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @Min(value = 1000, message = "can't be less than 1000")
     @Max(value = 500000, message = "can't be more than 500000")
     private Integer price;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @NotOlderThanYears(value = 5, message = "can't be older than 5 years")
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     private Color color;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @Min(value = 1024, message = "can't be less than 1024")
     @Max(value = 8096, message = "can't be more than 8096")
     private Integer ram;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @Min(value = 3, message = "can't be less than 3")
     @Max(value = 10, message = "can't be more than 10")
     private Double diagonal;
@@ -76,12 +76,20 @@ public class SmartPhone implements Serializable {
         // Private constructor to deny creating new instance outside by constructor
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
@@ -91,12 +99,24 @@ public class SmartPhone implements Serializable {
         return price;
     }
 
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
     public Color getColor() {
         return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     /**
@@ -106,11 +126,19 @@ public class SmartPhone implements Serializable {
         return ram;
     }
 
+    public void setRam(Integer ram) {
+        this.ram = ram;
+    }
+
     /**
      * @return diagonal of display in inches
      */
     public Double getDiagonal() {
         return diagonal;
+    }
+
+    public void setDiagonal(Double diagonal) {
+        this.diagonal = diagonal;
     }
 
 
@@ -131,28 +159,18 @@ public class SmartPhone implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         SmartPhone that = (SmartPhone) o;
-
-        if (!id.equals(that.id)) return false;
-        if (!name.equals(that.name)) return false;
-        if (!price.equals(that.price)) return false;
-        if (!releaseDate.equals(that.releaseDate)) return false;
-        if (color != that.color) return false;
-        if (!ram.equals(that.ram)) return false;
-        return diagonal.equals(that.diagonal);
+        return name.equals(that.name) &&
+                price.equals(that.price) &&
+                releaseDate.equals(that.releaseDate) &&
+                color == that.color &&
+                ram.equals(that.ram) &&
+                diagonal.equals(that.diagonal);
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + price.hashCode();
-        result = 31 * result + releaseDate.hashCode();
-        result = 31 * result + color.hashCode();
-        result = 31 * result + ram.hashCode();
-        result = 31 * result + diagonal.hashCode();
-        return result;
+        return Objects.hash(name, price, releaseDate, color, ram, diagonal);
     }
 
     /**
@@ -167,7 +185,7 @@ public class SmartPhone implements Serializable {
             smartPhone = new SmartPhone();
         }
 
-        public Builder setId(Integer id) {
+        public Builder setId(Long id) {
             smartPhone.id = id;
             return this;
         }

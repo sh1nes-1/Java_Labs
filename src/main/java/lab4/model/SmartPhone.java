@@ -42,32 +42,32 @@ public class SmartPhone implements Serializable {
 
 
     // all fields cant be changed and assigned once in builder
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     private Integer id;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @NotEmpty(message = "can't be empty")
     private String name;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @Min(value = 1000, message = "can't be less than 1000")
     @Max(value = 500000, message = "can't be more than 500000")
     private Integer price;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @NotOlderThanYears(value = 5, message = "can't be older than 5 years")
     @JsonSerialize(using = ToStringSerializer.class)
     private LocalDate releaseDate;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     private Color color;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @Min(value = 1024, message = "can't be less than 1024")
     @Max(value = 8096, message = "can't be more than 8096")
     private Integer ram;
 
-    @NotNull(message = "can't be not null")
+    @NotNull(message = "can't be null")
     @Min(value = 3, message = "can't be less than 3")
     @Max(value = 10, message = "can't be more than 10")
     private Double diagonal;

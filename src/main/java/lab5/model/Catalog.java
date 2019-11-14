@@ -1,119 +1,57 @@
 package lab5.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lab2.model.SmartPhone;
-import lab2.service.catalog.CatalogDeserializer;
-import lab2.service.catalog.CatalogSerializer;
-
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 // TODO:
 // дозволяє змінити кількість
 // ціна для магазину
-// подумати про заміну мапи на клас
 
-@JsonSerialize(using = CatalogSerializer.class)
-@JsonDeserialize(using = CatalogDeserializer.class)
+/**
+ * Catalog
+ * Contains some collection of Catalog Items
+ * Created to solve problem of searching by multiple criteria (with CatalogService)
+ */
 public class Catalog implements Serializable {
 
-    private Map<SmartPhone, Integer> availableGoods;
+    private Set<CatalogItem> catalogItems;
 
     public Catalog() {
-        availableGoods = new HashMap<>();
+        catalogItems = new HashSet<>();
     }
 
     /**
-     * @return Map of all SmartPhones and its Count
+     * @return Set of all catalog items
      */
-    public Map<SmartPhone, Integer> getGoods() {
-        return availableGoods;
+    public Set<CatalogItem> getCatalogItems() {
+        return catalogItems;
     }
 
     /**
      * @return Set of all SmartPhones
      */
     public Set<SmartPhone> getSmartPhones() {
-        return availableGoods.keySet();
+        return catalogItems.stream()
+                .map(CatalogItem::getSmartPhone)
+                .collect(Collectors.toSet());
     }
 
-    /**
-     * Adds NEW item to Catalog
-     *
-     * @param smartPhone SmartPhone
-     * @param count      Integer
-     * @return true if success, false if key already exists
-     */
-    public boolean addGoodsItem(SmartPhone smartPhone, Integer count) {
-        if (count <= 0)
-            throw new IllegalArgumentException("Count must be > 0");
 
-        if (availableGoods.containsKey(smartPhone))
+    public boolean addGoodsItem(SmartPhone smartPhone, Integer price, Integer count) {
+        if (getSmartPhones().contains(smartPhone))
             return false;
 
-        availableGoods.put(smartPhone, count);
+        CatalogItem catalogItem = new CatalogItem();
+        catalogItem.setSmartPhone(smartPhone);
+        catalogItem.setCount(count);
+        catalogItem.setPrice(price);
+
+        return catalogItems.add(catalogItem);
+    }
+
+    public boolean addGoodsItem(CatalogItem catalogItem) {
         return true;
     }
 
-    /**
-     * Get count of some SmartPhone
-     *
-     * @param smartPhone some SmartPhone that exists in Catalog
-     * @return Integer count of such SmartPhones or null if not exists
-     */
-    public Integer getItemCount(SmartPhone smartPhone) {
-        return availableGoods.get(smartPhone);
-    }
-
-    /**
-     * @param smartPhone SmartPhone
-     * @param count      value that will be added to count
-     * @return true if success, false if such key not found
-     */
-    public boolean addItemCount(SmartPhone smartPhone, Integer count) {
-        if (!availableGoods.containsKey(smartPhone))
-            return false;
-
-        availableGoods.put(smartPhone, availableGoods.get(smartPhone) + count);
-        return true;
-    }
-
-    /**
-     * @param smartPhone SmartPhone
-     * @param count      value by which count will be reduced
-     * @return true if success, false if such key not found
-     */
-    public boolean subItemCount(SmartPhone smartPhone, Integer count) {
-        if (!availableGoods.containsKey(smartPhone))
-            return false;
-
-        if (availableGoods.get(smartPhone) < count)
-            return false;
-
-        availableGoods.put(smartPhone, availableGoods.get(smartPhone) - count);
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return availableGoods.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Catalog catalog = (Catalog) o;
-        return Objects.equals(availableGoods, catalog.availableGoods);
-    }
-
-    @Override
-    public int hashCode() {
-        return availableGoods != null ? availableGoods.hashCode() : 0;
-    }
 }

@@ -11,14 +11,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-// interface SmartPhoneDao
-public class SmartPhoneDaoJdbc implements Dao<SmartPhone> {
+public class SmartPhoneDaoJdbc implements SmartPhoneDao {
 
-    private static final String SQL_SELECT_ALL = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones;";
-    private static final String SQL_SELECT_BY_ID = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones WHERE id = ?;";
-    private static final String SQL_INSERT = "INSERT INTO smartphones (id, name, price, releaseDate, color, ram, diagonal) VALUES (?, ?, ?, ?, ?, ?, ?);";
-    private static final String SQL_UPDATE = "UPDATE smartphones SET id=?, name=?, price=?, releaseDate=?, color=?, ram=?, diagonal=? WHERE id=?;";
-    private static final String SQL_DELETE = "DELETE FROM smartphones WHERE id=?;";
+    private static final String GET_ALL = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones;";
+    private static final String GET_BY_ID = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones WHERE id = ?;";
+    private static final String ADD = "INSERT INTO smartphones (name, price, releaseDate, color, ram, diagonal) VALUES (?, ?, ?, ?, ?, ?);";
+    private static final String UPDATE = "UPDATE smartphones SET name=?, price=?, releaseDate=?, color=?, ram=?, diagonal=? WHERE id=?;";
+    private static final String DELETE = "DELETE FROM smartphones WHERE id=?;";
 
     private ConnectionBuilder connectionBuilder;
 
@@ -28,11 +27,11 @@ public class SmartPhoneDaoJdbc implements Dao<SmartPhone> {
     }
 
     @Override
-    public Optional<SmartPhone> findById(int id) throws DaoException {
+    public Optional<SmartPhone> findById(Long id) throws DaoException {
         Optional<SmartPhone> result = Optional.empty();
         try (Connection connection = getConnection();
-            PreparedStatement ps = connection.prepareStatement(SQL_SELECT_BY_ID)) {
-            ps.setInt(1, id);
+            PreparedStatement ps = connection.prepareStatement(GET_BY_ID)) {
+            ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
@@ -50,8 +49,8 @@ public class SmartPhoneDaoJdbc implements Dao<SmartPhone> {
     @Override
     public List<SmartPhone> findAll() throws DaoException {
         List<SmartPhone> result = new LinkedList<>();
-        try (Connection connection = getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(SQL_SELECT_ALL);
+        try (Connection connection = getConnection();
+                PreparedStatement ps = connection.prepareStatement(GET_ALL)) {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
@@ -60,7 +59,6 @@ public class SmartPhoneDaoJdbc implements Dao<SmartPhone> {
             }
 
             rs.close();
-            ps.close();
         } catch (DatabaseConnectionException | SQLException ex) {
             throw new DaoException(ex.getMessage());
         }
@@ -68,59 +66,56 @@ public class SmartPhoneDaoJdbc implements Dao<SmartPhone> {
     }
 
     @Override
-    public void insert(SmartPhone smartPhone) throws DaoException {
-        try (Connection connection = getConnection()) { // here move to try
-            PreparedStatement ps = connection.prepareStatement(SQL_INSERT);
-            //ps.setInt(1, smartPhone.getId());
-            ps.setString(2, smartPhone.getName());
-            ps.setInt(3, smartPhone.getPrice());
-            ps.setDate(4, Date.valueOf(smartPhone.getReleaseDate()));
-            ps.setString(5, smartPhone.getColor().toString());
-            ps.setInt(6, smartPhone.getRam());
-            ps.setDouble(7, smartPhone.getDiagonal());
+    public Long insert(SmartPhone smartPhone) throws DaoException {
+        Long result = null;
+        try (Connection connection = getConnection();
+                PreparedStatement ps = connection.prepareStatement(ADD, new String[]{"id"})) {
+            fillPreparedStatement(ps, 1, smartPhone);
             ps.executeUpdate();
-            ps.close();
+            ResultSet rs = ps.getGeneratedKeys();
+            if (rs.next()) {
+                result = rs.getLong("id");
+            }
+            rs.close();
         } catch (DatabaseConnectionException | SQLException ex) {
             throw new DaoException(ex.getMessage());
         }
+        return result;
     }
 
     @Override
     public void update(SmartPhone smartPhone) throws DaoException {
-        try (Connection connection = getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(SQL_UPDATE);
-            //ps.setInt(1, smartPhone.getId());
-            ps.setString(2, smartPhone.getName());
-            ps.setInt(3, smartPhone.getPrice());
-            ps.setDate(4, Date.valueOf(smartPhone.getReleaseDate()));
-            ps.setString(5, smartPhone.getColor().toString());
-            ps.setInt(6, smartPhone.getRam());
-            ps.setDouble(7, smartPhone.getDiagonal());
-
-            ps.setInt(8, smartPhone.getId());
-
+        try (Connection connection = getConnection();
+                PreparedStatement ps = connection.prepareStatement(UPDATE)) {
+            int counter = fillPreparedStatement(ps, 1, smartPhone);
+            ps.setLong(counter, smartPhone.getId());
             ps.executeUpdate();
-            ps.close();
         } catch (DatabaseConnectionException | SQLException ex) {
             throw new DaoException(ex.getMessage());
         }
     }
 
     @Override
-    public void delete(int id) throws DaoException {
-        try (Connection connection = getConnection()) {
-            PreparedStatement ps = connection.prepareStatement(SQL_DELETE);
-            ps.setInt(1, id);
+    public void delete(Long id) throws DaoException {
+        try (Connection connection = getConnection();
+                PreparedStatement ps = connection.prepareStatement(DELETE)) {
+            ps.setLong(1, id);
             ps.executeUpdate();
-            ps.close();
         } catch (DatabaseConnectionException | SQLException ex) {
             throw new DaoException(ex.getMessage());
         }
     }
 
+    /**
+     * Gets smartPhone from ResultSet
+     *
+     * @param rs ResultSet
+     * @return new created smartPhone from given resultSet
+     * @throws SQLException if can't get some field
+     */
     private SmartPhone fillSmartPhone(ResultSet rs) throws SQLException {
         return new SmartPhone.Builder()
-                .setId(rs.getInt("id"))
+                .setId(rs.getLong("id"))
                 .setName(rs.getString("name"))
                 .setPrice(rs.getInt("price"))
                 .setReleaseDate(rs.getDate("releaseDate").toLocalDate())
@@ -128,6 +123,25 @@ public class SmartPhoneDaoJdbc implements Dao<SmartPhone> {
                 .setRam(rs.getInt("ram"))
                 .setDiagonal(rs.getDouble("diagonal"))
                 .build();
+    }
+
+    /**
+     * Puts given smartPhone into PreparedStament
+     *
+     * @param ps preparedStatement
+     * @param counter counter from what starts
+     * @param smartPhone value that must be filled
+     * @return new counter
+     * @throws SQLException if something went wrong
+     */
+    private int fillPreparedStatement(PreparedStatement ps, int counter, SmartPhone smartPhone) throws SQLException {
+        ps.setString(counter++, smartPhone.getName());
+        ps.setInt(counter++, smartPhone.getPrice());
+        ps.setDate(counter++, Date.valueOf(smartPhone.getReleaseDate()));
+        ps.setString(counter++, smartPhone.getColor().toString());
+        ps.setInt(counter++, smartPhone.getRam());
+        ps.setDouble(counter++, smartPhone.getDiagonal());
+        return counter;
     }
 
 }

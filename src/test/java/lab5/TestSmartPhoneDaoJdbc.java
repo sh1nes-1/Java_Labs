@@ -35,7 +35,6 @@ public class TestSmartPhoneDaoJdbc {
             smartPhoneDao.delete(smartPhone.getId());
 
         redmiNote7 = new SmartPhone.Builder()
-                .setId(1)
                 .setName("Xiaomi Redmi Note 7")
                 .setDiagonal(6.3)
                 .setColor(SmartPhone.Color.BLUE)
@@ -45,7 +44,6 @@ public class TestSmartPhoneDaoJdbc {
                 .build();
 
         iphoneX = new SmartPhone.Builder()
-                .setId(2)
                 .setName("iPhone X")
                 .setDiagonal(5.8)
                 .setColor(SmartPhone.Color.WHITE)
@@ -55,7 +53,6 @@ public class TestSmartPhoneDaoJdbc {
                 .build();
 
         redmi7 = new SmartPhone.Builder()
-                .setId(3)
                 .setName("Xiaomi Redmi 7")
                 .setDiagonal(6.26)
                 .setColor(SmartPhone.Color.BLACK)
@@ -64,9 +61,9 @@ public class TestSmartPhoneDaoJdbc {
                 .setPrice(3600)
                 .build();
 
-        smartPhoneDao.insert(redmiNote7);
-        smartPhoneDao.insert(iphoneX);
-        smartPhoneDao.insert(redmi7);
+        redmiNote7.setId(smartPhoneDao.insert(redmiNote7));
+        iphoneX.setId(smartPhoneDao.insert(iphoneX));
+        redmi7.setId(smartPhoneDao.insert(redmi7));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,12 +79,16 @@ public class TestSmartPhoneDaoJdbc {
 
     @Test
     public void findSmartPhoneByIdTest() throws DaoException {
-        Optional<SmartPhone> result = smartPhoneDao.findById(1);
+        Optional<SmartPhone> result = smartPhoneDao.findById(redmiNote7.getId());
         Assert.assertTrue(result.isPresent());
         Assert.assertEquals(result.get(), redmiNote7);
     }
 
-    // neg
+    @Test
+    public void negativeFindSmartPhoneByIdTest() throws DaoException {
+        Optional<SmartPhone> result = smartPhoneDao.findById(-1L);
+        Assert.assertFalse(result.isPresent());
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -100,10 +101,9 @@ public class TestSmartPhoneDaoJdbc {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test
+    @Test(priority = 1)
     public void insertSmartPhoneTest() throws DaoException {
         SmartPhone samsungA30 = new SmartPhone.Builder()
-                .setId(4)
                 .setName("Samsung Galaxy A30")
                 .setDiagonal(6.4)
                 .setColor(SmartPhone.Color.BLACK)
@@ -112,7 +112,7 @@ public class TestSmartPhoneDaoJdbc {
                 .setPrice(5500)
                 .build();
 
-        //count
+        //TODO: ask why count
         smartPhoneDao.insert(samsungA30);
         //count
 

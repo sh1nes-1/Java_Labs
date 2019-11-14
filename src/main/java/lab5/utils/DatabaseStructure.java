@@ -12,15 +12,14 @@ import static java.util.Objects.isNull;
 // DataBase structure
 public class DatabaseStructure {
 
-    // remove table from name
-    private static final String CREATE_SMARTPHONES = "CREATE TABLE smartphones (id integer NOT NULL PRIMARY KEY,name VARCHAR(100) NOT NULL,price integer NOT NULL,releaseDate DATE NOT NULL,color VARCHAR(15) NOT NULL,ram integer NOT NULL,diagonal FLOAT NOT NULL);";
+    private static final String CREATE_SMARTPHONES = "CREATE TABLE smartphones (id SERIAL NOT NULL PRIMARY KEY,name VARCHAR(100) NOT NULL,price integer NOT NULL,releaseDate DATE NOT NULL,color VARCHAR(15) NOT NULL,ram integer NOT NULL,diagonal FLOAT NOT NULL);";
     private static final String DROP_SMARTPHONES = "DROP TABLE smartphones";
 
-    private static final String CREATE_SHOPS = "CREATE TABLE shops (id integer NOT NULL PRIMARY KEY,name integer NOT NULL);";
+    private static final String CREATE_SHOPS = "CREATE TABLE shops (id SERIAL NOT NULL PRIMARY KEY,name integer NOT NULL);";
     private static final String DROP_SHOPS = "DROP TABLE shops";
 
-    private static final String CREATE_SMARTPHONES_SHOPS = "CREATE TABLE smartphones_shops (id integer NOT NULL PRIMARY KEY,smartphone_id integer NOT NULL REFERENCES smartphones(id),shop_id integer NOT NULL REFERENCES shops(id));";
-    private static final String DROP_SMARTPHONES_SHOPS = "DROP TABLE smartphones_shops";
+    private static final String CREATE_SMARTPHONES_SHOPS = "CREATE TABLE catalog_items (id SERIAL NOT NULL PRIMARY KEY,shop_id integer NOT NULL REFERENCES shops(id),smartphone_id integer NOT NULL REFERENCES smartphones(id),smartphone_price integer NOT NULL,smartphone_count integer NOT NULL);";
+    private static final String DROP_SMARTPHONES_SHOPS = "DROP TABLE catalog_items";
 
 
     private static Connection cachedConnection;
