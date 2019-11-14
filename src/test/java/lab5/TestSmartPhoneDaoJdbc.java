@@ -7,12 +7,14 @@ import lab5.dao.SmartPhoneDaoJdbc;
 import lab5.exception.DatabaseConnectionException;
 import lab5.connection.ConnectionBuilder;
 import lab5.connection.ConnectionFactory;
+import lab5.utils.DatabaseStructure;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -25,7 +27,13 @@ public class TestSmartPhoneDaoJdbc {
     private SmartPhone redmi7;
 
     @BeforeTest
-    public void beforeTest() {
+    public void beforeTest() throws DatabaseConnectionException, SQLException {
+        try {
+            DatabaseStructure.dropTables();
+        } catch (Exception ignored) {
+        }
+
+        DatabaseStructure.createTables();
         smartPhoneDao = new SmartPhoneDaoJdbc();
     }
 

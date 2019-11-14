@@ -29,6 +29,3 @@ release.properties
 *.iws
 out/
 .idea_modules/
-
-## Sh1ne
-/src/main/resources/database.properties
