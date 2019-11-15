@@ -39,6 +39,7 @@ public class TestSmartPhoneDaoJdbc {
 
     @BeforeMethod
     public void beforeMethod() throws DaoException {
+        // транзкція
         for (SmartPhone smartPhone : smartPhoneDao.findAll())
             smartPhoneDao.delete(smartPhone.getId());
 
@@ -73,6 +74,8 @@ public class TestSmartPhoneDaoJdbc {
         iphoneX.setId(smartPhoneDao.insert(iphoneX));
         redmi7.setId(smartPhoneDao.insert(redmi7));
     }
+
+    // aftermethod - transaction rollback
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

@@ -50,8 +50,6 @@ public class Catalog implements Serializable {
         return catalogItems.add(catalogItem);
     }
 
-    public boolean addGoodsItem(CatalogItem catalogItem) {
-        return true;
-    }
+    //get CatalogItem by smartPhone
 
 }

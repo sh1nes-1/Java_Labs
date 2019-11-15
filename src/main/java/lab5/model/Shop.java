@@ -8,6 +8,7 @@ public class Shop {
     private String name;
     private Catalog catalog;
 
+    //TODO: in properties define some path which be added to path
     //TODO: path to image
 
     {

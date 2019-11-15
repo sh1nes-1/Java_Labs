@@ -29,3 +29,6 @@ release.properties
 *.iws
 out/
 .idea_modules/
+
+## Sh1ne
+/build/
