@@ -50,6 +50,10 @@ public class Catalog implements Serializable {
         return catalogItems.add(catalogItem);
     }
 
-    //get CatalogItem by smartPhone
+    public Optional<CatalogItem> getGoodsItem(SmartPhone smartPhone) {
+        return catalogItems.stream()
+                .filter(e -> e.getSmartPhone().equals(smartPhone))
+                .findAny();
+    }
 
 }

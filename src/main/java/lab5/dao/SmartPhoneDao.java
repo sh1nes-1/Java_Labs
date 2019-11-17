@@ -4,7 +4,4 @@ import lab5.model.SmartPhone;
 
 public interface SmartPhoneDao extends Dao<SmartPhone> {
 
-    // sort
-    // methods from service here
-
 }

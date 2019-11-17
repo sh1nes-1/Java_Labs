@@ -28,3 +28,6 @@ constraints
 connector
 url and pass and user - property
 dao
+
+## 15.11.2019 ##
+Подумати про CatalogDao: що має бути коли викличемо insert

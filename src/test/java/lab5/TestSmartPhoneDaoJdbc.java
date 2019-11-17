@@ -1,48 +1,44 @@
 package lab5;
 
+import lab5.dao.SmartPhoneDao;
 import lab5.exception.DaoException;
 import lab5.model.SmartPhone;
-import lab5.dao.Dao;
-import lab5.dao.SmartPhoneDaoJdbc;
+import lab5.dao.jdbc.SmartPhoneDaoJdbc;
 import lab5.exception.DatabaseConnectionException;
-import lab5.connection.ConnectionBuilder;
 import lab5.connection.ConnectionFactory;
 import lab5.utils.DatabaseStructure;
 import org.testng.Assert;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.Optional;
 
 public class TestSmartPhoneDaoJdbc {
 
-    private Dao<SmartPhone> smartPhoneDao;
+    private Connection connection;
+    private SmartPhoneDao smartPhoneDao;
 
     private SmartPhone redmiNote7;
     private SmartPhone iphoneX;
     private SmartPhone redmi7;
 
     @BeforeTest
-    public void beforeTest() throws DatabaseConnectionException, SQLException {
+    public void beforeTest() throws DatabaseConnectionException, SQLException, DaoException {
+        // creating schema
         try {
             DatabaseStructure.dropTables();
         } catch (Exception ignored) {
         }
-
         DatabaseStructure.createTables();
-        smartPhoneDao = new SmartPhoneDaoJdbc();
-    }
 
-    @BeforeMethod
-    public void beforeMethod() throws DaoException {
-        // транзкція
-        for (SmartPhone smartPhone : smartPhoneDao.findAll())
-            smartPhoneDao.delete(smartPhone.getId());
+        // creating connection
+        connection = ConnectionFactory.getConnectionBuilder().getConnection();
+        smartPhoneDao = new SmartPhoneDaoJdbc(connection);
 
+        // inserting data
         redmiNote7 = new SmartPhone.Builder()
                 .setName("Xiaomi Redmi Note 7")
                 .setDiagonal(6.3)
@@ -75,15 +71,22 @@ public class TestSmartPhoneDaoJdbc {
         redmi7.setId(smartPhoneDao.insert(redmi7));
     }
 
-    // aftermethod - transaction rollback
+    @AfterTest
+    public void afterTest() throws SQLException {
+        connection.close();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test
-    public void databaseConnectionTest() throws DatabaseConnectionException {
-        ConnectionBuilder connectionBuilder = ConnectionFactory.getConnectionBuilder();
-        Connection connection = connectionBuilder.getConnection();
-        Assert.assertNotNull(connection);
+    @BeforeMethod
+    public void beforeMethod() throws SQLException {
+        connection.setAutoCommit(false);
+    }
+
+    @AfterMethod
+    public void afterMethod() throws SQLException {
+        connection.rollback();
+        connection.setAutoCommit(true);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
