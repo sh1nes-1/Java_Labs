@@ -2,10 +2,8 @@ package lab5.dao.jdbc;
 
 import lab5.dao.Dao;
 import lab5.exception.DaoException;
-import lab5.model.SmartPhone;
 
 import java.sql.*;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +25,7 @@ public abstract class JdbcDao<T> implements Dao<T> {
     protected abstract String getUpdateQuery();
     protected abstract String getDeleteQuery();
 
-    protected abstract T fillFromResultSet(ResultSet rs) throws SQLException;
+    protected abstract List<T> fillFromResultSet(ResultSet rs) throws SQLException;
 
     protected abstract void fillPreparedStatementForInsert(PreparedStatement ps, T t) throws SQLException;
     protected abstract void fillPreparedStatementForUpdate(PreparedStatement ps, T t) throws SQLException;
@@ -40,10 +38,9 @@ public abstract class JdbcDao<T> implements Dao<T> {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
-                T t = fillFromResultSet(rs);
-                result = Optional.of(t);
-            }
+            List<T> list = fillFromResultSet(rs);
+            if (list.size() > 1) throw new DaoException("Received more than one record!");
+            if (list.iterator().hasNext()) result = Optional.of(list.iterator().next());
 
             rs.close();
         } catch (SQLException ex) {
@@ -54,16 +51,11 @@ public abstract class JdbcDao<T> implements Dao<T> {
 
     @Override
     public List<T> findAll() throws DaoException {
-        List<T> result = new LinkedList<>();
+        List<T> result;
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement(getSelectAllQuery())) {
             ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                T t = fillFromResultSet(rs);
-                result.add(t);
-            }
-
+            result = fillFromResultSet(rs);
             rs.close();
         } catch (SQLException ex) {
             throw new DaoException(ex.getMessage());

@@ -15,10 +15,19 @@ import java.util.stream.Collectors;
  */
 public class Catalog implements Serializable {
 
+    private Long id;
     private Set<CatalogItem> catalogItems;
 
     public Catalog() {
         catalogItems = new HashSet<>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**

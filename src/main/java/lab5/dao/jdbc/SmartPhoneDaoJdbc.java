@@ -4,13 +4,16 @@ import lab5.dao.SmartPhoneDao;
 import lab5.model.SmartPhone;
 
 import java.sql.*;
+import java.util.LinkedList;
+import java.util.List;
+
 public class SmartPhoneDaoJdbc extends JdbcDao<SmartPhone> implements SmartPhoneDao {
 
-    private static final String GET_ALL = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones;";
-    private static final String GET_BY_ID = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones WHERE id = ?;";
-    private static final String ADD = "INSERT INTO smartphones (name, price, releaseDate, color, ram, diagonal) VALUES (?, ?, ?, ?, ?, ?);";
-    private static final String UPDATE = "UPDATE smartphones SET name=?, price=?, releaseDate=?, color=?, ram=?, diagonal=? WHERE id=?;";
-    private static final String DELETE = "DELETE FROM smartphones WHERE id=?;";
+    private static final String GET_ALL = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones";
+    private static final String GET_BY_ID = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones WHERE id = ?";
+    private static final String ADD = "INSERT INTO smartphones (name, price, releaseDate, color, ram, diagonal) VALUES (?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE = "UPDATE smartphones SET name=?, price=?, releaseDate=?, color=?, ram=?, diagonal=? WHERE id=?";
+    private static final String DELETE = "DELETE FROM smartphones WHERE id=?";
 
     public SmartPhoneDaoJdbc(Connection connection) {
         super(connection);
@@ -31,24 +34,23 @@ public class SmartPhoneDaoJdbc extends JdbcDao<SmartPhone> implements SmartPhone
     @Override
     protected String getDeleteQuery() { return DELETE; }
 
-    /**
-     * Gets smartPhone from ResultSet
-     *
-     * @param rs ResultSet
-     * @return new created smartPhone from given resultSet
-     * @throws SQLException if can't get some field
-     */
+
     @Override
-    protected SmartPhone fillFromResultSet(ResultSet rs) throws SQLException {
-        return new SmartPhone.Builder()
-                .setId(rs.getLong("id"))
-                .setName(rs.getString("name"))
-                .setPrice(rs.getInt("price"))
-                .setReleaseDate(rs.getDate("releaseDate").toLocalDate())
-                .setColor(SmartPhone.Color.valueOf(rs.getString("color")))
-                .setRam(rs.getInt("ram"))
-                .setDiagonal(rs.getDouble("diagonal"))
-                .build();
+    protected List<SmartPhone> fillFromResultSet(ResultSet rs) throws SQLException {
+        List<SmartPhone> result = new LinkedList<>();
+        while (rs.next()) {
+            SmartPhone smartPhone = new SmartPhone.Builder()
+                    .setId(rs.getLong("id"))
+                    .setName(rs.getString("name"))
+                    .setPrice(rs.getInt("price"))
+                    .setReleaseDate(rs.getDate("releaseDate").toLocalDate())
+                    .setColor(SmartPhone.Color.valueOf(rs.getString("color")))
+                    .setRam(rs.getInt("ram"))
+                    .setDiagonal(rs.getDouble("diagonal"))
+                    .build();
+            result.add(smartPhone);
+        }
+        return result;
     }
 
     @Override
@@ -63,7 +65,7 @@ public class SmartPhoneDaoJdbc extends JdbcDao<SmartPhone> implements SmartPhone
     }
 
     /**
-     * Puts given smartPhone into PreparedStament
+     * Puts given smartPhone into PreparedStatement
      *
      * @param ps preparedStatement
      * @param counter counter from what starts

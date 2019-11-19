@@ -6,6 +6,8 @@ package lab5.model;
  */
 public class CatalogItem {
 
+    // TODO: Dao тому що якщо ми захочемо поміняти ціну чи кількість
+
     private Integer id;
     private SmartPhone smartPhone;
     private Integer price;
