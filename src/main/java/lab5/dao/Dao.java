@@ -9,6 +9,7 @@ public interface Dao<T> {
 
     Optional<T> findById(Long id) throws DaoException;
 
+    // lazy
     List<T> findAll() throws DaoException;
 
     /**

@@ -7,7 +7,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+//@WebServlet()
 public class ShopServlet extends HttpServlet {
+
+    // DTO
+
+    // services
+    // tomcat standart authorisation
+
+    // в 7 лабі показати все
+    // форма добавлення смартфона
+    // показати магазини
+    // показати каталоги
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

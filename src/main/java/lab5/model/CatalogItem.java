@@ -8,18 +8,9 @@ public class CatalogItem {
 
     // TODO: Dao тому що якщо ми захочемо поміняти ціну чи кількість
 
-    private Integer id;
     private SmartPhone smartPhone;
     private Integer price;
     private Integer count;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public SmartPhone getSmartPhone() {
         return smartPhone;

@@ -16,12 +16,13 @@ import java.util.Optional;
 
 public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
 
+    // all from catalogs where catalogs_items
     private static final String GET_ALL = "SELECT ci.catalog_id, ci.smartphone_id, ci.smartphone_price, ci.smartphone_count FROM catalog_items ci";
     private static final String GET_BY_ID = "SELECT ci.catalog_id, ci.smartphone_id, ci.smartphone_price, ci.smartphone_count FROM catalog_items ci WHERE ci.catalog_id = ?";
     private static final String ADD_CATALOG = "INSERT INTO catalogs VALUES (default)";
     private static final String ADD_ITEM = "INSERT INTO catalog_items (catalog_id, smartphone_id, smartphone_price, smartphone_count) VALUES (?, ?, ?, ?)";
-    private static final String UPDATE = "";
-    private static final String DELETE = "";
+    private static final String UPDATE = ""; //міняти name і вказувати магазин
+    private static final String DELETE = ""; //видаляти і каталог ітеми
 
     public CatalogDaoJdbc(Connection connection) {
         super(connection);
@@ -41,17 +42,6 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
 
     @Override
     protected String getDeleteQuery() { return DELETE; }
-
-    @Override
-    public Long insert(Catalog catalog) throws DaoException {
-        Long id = super.insert(catalog);
-
-        for (CatalogItem catalogItem : catalog.getCatalogItems()) {
-
-        }
-
-        return id;
-    }
 
     @Override
     protected List<Catalog> fillFromResultSet(ResultSet rs) throws SQLException {

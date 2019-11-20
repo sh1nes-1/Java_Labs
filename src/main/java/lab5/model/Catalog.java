@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
  */
 public class Catalog implements Serializable {
 
+    //todo: name, звязок в іншу сторону
     private Long id;
+    Shop shop;
     private Set<CatalogItem> catalogItems;
 
     public Catalog() {
@@ -28,6 +30,14 @@ public class Catalog implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Shop getShop() {
+        return shop;
+    }
+
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     /**

@@ -1,6 +1,6 @@
 package lab5.model;
 
-import lab1.model.Catalog;
+import lab5.model.Catalog;
 
 public class Shop {
 
