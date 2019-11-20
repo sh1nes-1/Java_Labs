@@ -13,13 +13,14 @@ public class ComboPooledConnectionBuilder implements ConnectionBuilder {
 
     public ComboPooledConnectionBuilder() throws DatabaseConnectionException {
         try {
-            GlobalConfig.loadGlobalConfig("database.properties");
+            GlobalConfig config = new GlobalConfig();
+            config.loadGlobalConfig("database.properties");
 
             dataSource = new ComboPooledDataSource();
-            dataSource.setDriverClass(GlobalConfig.getProperty("connection.driver.class"));
-            dataSource.setJdbcUrl(GlobalConfig.getProperty("connection.url"));
-            dataSource.setUser(GlobalConfig.getProperty("connection.login"));
-            dataSource.setPassword(GlobalConfig.getProperty("connection.password"));
+            dataSource.setDriverClass(config.getProperty("connection.driver.class"));
+            dataSource.setJdbcUrl(config.getProperty("connection.url"));
+            dataSource.setUser(config.getProperty("connection.login"));
+            dataSource.setPassword(config.getProperty("connection.password"));
             dataSource.setMinPoolSize(1);
             dataSource.setMaxPoolSize(1);
         } catch (Exception ex) {

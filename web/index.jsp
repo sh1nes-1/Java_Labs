@@ -8,9 +8,19 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>Main</title>
+    <title>SmartShops - Головна</title>
+    <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-  This is main page
+  <%--
+  <%
+    if (request.getAttribute("userName") != null) {
+      out.println("<p>User '" + request.getAttribute("userName") + "' added!</p>");
+    }
+  %>
+  --%>
+    <div class="shop">
+      ShopName - ${test}
+    </div>
   </body>
 </html>

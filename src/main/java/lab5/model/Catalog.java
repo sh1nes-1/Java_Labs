@@ -4,10 +4,6 @@ import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO:
-// дозволяє змінити кількість
-// ціна для магазину
-
 /**
  * Catalog
  * Contains some collection of Catalog Items
@@ -17,7 +13,8 @@ public class Catalog implements Serializable {
 
     //todo: name, звязок в іншу сторону
     private Long id;
-    Shop shop;
+    private String name;
+    private Shop shop;
     private Set<CatalogItem> catalogItems;
 
     public Catalog() {
@@ -32,12 +29,39 @@ public class Catalog implements Serializable {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Shop getShop() {
         return shop;
     }
 
     public void setShop(Shop shop) {
         this.shop = shop;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Catalog catalog = (Catalog) o;
+        return Objects.equals(id, catalog.id) &&
+                name.equals(catalog.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 
     /**
@@ -74,5 +98,4 @@ public class Catalog implements Serializable {
                 .filter(e -> e.getSmartPhone().equals(smartPhone))
                 .findAny();
     }
-
 }

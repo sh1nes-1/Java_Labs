@@ -1,20 +1,23 @@
 package lab5.utils;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
 public class GlobalConfig {
-    private static final String CONFIG_PATH = "src/main/resources/";
+    private static final String CONFIG_PATH = "/";
     private static final String CONFIG_NAME = "config.properties";
-    private static final Properties GLOBAL_CONFIG = new Properties();
+    private final Properties globalConfig;
+
+    {
+        globalConfig = new Properties();
+    }
 
     /**
      * Loads default config.properties from resources
      *
      * @throws IOException if can't read config
      */
-    public static void loadGlobalConfig() throws IOException {
+    public void loadGlobalConfig() throws IOException {
         loadGlobalConfig(null);
     }
 
@@ -24,11 +27,11 @@ public class GlobalConfig {
      * @param name filename of config
      * @throws IOException if can't read config
      */
-    public static void loadGlobalConfig(String name) throws IOException {
+    public void loadGlobalConfig(String name) throws IOException {
         if (name != null && !name.trim().isEmpty()) {
-            GLOBAL_CONFIG.load(new FileReader(CONFIG_PATH + name));
+            globalConfig.load(getClass().getResourceAsStream(CONFIG_PATH + name));
         } else {
-            GLOBAL_CONFIG.load(new FileReader(CONFIG_PATH + CONFIG_NAME));
+            globalConfig.load(getClass().getResourceAsStream(CONFIG_PATH + CONFIG_NAME));
         }
     }
 
@@ -38,7 +41,7 @@ public class GlobalConfig {
      * @param property key (name) of needed property
      * @return value of needed property
      */
-    public static String getProperty(String property) {
-        return GLOBAL_CONFIG.getProperty(property);
+    public String getProperty(String property) {
+        return globalConfig.getProperty(property);
     }
 }

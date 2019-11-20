@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
     compile 'org.testng:testng:6.8'
     compile 'com.fasterxml.jackson.core:jackson-core:2.10.0'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.10.0'
@@ -28,8 +30,6 @@ dependencies {
     compile 'org.glassfish.web:javax.el:2.2.4'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.8'
     compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.4'
-    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.0-b01'
-    providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
     testCompile 'org.skyscreamer:jsonassert:1.5.0'
 }
 

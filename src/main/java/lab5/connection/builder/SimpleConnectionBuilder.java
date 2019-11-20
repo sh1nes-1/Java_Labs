@@ -9,10 +9,18 @@ import java.sql.DriverManager;
 
 public class SimpleConnectionBuilder implements ConnectionBuilder {
 
+    private final String url;
+    private final String login;
+    private final String password;
+
     public SimpleConnectionBuilder() throws DatabaseConnectionException {
         try {
-            GlobalConfig.loadGlobalConfig("database.properties");
-            Class.forName(GlobalConfig.getProperty("connection.driver.class"));
+            GlobalConfig config = new GlobalConfig();
+            config.loadGlobalConfig("database.properties");
+            Class.forName(config.getProperty("connection.driver.class"));
+            url = config.getProperty("connection.url");
+            login = config.getProperty("connection.login");
+            password = config.getProperty("connection.password");
         } catch (Exception ex) {
             throw new DatabaseConnectionException(ex.getMessage());
         }
@@ -20,10 +28,6 @@ public class SimpleConnectionBuilder implements ConnectionBuilder {
 
     @Override
     public Connection getConnection() throws DatabaseConnectionException {
-        String url = GlobalConfig.getProperty("connection.url");
-        String login = GlobalConfig.getProperty("connection.login");
-        String password = GlobalConfig.getProperty("connection.password");
-
         try {
             return DriverManager.getConnection(url, login, password);
         } catch (Exception ex) {

@@ -3,6 +3,7 @@ package lab4.service;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class NotOlderThanYearsValidator implements ConstraintValidator<NotOlderThanYears, LocalDate> {
 
@@ -19,8 +20,8 @@ public class NotOlderThanYearsValidator implements ConstraintValidator<NotOlderT
         if (localDate == null)
             return true;
 
-        //TODO: here fix
-        boolean isValid =  localDate.getYear() >= annotationYears;
+        long yearsBetween = Math.abs(ChronoUnit.YEARS.between(LocalDate.now(), localDate));
+        boolean isValid = yearsBetween <= annotationYears;
 
         if (!isValid) {
             constraintContext.disableDefaultConstraintViolation();

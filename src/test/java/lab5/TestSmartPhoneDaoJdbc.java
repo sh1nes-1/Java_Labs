@@ -25,7 +25,7 @@ public class TestSmartPhoneDaoJdbc {
     private SmartPhone iphoneX;
     private SmartPhone redmi7;
 
-    @BeforeTest
+    @BeforeClass
     public void beforeTest() throws DatabaseConnectionException, SQLException, DaoException {
         // creating schema
         try {
