@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="css/index.css">
   </head>
   <body>
-  <%--
-  <%
-    if (request.getAttribute("userName") != null) {
-      out.println("<p>User '" + request.getAttribute("userName") + "' added!</p>");
-    }
-  %>
-  --%>
+
+      <%
+        if (request.getAttribute("userName") != null) {
+          out.println("<p>User '" + request.getAttribute("userName") + "' added!</p>");
+        }
+      %>
+
     <div class="shop">
       ShopName - ${test}
     </div>
