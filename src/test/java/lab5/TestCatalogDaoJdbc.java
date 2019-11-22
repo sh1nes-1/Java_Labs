@@ -15,20 +15,24 @@ import lab5.model.SmartPhone;
 import lab5.utils.DatabaseStructure;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import java.util.Optional;
+
+import java.sql.Savepoint;
+import java.util.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.Optional;
 
 public class TestCatalogDaoJdbc {
 
     private Connection connection;
+
     private CatalogDao catalogDao;
+    private ShopDao shopDao;
+
     private Catalog mainCatalog;
+    private Catalog blackFridayCatalog;
 
     @BeforeClass
     public void beforeTest() throws DatabaseConnectionException, SQLException, DaoException {
@@ -77,19 +81,25 @@ public class TestCatalogDaoJdbc {
         redmi7.setId(smartPhoneDao.insert(redmi7));
 
         // shop
-        ShopDao shopDao = new ShopDaoJdbc(connection);
+        shopDao = new ShopDaoJdbc(connection);
         Shop shop = new Shop("Rozetka");
         shop.setId(shopDao.insert(shop));
 
         // catalog
         catalogDao = new CatalogDaoJdbc(connection);
+
         mainCatalog = new Catalog();
         mainCatalog.setName("Main Catalog");
         mainCatalog.setShop(shop);
         mainCatalog.setId(catalogDao.insert(mainCatalog));
+
+        blackFridayCatalog = new Catalog();
+        blackFridayCatalog.setName("Black Friday");
+        blackFridayCatalog.setShop(shop);
+        blackFridayCatalog.setId(catalogDao.insert(blackFridayCatalog));
     }
 
-    @AfterTest
+    @AfterClass
     public void afterTest() throws SQLException {
         connection.close();
     }
@@ -116,11 +126,60 @@ public class TestCatalogDaoJdbc {
         Assert.assertEquals(result.get(), mainCatalog);
     }
 
+    @Test
+    public void negativeFindCatalogByIdTest() throws DaoException {
+        Optional<Catalog> result = catalogDao.findById(-1L);
+        Assert.assertFalse(result.isPresent());
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Test
     public void findAllCatalogsTest() throws DaoException {
-        Set<Catalog> expected = new HashSet<>(Arrays.asList(mainCatalog));
+        Set<Catalog> expected = new HashSet<>(Arrays.asList(mainCatalog, blackFridayCatalog));
+        Set<Catalog> actual = new HashSet<>(catalogDao.findAll());
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void insertCatalogTest() throws DaoException {
+        Shop shop = new Shop("Some shop");
+        shop.setImageUrl("newshop.jpg");
+        shop.setId(shopDao.insert(shop));
+
+        Catalog catalog = new Catalog();
+        catalog.setName("Some catalog");
+        catalog.setShop(shop);
+        catalog.setId(catalogDao.insert(catalog));
+
+        Set<Catalog> expected = new HashSet<>(Arrays.asList(mainCatalog, blackFridayCatalog, catalog));
+        Set<Catalog> actual = new HashSet<>(catalogDao.findAll());
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void updateCatalogTest() throws DaoException {
+        String name = mainCatalog.getName();
+        mainCatalog.setName("New Main Catalog");
+        catalogDao.update(mainCatalog);
+
+        Optional<Catalog> actual = catalogDao.findById(mainCatalog.getId());
+        Assert.assertTrue(actual.isPresent());
+        Assert.assertEquals(actual.get(), mainCatalog);
+        mainCatalog.setName(name);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void deleteCatalogTest() throws DaoException {
+        catalogDao.delete(mainCatalog.getId());
+
+        Set<Catalog> expected = new HashSet<>(Collections.singletonList(blackFridayCatalog));
         Set<Catalog> actual = new HashSet<>(catalogDao.findAll());
         Assert.assertEquals(actual, expected);
     }

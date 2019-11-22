@@ -12,6 +12,7 @@ import org.testng.annotations.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Savepoint;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Optional;
@@ -71,7 +72,7 @@ public class TestSmartPhoneDaoJdbc {
         redmi7.setId(smartPhoneDao.insert(redmi7));
     }
 
-    @AfterTest
+    @AfterClass
     public void afterTest() throws SQLException {
         connection.close();
     }
@@ -115,7 +116,7 @@ public class TestSmartPhoneDaoJdbc {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    @Test(priority = 1)
+    @Test
     public void insertSmartPhoneTest() throws DaoException {
         SmartPhone samsungA30 = new SmartPhone.Builder()
                 .setName("Samsung Galaxy A30")
@@ -132,7 +133,6 @@ public class TestSmartPhoneDaoJdbc {
 
         Set<SmartPhone> expected = new HashSet<>(Arrays.asList(redmiNote7, iphoneX, redmi7, samsungA30));
         Set<SmartPhone> actual = new HashSet<>(smartPhoneDao.findAll());
-
         Assert.assertEquals(actual, expected);
     }
 
@@ -140,21 +140,17 @@ public class TestSmartPhoneDaoJdbc {
 
     @Test
     public void updateSmartPhoneTest() throws DaoException {
-        SmartPhone newRedmiNote7 = new SmartPhone.Builder()
-                .setId(redmiNote7.getId())
-                .setName("New Redmi Note 7")
-                .setColor(redmiNote7.getColor())
-                .setPrice(redmiNote7.getPrice())
-                .setDiagonal(redmiNote7.getDiagonal())
-                .setReleaseDate(redmiNote7.getReleaseDate())
-                .setRam(redmiNote7.getRam())
-                .build();
+        String name = redmiNote7.getName();
 
-        smartPhoneDao.update(newRedmiNote7);
-        Optional<SmartPhone> actual = smartPhoneDao.findById(newRedmiNote7.getId());
+        redmiNote7.setName("New Redmi Note 7");
+
+        smartPhoneDao.update(redmiNote7);
+        Optional<SmartPhone> actual = smartPhoneDao.findById(redmiNote7.getId());
 
         Assert.assertTrue(actual.isPresent());
-        Assert.assertEquals(actual.get(), newRedmiNote7);
+        Assert.assertEquals(actual.get(), redmiNote7);
+
+        redmiNote7.setName(name);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

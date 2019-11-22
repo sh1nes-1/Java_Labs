@@ -47,4 +47,8 @@ publishing {
 
 test {
     useTestNG()
+
+    beforeTest { descriptor ->
+        logger.lifecycle("Running test: ${descriptor}")
+    }
 }
