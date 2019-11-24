@@ -17,8 +17,8 @@ public interface Dao<T> {
      */
     Long insert(T t) throws DaoException;
 
-    void update(T t) throws DaoException;
+    int update(T t) throws DaoException;
 
-    void delete(Long id) throws DaoException;
+    int delete(Long id) throws DaoException;
 
 }

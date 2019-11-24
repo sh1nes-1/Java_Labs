@@ -20,8 +20,8 @@ public class DatabaseStructure {
     private static final String CREATE_SHOPS = "CREATE TABLE shops (id SERIAL NOT NULL PRIMARY KEY,name VARCHAR(30) NOT NULL,image VARCHAR(30))";
     private static final String DROP_SHOPS = "DROP TABLE shops";
 
-    private static final String CREATE_SMARTPHONES_SHOPS = "CREATE TABLE catalog_items (id SERIAL NOT NULL PRIMARY KEY,catalog_id integer NOT NULL REFERENCES catalogs(id) ON DELETE CASCADE,smartphone_id integer NOT NULL REFERENCES smartphones(id),smartphone_price integer NOT NULL,smartphone_count integer NOT NULL)";
-    private static final String DROP_SMARTPHONES_SHOPS = "DROP TABLE catalog_items";
+    private static final String CREATE_CATALOG_ITEMS = "CREATE TABLE catalog_items (catalog_id integer NOT NULL REFERENCES catalogs(id) ON DELETE CASCADE,smartphone_id integer UNIQUE NOT NULL REFERENCES smartphones(id),smartphone_price integer NOT NULL,smartphone_count integer NOT NULL)";
+    private static final String DROP_CATALOG_ITEMS = "DROP TABLE catalog_items";
 
 
     private static Connection cachedConnection;
@@ -36,13 +36,13 @@ public class DatabaseStructure {
         statement.executeUpdate(CREATE_SMARTPHONES);
         statement.executeUpdate(CREATE_SHOPS);
         statement.executeUpdate(CREATE_CATALOGS);
-        statement.executeUpdate(CREATE_SMARTPHONES_SHOPS);
+        statement.executeUpdate(CREATE_CATALOG_ITEMS);
     }
 
     public static void dropTables() throws DatabaseConnectionException, SQLException {
         Connection connection = getConnection();
         Statement statement = connection.createStatement();
-        try { statement.executeUpdate(DROP_SMARTPHONES_SHOPS); } catch (Exception ignored) { }
+        try { statement.executeUpdate(DROP_CATALOG_ITEMS); } catch (Exception ignored) { }
         try { statement.executeUpdate(DROP_CATALOGS); } catch (Exception ignored) { }
         try { statement.executeUpdate(DROP_SHOPS); } catch (Exception ignored) { }
         try { statement.executeUpdate(DROP_SMARTPHONES); } catch (Exception ignored) { }

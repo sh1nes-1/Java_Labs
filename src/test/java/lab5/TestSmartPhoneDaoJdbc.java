@@ -12,7 +12,6 @@ import org.testng.annotations.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Savepoint;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.Optional;
@@ -162,6 +161,15 @@ public class TestSmartPhoneDaoJdbc {
         Set<SmartPhone> expected = new HashSet<>(Arrays.asList(iphoneX, redmi7));
         Set<SmartPhone> actual =  new HashSet<>(smartPhoneDao.findAll());
 
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void findByNameTest() throws DaoException {
+        Set<SmartPhone> expected = new HashSet<>(Arrays.asList(redmi7, redmiNote7));
+        Set<SmartPhone> actual = new HashSet<>(smartPhoneDao.findAllWithNameLike("Xiaomi%"));
         Assert.assertEquals(actual, expected);
     }
 

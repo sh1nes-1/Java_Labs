@@ -15,8 +15,6 @@ import lab5.model.SmartPhone;
 import lab5.utils.DatabaseStructure;
 import org.testng.Assert;
 import org.testng.annotations.*;
-
-import java.sql.Savepoint;
 import java.util.*;
 
 import java.sql.Connection;
@@ -93,10 +91,15 @@ public class TestCatalogDaoJdbc {
         mainCatalog.setShop(shop);
         mainCatalog.setId(catalogDao.insert(mainCatalog));
 
+        catalogDao.addSmartPhone(mainCatalog, redmi7, 1000, 10);
+        catalogDao.addSmartPhone(mainCatalog, iphoneX, 2000, 5);
+
         blackFridayCatalog = new Catalog();
         blackFridayCatalog.setName("Black Friday");
         blackFridayCatalog.setShop(shop);
         blackFridayCatalog.setId(catalogDao.insert(blackFridayCatalog));
+
+        catalogDao.addSmartPhone(blackFridayCatalog, redmiNote7, 800, 7);
     }
 
     @AfterClass
@@ -130,6 +133,15 @@ public class TestCatalogDaoJdbc {
     public void negativeFindCatalogByIdTest() throws DaoException {
         Optional<Catalog> result = catalogDao.findById(-1L);
         Assert.assertFalse(result.isPresent());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void findCatalogByIdEagerTest() throws DaoException {
+        Optional<Catalog> result = catalogDao.findByIdEager(mainCatalog.getId());
+        Assert.assertTrue(result.isPresent());
+        System.out.println(result.get());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -183,4 +195,8 @@ public class TestCatalogDaoJdbc {
         Set<Catalog> actual = new HashSet<>(catalogDao.findAll());
         Assert.assertEquals(actual, expected);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }

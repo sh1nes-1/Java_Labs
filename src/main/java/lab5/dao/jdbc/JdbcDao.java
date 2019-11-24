@@ -82,22 +82,22 @@ public abstract class JdbcDao<T> implements Dao<T> {
     }
 
     @Override
-    public void update(T t) throws DaoException {
+    public int update(T t) throws DaoException {
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement(getUpdateQuery())) {
             fillPreparedStatementForUpdate(ps, t);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException ex) {
             throw new DaoException(ex.getMessage());
         }
     }
 
     @Override
-    public void delete(Long id) throws DaoException {
+    public int delete(Long id) throws DaoException {
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement(getDeleteQuery())) {
             ps.setLong(1, id);
-            ps.executeUpdate();
+            return ps.executeUpdate();
         } catch (SQLException ex) {
             throw new DaoException(ex.getMessage());
         }

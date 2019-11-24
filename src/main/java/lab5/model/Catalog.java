@@ -81,7 +81,7 @@ public class Catalog implements Serializable {
     }
 
 
-    public boolean addGoodsItem(SmartPhone smartPhone, Integer price, Integer count) {
+    public boolean addSmartPhone(SmartPhone smartPhone, Integer price, Integer count) {
         if (getSmartPhones().contains(smartPhone))
             return false;
 
@@ -93,7 +93,19 @@ public class Catalog implements Serializable {
         return catalogItems.add(catalogItem);
     }
 
-    public Optional<CatalogItem> getGoodsItem(SmartPhone smartPhone) {
+    public boolean removeSmartPhone(SmartPhone smartPhone) {
+        Optional<CatalogItem> catalogItem = catalogItems.stream()
+                .filter(c -> c.getSmartPhone().equals(smartPhone))
+                .findAny();
+
+        if (catalogItem.isPresent()) {
+            return catalogItems.remove(catalogItem.get());
+        }
+
+        return false;
+    }
+
+    public Optional<CatalogItem> getSmartPhoneInfo(SmartPhone smartPhone) {
         return catalogItems.stream()
                 .filter(e -> e.getSmartPhone().equals(smartPhone))
                 .findAny();

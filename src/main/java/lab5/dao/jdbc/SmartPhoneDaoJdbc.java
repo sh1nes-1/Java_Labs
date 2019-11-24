@@ -1,11 +1,13 @@
 package lab5.dao.jdbc;
 
 import lab5.dao.SmartPhoneDao;
+import lab5.exception.DaoException;
 import lab5.model.SmartPhone;
 
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 public class SmartPhoneDaoJdbc extends JdbcDao<SmartPhone> implements SmartPhoneDao {
 
@@ -14,6 +16,7 @@ public class SmartPhoneDaoJdbc extends JdbcDao<SmartPhone> implements SmartPhone
     private static final String ADD = "INSERT INTO smartphones (name, price, releaseDate, color, ram, diagonal) VALUES (?, ?, ?, ?, ?, ?)";
     private static final String UPDATE = "UPDATE smartphones SET name=?, price=?, releaseDate=?, color=?, ram=?, diagonal=? WHERE id=?";
     private static final String DELETE = "DELETE FROM smartphones WHERE id=?";
+    private static final String GET_BY_NAME = "SELECT id, name, price, releaseDate, color, ram, diagonal FROM smartphones WHERE name LIKE ?";
 
     public SmartPhoneDaoJdbc(Connection connection) {
         super(connection);
@@ -83,4 +86,18 @@ public class SmartPhoneDaoJdbc extends JdbcDao<SmartPhone> implements SmartPhone
         return counter;
     }
 
+    @Override
+    public List<SmartPhone> findAllWithNameLike(String name) throws DaoException {
+        List<SmartPhone> result;
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement(GET_BY_NAME)) {
+            ps.setString(1, name);
+            ResultSet rs = ps.executeQuery();
+            result = fillFromResultSet(rs);
+            rs.close();
+        } catch (SQLException ex) {
+            throw new DaoException(ex.getMessage());
+        }
+        return result;
+    }
 }
