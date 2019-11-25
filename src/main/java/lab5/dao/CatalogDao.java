@@ -7,11 +7,6 @@ import lab5.model.SmartPhone;
 import java.util.Optional;
 
 public interface CatalogDao extends Dao<Catalog> {
-    // отриимати всі каталоги разом з Set всередині за доп одного sql запиту
-    // забрати id з таблиці catalog_items
-    // додати айтем
-    // видалити айтем
-    // змінити кількість смартфонів в CatalogItem тут якщо заберу id
 
     /**
      * Finds needed catalog by id
@@ -20,6 +15,10 @@ public interface CatalogDao extends Dao<Catalog> {
      * @return catalog with all filled fields
      */
     Optional<Catalog> findByIdEager(Long id) throws DaoException;
+
+    Integer getSmartPhonePrice(Catalog catalog, SmartPhone smartPhone) throws DaoException;
+
+    Integer getSmartPhoneCount(Catalog catalog, SmartPhone smartPhone) throws DaoException;
 
     /**
      * Adds smartphone to catalog

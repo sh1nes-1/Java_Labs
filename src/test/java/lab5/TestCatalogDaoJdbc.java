@@ -10,6 +10,7 @@ import lab5.dao.jdbc.SmartPhoneDaoJdbc;
 import lab5.exception.DaoException;
 import lab5.exception.DatabaseConnectionException;
 import lab5.model.Catalog;
+import lab5.model.CatalogItem;
 import lab5.model.Shop;
 import lab5.model.SmartPhone;
 import lab5.utils.DatabaseStructure;
@@ -32,6 +33,10 @@ public class TestCatalogDaoJdbc {
     private Catalog mainCatalog;
     private Catalog blackFridayCatalog;
 
+    private SmartPhone redmi7;
+    private SmartPhone iphoneX;
+    private SmartPhone redmiNote7;
+
     @BeforeClass
     public void beforeTest() throws DatabaseConnectionException, SQLException, DaoException {
         // creating schema
@@ -47,7 +52,7 @@ public class TestCatalogDaoJdbc {
         // smartphones
         SmartPhoneDao smartPhoneDao = new SmartPhoneDaoJdbc(connection);
 
-        SmartPhone redmiNote7 = new SmartPhone.Builder()
+        redmiNote7 = new SmartPhone.Builder()
                 .setName("Xiaomi Redmi Note 7")
                 .setDiagonal(6.3)
                 .setColor(SmartPhone.Color.BLUE)
@@ -56,7 +61,7 @@ public class TestCatalogDaoJdbc {
                 .setPrice(4500)
                 .build();
 
-        SmartPhone iphoneX = new SmartPhone.Builder()
+        iphoneX = new SmartPhone.Builder()
                 .setName("iPhone X")
                 .setDiagonal(5.8)
                 .setColor(SmartPhone.Color.WHITE)
@@ -65,7 +70,7 @@ public class TestCatalogDaoJdbc {
                 .setPrice(20000)
                 .build();
 
-        SmartPhone redmi7 = new SmartPhone.Builder()
+        redmi7 = new SmartPhone.Builder()
                 .setName("Xiaomi Redmi 7")
                 .setDiagonal(6.26)
                 .setColor(SmartPhone.Color.BLACK)
@@ -141,7 +146,7 @@ public class TestCatalogDaoJdbc {
     public void findCatalogByIdEagerTest() throws DaoException {
         Optional<Catalog> result = catalogDao.findByIdEager(mainCatalog.getId());
         Assert.assertTrue(result.isPresent());
-        System.out.println(result.get());
+        System.out.println(result.get().getSmartPhones());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -198,5 +203,67 @@ public class TestCatalogDaoJdbc {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    @Test
+    public void getSmartPhonePriceTest() throws DaoException {
+        Integer expected = mainCatalog.getSmartPhoneInfo(redmi7).get().getPrice();
+        Integer actual = catalogDao.getSmartPhonePrice(mainCatalog, redmi7);
+        Assert.assertEquals(actual, expected);
+    }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void getSmartPhoneCountTest() throws DaoException {
+        Integer expected = mainCatalog.getSmartPhoneInfo(redmi7).get().getCount();
+        Integer actual = catalogDao.getSmartPhoneCount(mainCatalog, redmi7);
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void addSmartPhoneTest() throws DaoException {
+        catalogDao.addSmartPhone(blackFridayCatalog, redmi7, 2500, 1);
+
+        Optional<Catalog> result = catalogDao.findByIdEager(blackFridayCatalog.getId());
+        Assert.assertTrue(result.isPresent());
+
+        Object[] actual = result.get().getSmartPhones().toArray();
+        Object[] expected = { redmi7, redmiNote7 };
+        Assert.assertEqualsNoOrder(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void removeSmartPhoneTest() throws DaoException {
+        catalogDao.removeSmartPhone(mainCatalog, redmi7);
+
+        Optional<Catalog> result = catalogDao.findByIdEager(mainCatalog.getId());
+        Assert.assertTrue(result.isPresent());
+
+        Object[] actual = result.get().getSmartPhones().toArray();
+        Object[] expected = { iphoneX };
+        Assert.assertEqualsNoOrder(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void changeSmartPhonePriceTest() throws DaoException {
+        Integer expected = 6500;
+        catalogDao.changeSmartPhonePrice(mainCatalog, redmi7, expected);
+        Integer actual = catalogDao.getSmartPhonePrice(mainCatalog, redmi7);
+        Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void changeSmartPhoneCountTest() throws DaoException {
+        Integer expected = 31;
+        catalogDao.changeSmartPhoneCount(mainCatalog, redmi7, expected);
+        Integer actual = catalogDao.getSmartPhoneCount(mainCatalog, redmi7);
+        Assert.assertEquals(actual, expected);
+    }
 }

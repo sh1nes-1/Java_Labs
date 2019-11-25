@@ -22,6 +22,8 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
     private static final String GET_EAGER = "SELECT c.id AS \"c_id\", c.name AS \"c_name\", ci.smartphone_price AS \"ci_smartphone_price\", ci.smartphone_count AS \"ci_smartphone_count\", s.id AS \"s_id\", s.name AS \"s_name\", s.color AS \"s_color\", s.price AS \"s_price\", s.diagonal AS \"s_diagonal\", s.ram AS \"s_ram\", s.releasedate AS \"s_releasedate\" FROM catalogs c LEFT JOIN catalog_items ci ON c.id = ci.catalog_id LEFT JOIN smartphones s ON ci.smartphone_id = s.id WHERE c.id = ?";
     private static final String ADD_SMARTPHONE = "INSERT INTO catalog_items(catalog_id, smartphone_id, smartphone_price, smartphone_count) VALUES (?, ?, ?, ?)";
     private static final String DELETE_SMARTPHONE = "DELETE FROM catalog_items WHERE catalog_id = ? AND smartphone_id = ?";
+    private static final String GET_SMARTPHONE_PRICE = "SELECT smartphone_price FROM catalog_items WHERE catalog_id = ? AND smartphone_id = ?";
+    private static final String GET_SMARTPHONE_COUNT = "SELECT smartphone_count FROM catalog_items WHERE catalog_id = ? AND smartphone_id = ?";
     private static final String CHANGE_SMARTPHONE_PRICE = "UPDATE catalog_items SET smartphone_price = ? WHERE catalog_id = ? AND smartphone_id = ?";
     private static final String CHANGE_SMARTPHONE_COUNT = "UPDATE catalog_items SET smartphone_count = ? WHERE catalog_id = ? AND smartphone_id = ?";
 
@@ -84,7 +86,7 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
                 catalog.setId(rs.getLong("c_id"));
                 catalog.setName(rs.getString("c_name"));
 
-                while (rs.next()) {
+                do {
                     SmartPhone smartPhone = new SmartPhone.Builder()
                             .setId(rs.getLong("s_id"))
                             .setName(rs.getString("s_name"))
@@ -97,6 +99,7 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
 
                     catalog.addSmartPhone(smartPhone, rs.getInt("ci_smartphone_price"), rs.getInt("ci_smartphone_count"));
                 }
+                while (rs.next());
 
                 result = Optional.of(catalog);
             }
@@ -106,6 +109,42 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
             throw new DaoException(ex.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public Integer getSmartPhonePrice(Catalog catalog, SmartPhone smartPhone) throws DaoException {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement(GET_SMARTPHONE_PRICE)) {
+            ps.setLong(1, catalog.getId());
+            ps.setLong(2, smartPhone.getId());
+            ResultSet rs = ps.executeQuery();
+            Integer result = null;
+            if (rs.next()) {
+                result = rs.getInt("smartphone_price");
+            }
+            return result;
+        }
+        catch (SQLException ex) {
+            throw new DaoException(ex.getMessage());
+        }
+    }
+
+    @Override
+    public Integer getSmartPhoneCount(Catalog catalog, SmartPhone smartPhone) throws DaoException {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement(GET_SMARTPHONE_COUNT)) {
+            ps.setLong(1, catalog.getId());
+            ps.setLong(2, smartPhone.getId());
+            ResultSet rs = ps.executeQuery();
+            Integer result = null;
+            if (rs.next()) {
+                result = rs.getInt("smartphone_count");
+            }
+            return result;
+        }
+        catch (SQLException ex) {
+            throw new DaoException(ex.getMessage());
+        }
     }
 
     @Override
@@ -145,9 +184,9 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
     public int changeSmartPhonePrice(Catalog catalog, SmartPhone smartPhone, Integer newPrice) throws DaoException {
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement(CHANGE_SMARTPHONE_PRICE)) {
-            ps.setLong(1, catalog.getId());
-            ps.setLong(2, smartPhone.getId());
-            ps.setInt(3, newPrice);
+            ps.setInt(1, newPrice);
+            ps.setLong(2, catalog.getId());
+            ps.setLong(3, smartPhone.getId());
             int result = ps.executeUpdate();
             if (result > 0) catalog.getSmartPhoneInfo(smartPhone).ifPresent(catalogItem -> catalogItem.setPrice(newPrice));
             return result;
@@ -161,9 +200,9 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
     public int changeSmartPhoneCount(Catalog catalog, SmartPhone smartPhone, Integer newCount) throws DaoException {
         Connection connection = getConnection();
         try (PreparedStatement ps = connection.prepareStatement(CHANGE_SMARTPHONE_COUNT)) {
-            ps.setLong(1, catalog.getId());
-            ps.setLong(2, smartPhone.getId());
-            ps.setInt(3, newCount);
+            ps.setInt(1, newCount);
+            ps.setLong(2, catalog.getId());
+            ps.setLong(3, smartPhone.getId());
             int result = ps.executeUpdate();
             if (result > 0) catalog.getSmartPhoneInfo(smartPhone).ifPresent(catalogItem -> catalogItem.setCount(newCount));
             return result;

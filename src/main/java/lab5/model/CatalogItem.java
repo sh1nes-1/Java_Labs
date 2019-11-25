@@ -1,12 +1,12 @@
 package lab5.model;
 
+import java.util.Objects;
+
 /**
  * CatalogItem
  * Created to store smartphone, price and its count for each shop
  */
 public class CatalogItem {
-
-    // TODO: Dao тому що якщо ми захочемо поміняти ціну чи кількість
 
     private SmartPhone smartPhone;
     private Integer price;
@@ -36,4 +36,18 @@ public class CatalogItem {
         this.count = count;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CatalogItem that = (CatalogItem) o;
+        return Objects.equals(smartPhone, that.smartPhone) &&
+                Objects.equals(price, that.price) &&
+                Objects.equals(count, that.count);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(smartPhone, price, count);
+    }
 }
