@@ -4,6 +4,7 @@ import lab5.dao.CatalogDao;
 import lab5.exception.DaoException;
 import lab5.model.Catalog;
 import lab5.model.CatalogItem;
+import lab5.model.Shop;
 import lab5.model.SmartPhone;
 
 import java.sql.*;
@@ -19,7 +20,7 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
     private static final String ADD = "INSERT INTO catalogs (name, shop_id) VALUES (?, ?)";
     private static final String UPDATE = "UPDATE catalogs SET name=?,shop_id=? WHERE id = ?"; //міняти name і вказувати магазин
     private static final String DELETE = "DELETE FROM catalogs WHERE id = ?"; //видаляти і каталог ітеми
-    private static final String GET_EAGER = "SELECT c.id AS \"c_id\", c.name AS \"c_name\", ci.smartphone_price AS \"ci_smartphone_price\", ci.smartphone_count AS \"ci_smartphone_count\", s.id AS \"s_id\", s.name AS \"s_name\", s.color AS \"s_color\", s.price AS \"s_price\", s.diagonal AS \"s_diagonal\", s.ram AS \"s_ram\", s.releasedate AS \"s_releasedate\" FROM catalogs c LEFT JOIN catalog_items ci ON c.id = ci.catalog_id LEFT JOIN smartphones s ON ci.smartphone_id = s.id WHERE c.id = ?";
+    private static final String GET_EAGER = "SELECT c.id AS \"c_id\", c.name AS \"c_name\", sh.id AS \"sh_id\", sh.name AS \"sh_name\", sh.image AS \"sh_image\", ci.smartphone_price AS \"ci_smartphone_price\", ci.smartphone_count AS \"ci_smartphone_count\", sm.id AS \"sm_id\", sm.name AS \"sm_name\", sm.color AS \"sm_color\", sm.price AS \"sm_price\", sm.diagonal AS \"sm_diagonal\", sm.ram AS \"sm_ram\", sm.releasedate AS \"sm_releasedate\"FROM catalogs c LEFT JOIN catalog_items ci ON c.id = ci.catalog_id LEFT JOIN smartphones sm ON ci.smartphone_id = sm.id LEFT JOIN shops sh on c.shop_id = sh.id WHERE c.id = ?";
     private static final String ADD_SMARTPHONE = "INSERT INTO catalog_items(catalog_id, smartphone_id, smartphone_price, smartphone_count) VALUES (?, ?, ?, ?)";
     private static final String DELETE_SMARTPHONE = "DELETE FROM catalog_items WHERE catalog_id = ? AND smartphone_id = ?";
     private static final String GET_SMARTPHONE_PRICE = "SELECT smartphone_price FROM catalog_items WHERE catalog_id = ? AND smartphone_id = ?";
@@ -82,19 +83,24 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+                Shop shop = new Shop(rs.getString("sh_name"));
+                shop.setId(rs.getLong("sh_id"));
+                shop.setImageUrl(rs.getString("sh_image"));
+
                 Catalog catalog = new Catalog();
                 catalog.setId(rs.getLong("c_id"));
                 catalog.setName(rs.getString("c_name"));
+                catalog.setShop(shop);
 
                 do {
                     SmartPhone smartPhone = new SmartPhone.Builder()
-                            .setId(rs.getLong("s_id"))
-                            .setName(rs.getString("s_name"))
-                            .setColor(SmartPhone.Color.valueOf(rs.getString("s_color")))
-                            .setPrice(rs.getInt("s_price"))
-                            .setDiagonal(rs.getDouble("s_diagonal"))
-                            .setReleaseDate(rs.getDate("s_releasedate").toLocalDate())
-                            .setRam(rs.getInt("s_ram"))
+                            .setId(rs.getLong("sm_id"))
+                            .setName(rs.getString("sm_name"))
+                            .setColor(SmartPhone.Color.valueOf(rs.getString("sm_color")))
+                            .setPrice(rs.getInt("sm_price"))
+                            .setDiagonal(rs.getDouble("sm_diagonal"))
+                            .setReleaseDate(rs.getDate("sm_releasedate").toLocalDate())
+                            .setRam(rs.getInt("sm_ram"))
                             .build();
 
                     catalog.addSmartPhone(smartPhone, rs.getInt("ci_smartphone_price"), rs.getInt("ci_smartphone_count"));

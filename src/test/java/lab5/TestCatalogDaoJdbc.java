@@ -115,7 +115,11 @@ public class TestCatalogDaoJdbc {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @BeforeMethod
-    public void beforeMethod() throws SQLException {
+    public void beforeMethod() throws SQLException, DaoException {
+        mainCatalog = catalogDao.findByIdEager(mainCatalog.getId()).get();
+        blackFridayCatalog = catalogDao.findByIdEager(blackFridayCatalog.getId()).get();
+
+        // start transaction
         connection.setAutoCommit(false);
     }
 
