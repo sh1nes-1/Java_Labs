@@ -17,7 +17,7 @@
         if (request.getAttribute("userName") != null) {
           out.println("<p>User '" + request.getAttribute("userName") + "' added!</p>");
         }
-      %>
+      %>      
 
     <div class="shop">
       ShopName - ${test}

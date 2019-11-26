@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
  */
 public class Catalog implements Serializable {
 
-    //todo: name, звязок в іншу сторону
     private Long id;
     private String name;
     private Shop shop;

@@ -1,12 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="labs:Web exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/labs_Web_exploded</output-path>
+  <artifact type="exploded-war" name="myartifact">
+    <output-path>$PROJECT_DIR$/out/artifacts/myartifact</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="labs/web/Web" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/build/libs/exploded/labs-1.0-SNAPSHOT.war/META-INF/MANIFEST.MF" />
+      </element>
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="labs" />
           <element id="module-output" name="labs.main" />
+          <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
           <element id="library" level="project" name="Gradle: org.testng:testng:6.8" />
@@ -20,6 +22,8 @@
           <element id="library" level="project" name="Gradle: javax.el:javax.el-api:3.0.0" />
           <element id="library" level="project" name="Gradle: org.postgresql:postgresql:42.2.8" />
           <element id="library" level="project" name="Gradle: com.mchange:c3p0:0.9.5.4" />
+          <element id="library" level="project" name="Gradle: taglibs:standard:1.1.2" />
+          <element id="library" level="project" name="Gradle: jstl:jstl:1.2" />
           <element id="library" level="project" name="Gradle: junit:junit:4.10" />
           <element id="library" level="project" name="Gradle: org.beanshell:bsh:2.0b4" />
           <element id="library" level="project" name="Gradle: com.beust:jcommander:1.27" />
@@ -35,11 +39,10 @@
           <element id="library" level="project" name="Gradle: javax.validation:validation-api:2.0.1.Final" />
           <element id="library" level="project" name="Gradle: org.jboss.logging:jboss-logging:3.3.2.Final" />
           <element id="library" level="project" name="Gradle: com.fasterxml:classmate:1.3.4" />
-          <element id="library" level="project" name="Gradle: jstl:jstl:1.2" />
-          <element id="library" level="project" name="Gradle: taglibs:standard:1.1.2" />
+          <element id="library" level="project" name="Gradle: javax.servlet.jsp:javax.servlet.jsp-api:2.3.3" />
         </element>
       </element>
-      <element id="javaee-facet-resources" facet="labs.main/web/Web Gradle : labs-1.0-SNAPSHOT.war" />
+      <element id="javaee-facet-resources" facet="labs/web/Web" />
     </root>
   </artifact>
 </component>
