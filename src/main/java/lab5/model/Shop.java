@@ -7,7 +7,7 @@ public class Shop {
     private Long id;
     private String name;
     private String imageUrl;
-
+    // list< catalog>
     //TODO: in properties define some path which be added to path
 
     public Shop(String name) {

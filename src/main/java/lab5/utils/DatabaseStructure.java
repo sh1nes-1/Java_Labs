@@ -35,6 +35,7 @@ public class DatabaseStructure {
     }
 
     public static void dropTables() throws DatabaseConnectionException, SQLException {
+        // todo: try with resour
         Connection connection = ConnectionFactory.getConnectionBuilder().getConnection();
         Statement statement = connection.createStatement();
         try { statement.executeUpdate(DROP_CATALOG_ITEMS); } catch (Exception ignored) { }

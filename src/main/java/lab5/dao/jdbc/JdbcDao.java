@@ -103,6 +103,4 @@ public abstract class JdbcDao<T> implements Dao<T> {
         }
     }
 
-
-
 }

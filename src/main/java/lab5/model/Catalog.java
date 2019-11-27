@@ -13,7 +13,7 @@ public class Catalog implements Serializable {
 
     private Long id;
     private String name;
-    private Shop shop;
+    private Shop shop; // delete
     private Set<CatalogItem> catalogItems;
 
     public Catalog() {
