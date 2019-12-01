@@ -26,15 +26,15 @@ public class TestShopDaoJdbc {
 
     @BeforeClass
     public void beforeTest() throws DatabaseConnectionException, SQLException, DaoException {
+        // creating connection
+        connection = ConnectionFactory.getTestConnectionBuilder().getConnection();
+
         // creating schema
         try {
-            DatabaseStructure.dropTables();
+            DatabaseStructure.dropTables(connection);
         } catch (Exception ignored) {
         }
-        DatabaseStructure.createTables();
-
-        // creating connection
-        connection = ConnectionFactory.getConnectionBuilder().getConnection();
+        DatabaseStructure.createTables(connection);
 
         // shop
         shopDao = new ShopDaoJdbc(connection);

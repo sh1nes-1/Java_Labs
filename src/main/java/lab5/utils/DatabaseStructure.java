@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static java.util.Objects.isNull;
-
 public class DatabaseStructure {
 
     private static final String CREATE_SMARTPHONES = "CREATE TABLE smartphones (id SERIAL NOT NULL PRIMARY KEY,name VARCHAR(100) NOT NULL,price integer NOT NULL,releaseDate DATE NOT NULL,color VARCHAR(15) NOT NULL,ram integer NOT NULL,diagonal FLOAT NOT NULL)";
@@ -23,32 +21,20 @@ public class DatabaseStructure {
     private static final String CREATE_CATALOG_ITEMS = "CREATE TABLE catalog_items (catalog_id integer NOT NULL REFERENCES catalogs(id) ON DELETE CASCADE,smartphone_id integer NOT NULL REFERENCES smartphones(id),smartphone_price integer NOT NULL,smartphone_count integer NOT NULL)";
     private static final String DROP_CATALOG_ITEMS = "DROP TABLE catalog_items";
 
-
-    public static void createTables() throws DatabaseConnectionException, SQLException {
-        try (Connection connection = ConnectionFactory.getConnectionBuilder().getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(CREATE_SMARTPHONES);
-            statement.executeUpdate(CREATE_SHOPS);
-            statement.executeUpdate(CREATE_CATALOGS);
-            statement.executeUpdate(CREATE_CATALOG_ITEMS);
-        }
-        catch (SQLException ex) {
-            throw new SQLException(ex.getMessage());
-        }
+    public static void createTables(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(CREATE_SMARTPHONES);
+        statement.executeUpdate(CREATE_SHOPS);
+        statement.executeUpdate(CREATE_CATALOGS);
+        statement.executeUpdate(CREATE_CATALOG_ITEMS);
     }
 
-    public static void dropTables() throws DatabaseConnectionException, SQLException {
-        // todo: try with resource
-        try (Connection connection = ConnectionFactory.getConnectionBuilder().getConnection()) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(DROP_CATALOG_ITEMS);
-            statement.executeUpdate(DROP_CATALOGS);
-            statement.executeUpdate(DROP_SHOPS);
-            statement.executeUpdate(DROP_SMARTPHONES);
-        }
-        catch (SQLException ex) {
-            throw new SQLException(ex.getMessage());
-        }
+    public static void dropTables(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(DROP_CATALOG_ITEMS);
+        statement.executeUpdate(DROP_CATALOGS);
+        statement.executeUpdate(DROP_SHOPS);
+        statement.executeUpdate(DROP_SMARTPHONES);
     }
 
 

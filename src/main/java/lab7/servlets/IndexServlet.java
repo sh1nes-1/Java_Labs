@@ -6,6 +6,7 @@ import lab5.dao.ShopDao;
 import lab5.dao.jdbc.ShopDaoJdbc;
 import lab5.exception.DaoException;
 import lab5.exception.DatabaseConnectionException;
+import lab5.model.Shop;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,6 +26,8 @@ public class IndexServlet extends HttpServlet {
             ConnectionBuilder connectionBuilder = ConnectionFactory.getConnectionBuilder();
             Connection connection = connectionBuilder.getConnection();
             ShopDao shopDao = new ShopDaoJdbc(connection);
+            Shop shop = new Shop("Rozetka");
+            shopDao.insert(shop);
             req.setAttribute("userName", shopDao.findAll());
         } catch (DatabaseConnectionException | DaoException e) {
             e.printStackTrace();

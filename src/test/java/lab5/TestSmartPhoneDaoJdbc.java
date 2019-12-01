@@ -27,15 +27,17 @@ public class TestSmartPhoneDaoJdbc {
 
     @BeforeClass
     public void beforeTest() throws DatabaseConnectionException, SQLException, DaoException {
-        // creating schema
-        try {
-            DatabaseStructure.dropTables();
-        } catch (Exception ignored) {
-        }
-        DatabaseStructure.createTables();
 
         // creating connection
-        connection = ConnectionFactory.getConnectionBuilder().getConnection();
+        connection = ConnectionFactory.getTestConnectionBuilder().getConnection();
+
+        // creating schema
+        try {
+            DatabaseStructure.dropTables(connection);
+        } catch (Exception ignored) {
+        }
+        DatabaseStructure.createTables(connection);
+
         smartPhoneDao = new SmartPhoneDaoJdbc(connection);
 
         // inserting data
