@@ -13,7 +13,6 @@ public class Catalog implements Serializable {
 
     private Long id;
     private String name;
-    private Shop shop; // delete
     private Set<CatalogItem> catalogItems;
 
     public Catalog() {
@@ -34,14 +33,6 @@ public class Catalog implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Shop getShop() {
-        return shop;
-    }
-
-    public void setShop(Shop shop) {
-        this.shop = shop;
     }
 
     @Override

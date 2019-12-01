@@ -1,10 +1,14 @@
 package lab5;
 
 import lab5.connection.ConnectionFactory;
+import lab5.dao.CatalogDao;
+import lab5.dao.Dao;
 import lab5.dao.ShopDao;
+import lab5.dao.jdbc.CatalogDaoJdbc;
 import lab5.dao.jdbc.ShopDaoJdbc;
 import lab5.exception.DaoException;
 import lab5.exception.DatabaseConnectionException;
+import lab5.model.Catalog;
 import lab5.model.Shop;
 import lab5.utils.DatabaseStructure;
 import org.testng.Assert;
@@ -129,6 +133,42 @@ public class TestShopDaoJdbc {
         Set<Shop> expected = new HashSet<>(Arrays.asList(allo, multimedia));
         Set<Shop> actual = new HashSet<>(shopDao.findAll());
         Assert.assertEquals(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void addCatalogTest() throws DaoException {
+        Catalog catalog = new Catalog();
+        catalog.setName("Main");
+        CatalogDao catalogDao = new CatalogDaoJdbc(connection);
+        catalog.setId(catalogDao.insert(catalog));
+
+        shopDao.addCatalog(rozetka, catalog);
+
+        Object[] actual = shopDao.getCatalogs(rozetka).toArray();
+        Object[] expected = { catalog };
+
+        Assert.assertEqualsNoOrder(actual, expected);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Test
+    public void removeCatalogTest() throws DaoException {
+        Catalog catalog = new Catalog();
+        catalog.setName("Main");
+        CatalogDao catalogDao = new CatalogDaoJdbc(connection);
+        catalog.setId(catalogDao.insert(catalog));
+
+        shopDao.addCatalog(rozetka, catalog);
+        int c = shopDao.removeCatalog(rozetka, catalog);
+        Assert.assertEquals(c, 1);
+
+        Object[] actual = shopDao.getCatalogs(rozetka).toArray();
+        Object[] expected = { };
+
+        Assert.assertEqualsNoOrder(actual, expected);
     }
 
 }

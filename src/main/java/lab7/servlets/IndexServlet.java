@@ -26,9 +26,8 @@ public class IndexServlet extends HttpServlet {
             ConnectionBuilder connectionBuilder = ConnectionFactory.getConnectionBuilder();
             Connection connection = connectionBuilder.getConnection();
             ShopDao shopDao = new ShopDaoJdbc(connection);
-            Shop shop = new Shop("Rozetka");
-            shopDao.insert(shop);
-            req.setAttribute("userName", shopDao.findAll());
+
+            req.setAttribute("shops", shopDao.findAll());
         } catch (DatabaseConnectionException | DaoException e) {
             e.printStackTrace();
         }

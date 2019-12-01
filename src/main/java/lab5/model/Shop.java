@@ -1,17 +1,22 @@
 package lab5.model;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 public class Shop {
 
     private Long id;
     private String name;
     private String imageUrl;
-    // list< catalog>
+    private Set<Catalog> catalogs;
+
     //TODO: in properties define some path which be added to path
 
     public Shop(String name) {
         this.name = name;
+        catalogs = new HashSet<>();
     }
 
     public Long getId() {
@@ -55,5 +60,13 @@ public class Shop {
     @Override
     public String toString() {
         return name + " " + imageUrl;
+    }
+
+    public boolean addCatalog(Catalog catalog) {
+        return catalogs.add(catalog);
+    }
+
+    public boolean removeCatalog(Catalog catalog) {
+        return catalogs.remove(catalog);
     }
 }

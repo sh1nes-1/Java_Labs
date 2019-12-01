@@ -83,17 +83,11 @@ public class TestCatalogDaoJdbc {
         iphoneX.setId(smartPhoneDao.insert(iphoneX));
         redmi7.setId(smartPhoneDao.insert(redmi7));
 
-        // shop
-        shopDao = new ShopDaoJdbc(connection);
-        Shop shop = new Shop("Rozetka");
-        shop.setId(shopDao.insert(shop));
-
         // catalog
         catalogDao = new CatalogDaoJdbc(connection);
 
         mainCatalog = new Catalog();
         mainCatalog.setName("Main Catalog");
-        mainCatalog.setShop(shop);
         mainCatalog.setId(catalogDao.insert(mainCatalog));
 
         catalogDao.addSmartPhone(mainCatalog, redmi7, 1000, 10);
@@ -101,7 +95,6 @@ public class TestCatalogDaoJdbc {
 
         blackFridayCatalog = new Catalog();
         blackFridayCatalog.setName("Black Friday");
-        blackFridayCatalog.setShop(shop);
         blackFridayCatalog.setId(catalogDao.insert(blackFridayCatalog));
 
         catalogDao.addSmartPhone(blackFridayCatalog, redmiNote7, 800, 7);
@@ -166,13 +159,8 @@ public class TestCatalogDaoJdbc {
 
     @Test
     public void insertCatalogTest() throws DaoException {
-        Shop shop = new Shop("Some shop");
-        shop.setImageUrl("newshop.jpg");
-        shop.setId(shopDao.insert(shop));
-
         Catalog catalog = new Catalog();
         catalog.setName("Some catalog");
-        catalog.setShop(shop);
         catalog.setId(catalogDao.insert(catalog));
 
         Set<Catalog> expected = new HashSet<>(Arrays.asList(mainCatalog, blackFridayCatalog, catalog));
