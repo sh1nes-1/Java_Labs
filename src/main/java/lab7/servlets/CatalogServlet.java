@@ -2,12 +2,14 @@ package lab7.servlets;
 
 import lab5.connection.ConnectionBuilder;
 import lab5.connection.ConnectionFactory;
+import lab5.dao.CatalogDao;
 import lab5.dao.ShopDao;
+import lab5.dao.jdbc.CatalogDaoJdbc;
 import lab5.dao.jdbc.ShopDaoJdbc;
 import lab5.exception.DaoException;
 import lab5.exception.DatabaseConnectionException;
+import lab5.model.Catalog;
 import lab5.model.Shop;
-import lab5.utils.GlobalConfig;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,22 +21,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/shop")
-public class ShopServlet extends HttpServlet {
-
-    // DTO
-
-    // services
-    // tomcat standart authorisation
-
-    // в 7 лабі показати все
-    // форма добавлення смартфона
-    // показати магазини
-    // показати каталоги
+@WebServlet(urlPatterns = "/catalog")
+public class CatalogServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String rawId = req.getParameter("id");
         if (rawId != null) {
             Long id = null;
@@ -48,18 +39,12 @@ public class ShopServlet extends HttpServlet {
                 try {
                     ConnectionBuilder connectionBuilder = ConnectionFactory.getConnectionBuilder();
                     Connection connection = connectionBuilder.getConnection();
-                    ShopDao shopDao = new ShopDaoJdbc(connection);
-                    Optional<Shop> optionalShop = shopDao.findById(id);
-                    if (optionalShop.isPresent()) {
-                        Shop shop = optionalShop.get();
-
-                        GlobalConfig config = new GlobalConfig();
-                        config.loadGlobalConfig();
-                        shop.setImageUrl(config.getProperty("shop.images.root") + shop.getImageUrl());
-                        req.setAttribute("shop", shop);
-                        req.setAttribute("catalogs", shopDao.getCatalogs(shop));
-
-                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/shop.jsp");
+                    CatalogDao catalogDao = new CatalogDaoJdbc(connection);
+                    Optional<Catalog> optionalCatalog = catalogDao.findByIdEager(id);
+                    if (optionalCatalog.isPresent()) {
+                        Catalog catalog = optionalCatalog.get();
+                        req.setAttribute("catalog", catalog);
+                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/catalog.jsp");
                         requestDispatcher.forward(req, resp);
                     }
                 } catch (DaoException | DatabaseConnectionException e) {
@@ -69,5 +54,4 @@ public class ShopServlet extends HttpServlet {
         }
         resp.sendRedirect("./");
     }
-
 }

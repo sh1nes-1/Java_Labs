@@ -10,8 +10,15 @@
 <html>
 <head>
     <title>Магазин</title>
+    <link rel="stylesheet" href="css/shop.css">
 </head>
 <body>
-Сторінка магазину ${message}
+    <img width="150" src="${shop.imageUrl}">
+    <h1>Каталоги магазину ${shop.name}</h1>
+    <ul>
+        <c:forEach items="${catalogs}" var="catalog">
+            <li><a href="./catalog?id=${catalog.id}" class="catalog_name">${catalog.name}</a></li>
+        </c:forEach>
+    </ul>
 </body>
 </html>

@@ -85,17 +85,19 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
                 catalog.setName(rs.getString("c_name"));
 
                 do {
-                    SmartPhone smartPhone = new SmartPhone.Builder()
-                            .setId(rs.getLong("sm_id"))
-                            .setName(rs.getString("sm_name"))
-                            .setColor(SmartPhone.Color.valueOf(rs.getString("sm_color")))
-                            .setPrice(rs.getInt("sm_price"))
-                            .setDiagonal(rs.getDouble("sm_diagonal"))
-                            .setReleaseDate(rs.getDate("sm_releasedate").toLocalDate())
-                            .setRam(rs.getInt("sm_ram"))
-                            .build();
+                    if (rs.getObject("sm_id") != null) {
+                        SmartPhone smartPhone = new SmartPhone.Builder()
+                                .setId(rs.getLong("sm_id"))
+                                .setName(rs.getString("sm_name"))
+                                .setColor(SmartPhone.Color.valueOf(rs.getString("sm_color")))
+                                .setPrice(rs.getInt("sm_price"))
+                                .setDiagonal(rs.getDouble("sm_diagonal"))
+                                .setReleaseDate(rs.getDate("sm_releasedate").toLocalDate())
+                                .setRam(rs.getInt("sm_ram"))
+                                .build();
 
-                    catalog.addSmartPhone(smartPhone, rs.getInt("ci_smartphone_price"), rs.getInt("ci_smartphone_count"));
+                        catalog.addSmartPhone(smartPhone, rs.getInt("ci_smartphone_price"), rs.getInt("ci_smartphone_count"));
+                    }
                 }
                 while (rs.next());
 

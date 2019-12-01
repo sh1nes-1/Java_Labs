@@ -4,6 +4,7 @@ import lab5.exception.DaoException;
 import lab5.model.Catalog;
 import lab5.model.SmartPhone;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CatalogDao extends Dao<Catalog> {

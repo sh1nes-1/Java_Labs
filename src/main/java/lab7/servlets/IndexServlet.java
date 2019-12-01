@@ -7,6 +7,7 @@ import lab5.dao.jdbc.ShopDaoJdbc;
 import lab5.exception.DaoException;
 import lab5.exception.DatabaseConnectionException;
 import lab5.model.Shop;
+import lab5.utils.GlobalConfig;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
+import java.util.List;
 
 @WebServlet(urlPatterns = "")
 public class IndexServlet extends HttpServlet {
@@ -27,11 +29,20 @@ public class IndexServlet extends HttpServlet {
             Connection connection = connectionBuilder.getConnection();
             ShopDao shopDao = new ShopDaoJdbc(connection);
 
-            req.setAttribute("shops", shopDao.findAll());
+            List<Shop> shops = shopDao.findAll();
+
+            GlobalConfig config = new GlobalConfig();
+            config.loadGlobalConfig();
+
+            for (Shop shop : shops) {
+                shop.setImageUrl(config.getProperty("shop.images.root") + shop.getImageUrl());
+            }
+
+            req.setAttribute("shops", shops);
         } catch (DatabaseConnectionException | DaoException e) {
             e.printStackTrace();
         }
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/shops.jsp");
         requestDispatcher.forward(req, resp);
     }
 
