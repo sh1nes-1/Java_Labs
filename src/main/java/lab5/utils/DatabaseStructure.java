@@ -25,24 +25,30 @@ public class DatabaseStructure {
 
 
     public static void createTables() throws DatabaseConnectionException, SQLException {
-        Connection connection = ConnectionFactory.getConnectionBuilder().getConnection();
-        Statement statement = connection.createStatement();
-        statement.executeUpdate(CREATE_SMARTPHONES);
-        statement.executeUpdate(CREATE_SHOPS);
-        statement.executeUpdate(CREATE_CATALOGS);
-        statement.executeUpdate(CREATE_CATALOG_ITEMS);
-        connection.close();
+        try (Connection connection = ConnectionFactory.getConnectionBuilder().getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(CREATE_SMARTPHONES);
+            statement.executeUpdate(CREATE_SHOPS);
+            statement.executeUpdate(CREATE_CATALOGS);
+            statement.executeUpdate(CREATE_CATALOG_ITEMS);
+        }
+        catch (SQLException ex) {
+            throw new SQLException(ex.getMessage());
+        }
     }
 
     public static void dropTables() throws DatabaseConnectionException, SQLException {
-        // todo: try with resour
-        Connection connection = ConnectionFactory.getConnectionBuilder().getConnection();
-        Statement statement = connection.createStatement();
-        try { statement.executeUpdate(DROP_CATALOG_ITEMS); } catch (Exception ignored) { }
-        try { statement.executeUpdate(DROP_CATALOGS); } catch (Exception ignored) { }
-        try { statement.executeUpdate(DROP_SHOPS); } catch (Exception ignored) { }
-        try { statement.executeUpdate(DROP_SMARTPHONES); } catch (Exception ignored) { }
-        connection.close();
+        // todo: try with resource
+        try (Connection connection = ConnectionFactory.getConnectionBuilder().getConnection()) {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(DROP_CATALOG_ITEMS);
+            statement.executeUpdate(DROP_CATALOGS);
+            statement.executeUpdate(DROP_SHOPS);
+            statement.executeUpdate(DROP_SMARTPHONES);
+        }
+        catch (SQLException ex) {
+            throw new SQLException(ex.getMessage());
+        }
     }
 
 
