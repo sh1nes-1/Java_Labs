@@ -10,13 +10,15 @@
 <html>
 <head>
     <title>Каталог ${catalog.name}</title>
+    <link rel="stylesheet" href="css/shop.css">
 </head>
 <body>
-    <h1>Каталог ${catalog.name}</h1>
+    <img width="150" src="${shop.imageUrl}">
+    <h1>${catalog.name} магазину ${shop.name}</h1>
 
     <ul>
         <c:forEach items="${catalog.catalogItems}" var="catalogItem">
-            <li>${catalogItem.smartPhone.name}</li>
+            <li><a href="./item?cat_id=${catalog.id}&sm_id=${catalogItem.smartPhone.id}">${catalogItem.smartPhone}</a></li>
         </c:forEach>
     </ul>
 </body>

@@ -3,7 +3,6 @@ package lab5.dao.jdbc;
 import lab5.dao.CatalogDao;
 import lab5.exception.DaoException;
 import lab5.model.Catalog;
-import lab5.model.CatalogItem;
 import lab5.model.Shop;
 import lab5.model.SmartPhone;
 
@@ -26,6 +25,7 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
     private static final String GET_SMARTPHONE_COUNT = "SELECT smartphone_count FROM catalog_items WHERE catalog_id = ? AND smartphone_id = ?";
     private static final String CHANGE_SMARTPHONE_PRICE = "UPDATE catalog_items SET smartphone_price = ? WHERE catalog_id = ? AND smartphone_id = ?";
     private static final String CHANGE_SMARTPHONE_COUNT = "UPDATE catalog_items SET smartphone_count = ? WHERE catalog_id = ? AND smartphone_id = ?";
+    private static final String GET_SHOP = "SELECT s.id, s.name, s.image FROM catalogs c JOIN shops s ON c.shop_id = s.id WHERE c.id = ?";
 
     public CatalogDaoJdbc(Connection connection) {
         super(connection);
@@ -109,6 +109,25 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
             throw new DaoException(ex.getMessage());
         }
         return result;
+    }
+
+    @Override
+    public Optional<Shop> getShop(Catalog catalog) throws DaoException {
+        Connection connection = getConnection();
+        try (PreparedStatement ps = connection.prepareStatement(GET_SHOP)) {
+            ps.setLong(1, catalog.getId());
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Shop shop = new Shop(rs.getString("name"));
+                shop.setId(rs.getLong("id"));
+                shop.setImageUrl(rs.getString("image"));
+                return Optional.of(shop);
+            }
+        }
+        catch (SQLException ex) {
+            throw new DaoException(ex.getMessage());
+        }
+        return Optional.empty();
     }
 
     @Override
