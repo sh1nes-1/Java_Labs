@@ -25,6 +25,7 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            //TODO: MapStruct
             ConnectionBuilder connectionBuilder = ConnectionFactory.getConnectionBuilder();
             Connection connection = connectionBuilder.getConnection();
             ShopDao shopDao = new ShopDaoJdbc(connection);

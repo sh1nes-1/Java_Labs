@@ -55,6 +55,7 @@ public class ShopServlet extends HttpServlet {
 
                         GlobalConfig config = new GlobalConfig();
                         config.loadGlobalConfig();
+                        // в DTO шлях буде а в Entity ні
                         shop.setImageUrl(config.getProperty("shop.images.root") + shop.getImageUrl());
                         req.setAttribute("shop", shop);
                         req.setAttribute("catalogs", shopDao.getCatalogs(shop));

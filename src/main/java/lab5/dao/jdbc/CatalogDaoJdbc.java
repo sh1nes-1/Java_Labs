@@ -207,6 +207,7 @@ public class CatalogDaoJdbc extends JdbcDao<Catalog> implements CatalogDao {
             ps.setLong(2, catalog.getId());
             ps.setLong(3, smartPhone.getId());
             int result = ps.executeUpdate();
+            // TODO: duplicate in service some methods of dao і роботу з Entity перенести туди, тобто цю строчку
             if (result > 0) catalog.getSmartPhoneInfo(smartPhone).ifPresent(catalogItem -> catalogItem.setPrice(newPrice));
             return result;
         }
