@@ -128,9 +128,7 @@ public class TestSmartPhoneDaoJdbc {
                 .setPrice(5500)
                 .build();
 
-        //TODO: ask why count
         smartPhoneDao.insert(samsungA30);
-        //count
 
         Set<SmartPhone> expected = new HashSet<>(Arrays.asList(redmiNote7, iphoneX, redmi7, samsungA30));
         Set<SmartPhone> actual = new HashSet<>(smartPhoneDao.findAll());

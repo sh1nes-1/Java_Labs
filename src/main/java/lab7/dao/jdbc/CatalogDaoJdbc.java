@@ -1,12 +1,15 @@
-package lab5.dao.jdbc;
+package lab7.dao.jdbc;
 
-import lab5.dao.CatalogDao;
-import lab5.exception.DaoException;
-import lab5.model.Catalog;
-import lab5.model.Shop;
-import lab5.model.SmartPhone;
+import lab7.dao.CatalogDao;
+import lab7.exception.DaoException;
+import lab7.model.Catalog;
+import lab7.model.Shop;
+import lab7.model.SmartPhone;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;

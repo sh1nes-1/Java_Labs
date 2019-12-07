@@ -1,9 +1,9 @@
-package lab5.dao.jdbc;
+package lab7.dao.jdbc;
 
-import lab5.dao.ShopDao;
-import lab5.exception.DaoException;
-import lab5.model.Catalog;
-import lab5.model.Shop;
+import lab7.dao.ShopDao;
+import lab7.exception.DaoException;
+import lab7.model.Catalog;
+import lab7.model.Shop;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -1,7 +1,6 @@
-package lab5.model;
+package lab7.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 

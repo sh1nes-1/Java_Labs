@@ -1,23 +1,21 @@
 package lab7.servlets;
 
-import lab5.connection.ConnectionBuilder;
-import lab5.connection.ConnectionFactory;
-import lab5.dao.ShopDao;
-import lab5.dao.jdbc.ShopDaoJdbc;
-import lab5.exception.DaoException;
-import lab5.exception.DatabaseConnectionException;
-import lab5.model.Shop;
-import lab5.utils.GlobalConfig;
+import lab7.model.Catalog;
+import lab7.model.Shop;
+import lab7.utils.GlobalConfig;
+import lab7.exception.ServiceException;
+import lab7.service.ShopService;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.sql.Connection;
 import java.util.Optional;
+import java.util.Set;
 
 @WebServlet(urlPatterns = "/shop")
 public class ShopServlet extends HttpServlet {
@@ -34,40 +32,72 @@ public class ShopServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
         String rawId = req.getParameter("id");
-        if (rawId != null) {
-            Long id = null;
 
-            try {
-                id = Long.parseLong(rawId);
-            } catch (Exception ignored) {
-            }
-
-            if (id != null) {
-                try {
-                    ConnectionBuilder connectionBuilder = ConnectionFactory.getConnectionBuilder();
-                    Connection connection = connectionBuilder.getConnection();
-                    ShopDao shopDao = new ShopDaoJdbc(connection);
-                    Optional<Shop> optionalShop = shopDao.findById(id);
-                    if (optionalShop.isPresent()) {
-                        Shop shop = optionalShop.get();
-
-                        GlobalConfig config = new GlobalConfig();
-                        config.loadGlobalConfig();
-                        shop.setImageUrl(config.getProperty("shop.images.root") + shop.getImageUrl());
-                        req.setAttribute("shop", shop);
-                        req.setAttribute("catalogs", shopDao.getCatalogs(shop));
-
-                        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/shop.jsp");
-                        requestDispatcher.forward(req, resp);
-                    }
-                } catch (DaoException | DatabaseConnectionException e) {
-                    e.printStackTrace();
-                }
-            }
+        if (rawId == null) {
+            resp.sendRedirect("./");
+            return;
         }
-        resp.sendRedirect("./");
-    }
 
+        // Get Shop Id
+        long id;
+        try {
+            id = Long.parseLong(rawId);
+        } catch (Exception ex) {
+            resp.sendRedirect("./");
+            return;
+        }
+
+        // Create ShopService
+        ShopService shopService;
+        try {
+            shopService = new ShopService();
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            resp.sendRedirect("./");
+            return;
+        }
+
+        // Get Shop
+        Optional<Shop> optionalShop;
+        try {
+            optionalShop = shopService.findById(id);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+            resp.sendRedirect("./");
+            return;
+        }
+
+        if (optionalShop.isEmpty()) {
+            resp.sendRedirect("./");
+            return;
+        }
+
+        Shop shop = optionalShop.get();
+
+        // Get Catalogs
+        Set<Catalog> catalogs;
+        try {
+            catalogs = shopService.getCatalogs(shop);
+        } catch (ServiceException ex) {
+            ex.printStackTrace();
+            resp.sendRedirect("./");
+            return;
+        }
+
+        // Set image root
+        ServletContext application = getServletConfig().getServletContext();
+        String imagesRoot = (String) application.getAttribute("shop.images.root");
+
+        shop.setImageUrl(imagesRoot + shop.getImageUrl());
+
+        // Set Attributes for JSP
+        req.setAttribute("shop", shop);
+        req.setAttribute("catalogs", catalogs);
+
+        // Show page
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/shop.jsp");
+        requestDispatcher.forward(req, resp);
+
+    }
 }
