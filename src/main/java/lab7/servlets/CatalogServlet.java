@@ -20,6 +20,10 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/catalog")
 public class CatalogServlet extends HttpServlet {
 
+    //TODO: в ініт конфіг
+    //TODO: або в скоуп або фільтр
+    //TODO: зробити сервіси, маппери для DTO -> Entity, Entity -> DTO
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String rawId = req.getParameter("id");
