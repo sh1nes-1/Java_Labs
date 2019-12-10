@@ -78,12 +78,6 @@ public class CatalogItemServlet extends HttpServlet {
 
         Shop shop = optionalShop.get();
 
-        // Set image root
-        ServletContext application = getServletConfig().getServletContext();
-        String imagesRoot = (String) application.getAttribute("shop.images.root");
-
-        shop.setImageUrl(imagesRoot + shop.getImageUrl());
-
         // Get SmartPhone
         Optional<SmartPhoneDTO> optionalSmartPhoneDto;
         try {

@@ -12,7 +12,7 @@
         <c:forEach items="${shops}" var="shop">
           <li>
             <div class="shop">
-              <a href="shop?id=${shop.id}" class="shop_img"><img src="${shop.imageUrl}"></a>
+              <a href="shop?id=${shop.id}" class="shop_img"><img src="./image?name=${shop.imageUrl}"></a>
               <a href="shop?id=${shop.id}" class="shop_name">${shop.name}</a>
             </div>
           </li>

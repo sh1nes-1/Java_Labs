@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="css/shop.css">
 </head>
 <body>
-    <img width="150" src="${shop.imageUrl}">
+    <img width="150" src="./image?name=${shop.imageUrl}">
     <h1>${catalog.name} магазину ${shop.name}</h1>
 
     <ul>

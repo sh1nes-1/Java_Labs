@@ -79,12 +79,6 @@ public class CatalogServlet extends HttpServlet {
 
         Shop shop = optionalShop.get();
 
-        // Set image root
-        ServletContext application = getServletConfig().getServletContext();
-        String imagesRoot = (String) application.getAttribute("shop.images.root");
-
-        shop.setImageUrl(imagesRoot + shop.getImageUrl());
-
         // Set Attributes for JSP
         req.setAttribute("catalog", catalogDto);
         req.setAttribute("shop", shop);

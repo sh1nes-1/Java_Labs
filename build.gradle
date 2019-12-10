@@ -34,7 +34,7 @@ dependencies {
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.8'
     compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.4'
     compile group: 'javax.servlet', name: 'jstl', version: '1.2'
-    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.0.1'
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
     providedCompile group: 'javax.servlet.jsp', name: 'javax.servlet.jsp-api', version: '2.3.3'
     testCompile 'org.skyscreamer:jsonassert:1.5.0'
     implementation "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"

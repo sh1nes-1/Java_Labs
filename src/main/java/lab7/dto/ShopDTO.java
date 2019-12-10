@@ -45,4 +45,9 @@ public class ShopDTO {
     public void setCatalogs(Set<Catalog> catalogs) {
         this.catalogs = catalogs;
     }
+
+    @Override
+    public String toString() {
+        return name + " " + imageUrl;
+    }
 }

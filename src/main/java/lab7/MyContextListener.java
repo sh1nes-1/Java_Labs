@@ -17,6 +17,7 @@ public class MyContextListener implements ServletContextListener {
             GlobalConfig config = new GlobalConfig();
             config.loadGlobalConfig();
             application.setAttribute("shop.images.root", config.getProperty("shop.images.root"));
+            application.setAttribute("shop.images.absolute_root", config.getProperty("shop.images.absolute_root"));
         }
         catch (Exception ex) {
             ex.printStackTrace();

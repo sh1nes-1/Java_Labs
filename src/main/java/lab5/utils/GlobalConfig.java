@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class GlobalConfig {
     private static final String CONFIG_PATH = "/";
-    private static final String CONFIG_NAME = "config.properties";
+    private static final String CONFIG_NAME = "directories.properties";
     private final Properties globalConfig;
 
     {
@@ -13,7 +13,7 @@ public class GlobalConfig {
     }
 
     /**
-     * Loads default config.properties from resources
+     * Loads default directories.properties from resources
      *
      * @throws IOException if can't read config
      */

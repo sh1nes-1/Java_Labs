@@ -16,6 +16,7 @@
         <h1>Посилання</h1>
         <ul>
             <li><a href="./smartphones">Список смартфонів</a></li>
+            <li><a href="./shops">Список магазинів</a></li>
         </ul>
     </div>
 </body>
