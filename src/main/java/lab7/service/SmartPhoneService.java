@@ -3,9 +3,11 @@ package lab7.service;
 import lab7.connection.ConnectionFactory;
 import lab7.dao.SmartPhoneDao;
 import lab7.dao.jdbc.SmartPhoneDaoJdbc;
+import lab7.dto.SmartPhoneDTO;
 import lab7.exception.DaoException;
 import lab7.exception.DatabaseConnectionException;
 import lab7.exception.ServiceException;
+import lab7.mapper.SmartPhoneMapper;
 import lab7.model.SmartPhone;
 
 import java.sql.Connection;
@@ -25,32 +27,40 @@ public class SmartPhoneService {
         }
     }
 
-    public Optional<SmartPhone> findById(Long id) throws ServiceException {
+    public Optional<SmartPhoneDTO> findById(Long id) throws ServiceException {
         try {
-            return smartPhoneDao.findById(id);
+            Optional<SmartPhoneDTO> result = Optional.empty();
+            Optional<SmartPhone> optionalSmartPhone = smartPhoneDao.findById(id);
+            if (optionalSmartPhone.isPresent()) {
+                SmartPhoneDTO smartPhoneDTO = SmartPhoneMapper.INSTANCE.getDto(optionalSmartPhone.get());
+                result = Optional.of(smartPhoneDTO);
+            }
+            return result;
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
-    public List<SmartPhone> findAll() throws ServiceException {
+    public List<SmartPhoneDTO> findAll() throws ServiceException {
         try {
-            return smartPhoneDao.findAll();
+            return SmartPhoneMapper.INSTANCE.getDtoList(smartPhoneDao.findAll());
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
-    public Long insert(SmartPhone smartPhone) throws ServiceException {
+    public Long insert(SmartPhoneDTO smartPhoneDto) throws ServiceException {
         try {
+            SmartPhone smartPhone = SmartPhoneMapper.INSTANCE.getSmartPhone(smartPhoneDto);
             return smartPhoneDao.insert(smartPhone);
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
-    public int update(SmartPhone smartPhone) throws ServiceException {
+    public int update(SmartPhoneDTO smartPhoneDto) throws ServiceException {
         try {
+            SmartPhone smartPhone = SmartPhoneMapper.INSTANCE.getSmartPhone(smartPhoneDto);
             return smartPhoneDao.update(smartPhone);
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
@@ -65,9 +75,9 @@ public class SmartPhoneService {
         }
     }
 
-    public List<SmartPhone> findAllWithNameLike(String name) throws ServiceException {
+    public List<SmartPhoneDTO> findAllWithNameLike(String name) throws ServiceException {
         try {
-            return smartPhoneDao.findAllWithNameLike(name);
+            return SmartPhoneMapper.INSTANCE.getDtoList(smartPhoneDao.findAllWithNameLike(name));
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 
 public class SmartPhoneDTO {
 
-    private Integer id;
+    private Long id;
     private String name;
     private Integer price;
     private LocalDate releaseDate;
@@ -13,11 +13,11 @@ public class SmartPhoneDTO {
     private Integer ram;
     private Double diagonal;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

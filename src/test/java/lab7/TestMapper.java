@@ -20,7 +20,7 @@ public class TestMapper {
                 .setPrice(5500)
                 .build();
 
-        SmartPhoneDTO smartPhoneDTO = SmartPhoneMapper.INSTANCE.smartPhoneToDTO(smartPhone);
+        SmartPhoneDTO smartPhoneDTO = SmartPhoneMapper.INSTANCE.getDto(smartPhone);
         System.out.println(smartPhoneDTO);
     }
 }

@@ -1,5 +1,6 @@
 package lab7.servlets;
 
+import lab7.dto.ShopDTO;
 import lab7.model.Catalog;
 import lab7.model.Shop;
 import lab7.utils.GlobalConfig;
@@ -59,26 +60,26 @@ public class ShopServlet extends HttpServlet {
         }
 
         // Get Shop
-        Optional<Shop> optionalShop;
+        Optional<ShopDTO> optionalShopDto;
         try {
-            optionalShop = shopService.findById(id);
+            optionalShopDto = shopService.findById(id);
         } catch (ServiceException e) {
             e.printStackTrace();
             resp.sendRedirect("./");
             return;
         }
 
-        if (optionalShop.isEmpty()) {
+        if (optionalShopDto.isEmpty()) {
             resp.sendRedirect("./");
             return;
         }
 
-        Shop shop = optionalShop.get();
+        ShopDTO shopDto = optionalShopDto.get();
 
         // Get Catalogs
         Set<Catalog> catalogs;
         try {
-            catalogs = shopService.getCatalogs(shop);
+            catalogs = shopService.getCatalogs(shopDto);
         } catch (ServiceException ex) {
             ex.printStackTrace();
             resp.sendRedirect("./");
@@ -89,10 +90,10 @@ public class ShopServlet extends HttpServlet {
         ServletContext application = getServletConfig().getServletContext();
         String imagesRoot = (String) application.getAttribute("shop.images.root");
 
-        shop.setImageUrl(imagesRoot + shop.getImageUrl());
+        shopDto.setImageUrl(imagesRoot + shopDto.getImageUrl());
 
         // Set Attributes for JSP
-        req.setAttribute("shop", shop);
+        req.setAttribute("shop", shopDto);
         req.setAttribute("catalogs", catalogs);
 
         // Show page

@@ -67,7 +67,7 @@ public class Catalog implements Serializable {
     /**
      * @return Set of all SmartPhones
      */
-    public Set<SmartPhone> getSmartPhones() {
+    public Set<SmartPhone> findSmartPhones() {
         return catalogItems.stream()
                 .map(CatalogItem::getSmartPhone)
                 .collect(Collectors.toSet());
@@ -75,7 +75,7 @@ public class Catalog implements Serializable {
 
 
     public boolean addSmartPhone(SmartPhone smartPhone, Integer price, Integer count) {
-        if (getSmartPhones().contains(smartPhone))
+        if (findSmartPhones().contains(smartPhone))
             return false;
 
         CatalogItem catalogItem = new CatalogItem();

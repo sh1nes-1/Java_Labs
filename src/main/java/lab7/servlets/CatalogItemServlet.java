@@ -1,5 +1,9 @@
 package lab7.servlets;
 
+import lab7.dto.CatalogDTO;
+import lab7.dto.SmartPhoneDTO;
+import lab7.mapper.CatalogMapper;
+import lab7.mapper.SmartPhoneMapper;
 import lab7.model.Catalog;
 import lab7.model.CatalogItem;
 import lab7.model.Shop;
@@ -43,25 +47,25 @@ public class CatalogItemServlet extends HttpServlet {
 
         // Get Catalog
         CatalogService catalogService;
-        Optional<Catalog> optionalCatalog;
+        Optional<CatalogDTO> optionalCatalogDto;
         try {
             catalogService = new CatalogService();
-            optionalCatalog = catalogService.findByIdEager(catalogId);
+            optionalCatalogDto = catalogService.findByIdEager(catalogId);
         } catch (ServiceException e) {
             resp.sendRedirect("./");
             return;
         }
 
-        if (optionalCatalog.isEmpty()) {
+        if (optionalCatalogDto.isEmpty()) {
             resp.sendRedirect("./");
             return;
         }
-        Catalog catalog = optionalCatalog.get();
+        CatalogDTO catalogDto = optionalCatalogDto.get();
 
         // Get Shop
         Optional<Shop> optionalShop;
         try {
-            optionalShop = catalogService.getShop(catalog);
+            optionalShop = catalogService.getShop(catalogDto);
         } catch (ServiceException e) {
             resp.sendRedirect("./");
             return;
@@ -81,30 +85,32 @@ public class CatalogItemServlet extends HttpServlet {
         shop.setImageUrl(imagesRoot + shop.getImageUrl());
 
         // Get SmartPhone
-        Optional<SmartPhone> optionalSmartPhone;
+        Optional<SmartPhoneDTO> optionalSmartPhoneDto;
         try {
             SmartPhoneService smartPhoneService = new SmartPhoneService();
-            optionalSmartPhone = smartPhoneService.findById(smartPhoneId);
+            optionalSmartPhoneDto = smartPhoneService.findById(smartPhoneId);
         } catch (ServiceException ex) {
             ex.printStackTrace();
             resp.sendRedirect("./");
             return;
         }
 
-        if (optionalSmartPhone.isEmpty()) {
+        if (optionalSmartPhoneDto.isEmpty()) {
             resp.sendRedirect("./");
             return;
         }
 
         // Get CatalogItem
-        Optional<CatalogItem> optionalCatalogItem = catalog.getSmartPhoneInfo(optionalSmartPhone.get());
+        SmartPhone smartPhone = SmartPhoneMapper.INSTANCE.getSmartPhone(optionalSmartPhoneDto.get());
+        Catalog catalog = CatalogMapper.INSTANCE.getCatalog(catalogDto);
+        Optional<CatalogItem> optionalCatalogItem = catalog.getSmartPhoneInfo(smartPhone);
         if (optionalCatalogItem.isEmpty()) {
             resp.sendRedirect("./");
             return;
         }
 
         // Set Attributes for JSP
-        req.setAttribute("catalog", catalog);
+        req.setAttribute("catalog", catalogDto);
         req.setAttribute("shop", shop);
         req.setAttribute("item", optionalCatalogItem.get());
 

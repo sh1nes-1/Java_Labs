@@ -11,6 +11,9 @@ public class Shop {
     private String imageUrl;
     private Set<Catalog> catalogs;
 
+    public Shop() {
+    }
+
     public Shop(String name) {
         this.name = name;
         catalogs = new HashSet<>();

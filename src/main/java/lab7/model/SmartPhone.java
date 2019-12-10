@@ -72,8 +72,8 @@ public class SmartPhone implements Serializable {
     @Max(value = 10, message = "can't be more than 10")
     private Double diagonal;
 
-    private SmartPhone() {
-        // Private constructor to deny creating new instance outside by constructor
+    public SmartPhone() {
+
     }
 
     public Long getId() {

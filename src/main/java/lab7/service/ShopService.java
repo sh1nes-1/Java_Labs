@@ -3,9 +3,11 @@ package lab7.service;
 import lab7.connection.ConnectionFactory;
 import lab7.dao.ShopDao;
 import lab7.dao.jdbc.ShopDaoJdbc;
+import lab7.dto.ShopDTO;
 import lab7.exception.DaoException;
 import lab7.exception.DatabaseConnectionException;
 import lab7.exception.ServiceException;
+import lab7.mapper.ShopMapper;
 import lab7.model.Catalog;
 import lab7.model.Shop;
 
@@ -27,32 +29,39 @@ public class ShopService {
         }
     }
 
-    public Optional<Shop> findById(Long id) throws ServiceException {
+    public Optional<ShopDTO> findById(Long id) throws ServiceException {
         try {
-            return shopDao.findById(id);
+            Optional<ShopDTO> result = Optional.empty();
+            Optional<Shop> optionalShop = shopDao.findById(id);
+            if (optionalShop.isPresent()) {
+                result = Optional.of(ShopMapper.INSTANCE.getDto(optionalShop.get()));
+            }
+            return result;
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
-    public List<Shop> findAll() throws ServiceException {
+    public List<ShopDTO> findAll() throws ServiceException {
         try {
-            return shopDao.findAll();
+            return ShopMapper.INSTANCE.getDtoList(shopDao.findAll());
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
-    public Long insert(Shop shop) throws ServiceException {
+    public Long insert(ShopDTO shopDto) throws ServiceException {
         try {
+            Shop shop = ShopMapper.INSTANCE.getShop(shopDto);
             return shopDao.insert(shop);
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
         }
     }
 
-    public int update(Shop shop) throws ServiceException {
+    public int update(ShopDTO shopDto) throws ServiceException {
         try {
+            Shop shop = ShopMapper.INSTANCE.getShop(shopDto);
             return shopDao.update(shop);
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());
@@ -67,8 +76,9 @@ public class ShopService {
         }
     }
 
-    public int addCatalog(Shop shop, Catalog catalog) throws ServiceException {
+    public int addCatalog(ShopDTO shopDto, Catalog catalog) throws ServiceException {
         try {
+            Shop shop = ShopMapper.INSTANCE.getShop(shopDto);
             int result = shopDao.addCatalog(shop, catalog);
             if (result > 0) shop.addCatalog(catalog);
             return result;
@@ -77,8 +87,9 @@ public class ShopService {
         }
     }
 
-    public int removeCatalog(Shop shop, Catalog catalog) throws ServiceException {
+    public int removeCatalog(ShopDTO shopDto, Catalog catalog) throws ServiceException {
         try {
+            Shop shop = ShopMapper.INSTANCE.getShop(shopDto);
             int result = shopDao.removeCatalog(shop, catalog);
             if (result > 0) shop.removeCatalog(catalog);
             return result;
@@ -87,9 +98,9 @@ public class ShopService {
         }
     }
 
-
-    public Set<Catalog> getCatalogs(Shop shop) throws ServiceException {
+    public Set<Catalog> getCatalogs(ShopDTO shopDto) throws ServiceException {
         try {
+            Shop shop = ShopMapper.INSTANCE.getShop(shopDto);
             return shopDao.getCatalogs(shop);
         } catch (DaoException ex) {
             throw new ServiceException(ex.getMessage());

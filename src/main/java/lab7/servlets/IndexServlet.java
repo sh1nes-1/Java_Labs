@@ -1,5 +1,6 @@
 package lab7.servlets;
 
+import lab7.dto.ShopDTO;
 import lab7.model.Shop;
 import lab7.utils.GlobalConfig;
 import lab7.exception.ServiceException;
@@ -29,7 +30,7 @@ public class IndexServlet extends HttpServlet {
         }
 
         // Get Shops
-        List<Shop> shops;
+        List<ShopDTO> shops;
         try {
             shops = shopService.findAll();
         } catch (ServiceException e) {
@@ -41,7 +42,7 @@ public class IndexServlet extends HttpServlet {
         ServletContext application = getServletConfig().getServletContext();
         String imagesRoot = (String) application.getAttribute("shop.images.root");
 
-        for (Shop shop : shops) {
+        for (ShopDTO shop : shops) {
             shop.setImageUrl(imagesRoot + shop.getImageUrl());
         }
 

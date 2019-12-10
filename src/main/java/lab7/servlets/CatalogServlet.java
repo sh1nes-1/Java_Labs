@@ -1,5 +1,6 @@
 package lab7.servlets;
 
+import lab7.dto.CatalogDTO;
 import lab7.exception.DatabaseConnectionException;
 import lab7.exception.ServiceException;
 import lab7.model.Catalog;
@@ -44,27 +45,27 @@ public class CatalogServlet extends HttpServlet {
 
         // Get Catalog
         CatalogService catalogService;
-        Optional<Catalog> optionalCatalog;
+        Optional<CatalogDTO> optionalCatalogDto;
         try {
             catalogService = new CatalogService();
-            optionalCatalog = catalogService.findByIdEager(id);
+            optionalCatalogDto = catalogService.findByIdEager(id);
         } catch (ServiceException ex) {
             ex.printStackTrace();
             resp.sendRedirect("./");
             return;
         }
 
-        if (optionalCatalog.isEmpty()) {
+        if (optionalCatalogDto.isEmpty()) {
             resp.sendRedirect("./");
             return;
         }
 
-        Catalog catalog = optionalCatalog.get();
+        CatalogDTO catalogDto = optionalCatalogDto.get();
 
         // Get Shop
         Optional<Shop> optionalShop;
         try {
-            optionalShop = catalogService.getShop(catalog);
+            optionalShop = catalogService.getShop(catalogDto);
         } catch (ServiceException ex) {
             ex.printStackTrace();
             resp.sendRedirect("./");
@@ -85,7 +86,7 @@ public class CatalogServlet extends HttpServlet {
         shop.setImageUrl(imagesRoot + shop.getImageUrl());
 
         // Set Attributes for JSP
-        req.setAttribute("catalog", catalog);
+        req.setAttribute("catalog", catalogDto);
         req.setAttribute("shop", shop);
 
         // Show page
