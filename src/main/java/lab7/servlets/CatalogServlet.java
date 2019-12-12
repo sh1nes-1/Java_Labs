@@ -79,9 +79,12 @@ public class CatalogServlet extends HttpServlet {
 
         Shop shop = optionalShop.get();
 
+        ServletContext application = getServletConfig().getServletContext();
+
         // Set Attributes for JSP
         req.setAttribute("catalog", catalogDto);
         req.setAttribute("shop", shop);
+        req.setAttribute("imagesRoot", application.getAttribute("shop.images.root"));
 
         // Show page
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/catalog.jsp");

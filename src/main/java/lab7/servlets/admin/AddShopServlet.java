@@ -19,6 +19,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @WebServlet(urlPatterns = "/add-shop")
 @MultipartConfig
@@ -42,14 +45,23 @@ public class AddShopServlet extends HttpServlet {
             Part filePart = req.getPart("logo");
             InputStream fileContent = filePart.getInputStream();
 
+            String[] fileNameParts = filePart.getName().split("\\.");
+            String extension = fileNameParts[fileNameParts.length - 1];
+
             ServletContext application = getServletConfig().getServletContext();
+
+            List<String> allowedExtensions = Arrays.asList((String[]) application.getAttribute("image.extensions"));
+            if (!allowedExtensions.contains(extension))
+                throw new Exception("This extension is now allowed");
+
             String imagesAbsoluteRoot = (String) application.getAttribute("shop.images.absolute_root");
 
-            Files.copy(fileContent, Path.of(imagesAbsoluteRoot + name + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
+            String fileName = name + "." + extension;
+            Files.copy(fileContent, Path.of(imagesAbsoluteRoot + fileName), StandardCopyOption.REPLACE_EXISTING);
 
             ShopDTO shopDTO = new ShopDTO();
             shopDTO.setName(name);
-            shopDTO.setImageUrl(name + ".jpg");
+            shopDTO.setImageUrl(fileName);
 
             ShopService shopService = new ShopService();
             shopService.insert(shopDTO);
