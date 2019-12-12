@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet(urlPatterns = "/item")
+@WebServlet(urlPatterns = "/catalogitem")
 public class CatalogItemServlet extends HttpServlet {
 
     @Override

@@ -30,6 +30,7 @@ public class ShopServlet extends HttpServlet {
     // форма добавлення смартфона
     // показати магазини
     // показати каталоги
+    // виводити все в каталозі через табличку
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

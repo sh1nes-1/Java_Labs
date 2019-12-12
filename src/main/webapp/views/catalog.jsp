@@ -11,7 +11,7 @@
 
     <ul>
         <c:forEach items="${catalog.catalogItems}" var="catalogItem">
-            <li><a href="./item?cat_id=${catalog.id}&sm_id=${catalogItem.smartPhone.id}">${catalogItem.smartPhone}</a></li>
+            <li><a href="./catalogitem?cat_id=${catalog.id}&sm_id=${catalogItem.smartPhone.id}">${catalogItem.smartPhone}</a></li>
         </c:forEach>
     </ul>
 </body>
