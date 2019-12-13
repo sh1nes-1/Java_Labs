@@ -19,8 +19,8 @@
                 <input name="name" type="text" placeholder="Введіть назву магазину" value="${shop.name}" class="form-control">
             </div>
             <div class="form-group">
-                <label>Виберіть логотип магазину:</label>
-                <input name="logo" type="file" accept=".jpg, .jpeg, .png" class="form-control">
+                <label>Виберіть логотип магазину:</label><br>
+                <input name="logo" type="file" accept=".jpg, .jpeg, .png">
             </div>
 
             <input type="submit" class="btn btn-primary" value="Зберегти">
