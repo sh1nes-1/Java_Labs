@@ -87,9 +87,12 @@ public class ShopServlet extends HttpServlet {
             return;
         }
 
+        ServletContext application = getServletConfig().getServletContext();
+
         // Set Attributes for JSP
         req.setAttribute("shop", shopDto);
         req.setAttribute("catalogs", catalogs);
+        req.setAttribute("imagesRoot", application.getAttribute("shop.images.root"));
 
         // Show page
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/shop.jsp");

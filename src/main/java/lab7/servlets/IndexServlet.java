@@ -5,6 +5,7 @@ import lab7.exception.ServiceException;
 import lab7.service.ShopService;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,8 +36,11 @@ public class IndexServlet extends HttpServlet {
             return;
         }
 
+        ServletContext application = getServletConfig().getServletContext();
+
         // Set Attribute for JSP
         req.setAttribute("shops", shops);
+        req.setAttribute("imagesRoot", application.getAttribute("shop.images.root"));
 
         // Show page
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/index.jsp");

@@ -17,15 +17,20 @@ public class ImageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        res.setContentType("image/jpeg");
+        String name = req.getParameter("name");
+        String[] fileNameParts = name.split("\\.");
+        String fileExtension = fileNameParts[fileNameParts.length - 1];
+
+        res.setContentType("image/" + fileExtension);
 
         ServletContext application = getServletConfig().getServletContext();
         String imagesAbsoluteRoot = (String) application.getAttribute("shop.images.absolute_root");
 
-        File f = new File(imagesAbsoluteRoot + req.getParameter("name"));
+        File f = new File(imagesAbsoluteRoot + name);
         BufferedImage bi = ImageIO.read(f);
         OutputStream out = res.getOutputStream();
-        ImageIO.write(bi, "jpg", out);
+
+        ImageIO.write(bi, fileExtension, out);
         out.close();
     }
 }
